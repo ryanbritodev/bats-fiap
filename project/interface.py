@@ -1,7 +1,8 @@
-import tkinter as tk
-from tkinter import PhotoImage
-from tkinter import Canvas
 import os
+import tkinter as tk
+from tkinter import Canvas
+from tkinter import PhotoImage
+
 
 def executar_comando_desligar():
     os.system("shutdown.bat")  # Substitua pelo caminho do seu arquivo .bat
