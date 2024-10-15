@@ -1,4 +1,4 @@
-# INTERFACE GRÁFICA AUTOBATS
+# FIAP AUTOLAB
 # IMPORTANTE: se você achou este pen drive, NÃO EXECUTE OS COMANDOS, eles servem
 # única e exclusivamente para auxílio de monitores, utilizá-los indevidamente pode acarretar
 # em problemas sérios.
@@ -10,18 +10,27 @@ import os
 from tkinter import Canvas
 from tkinter import PhotoImage
 import customtkinter
+from PIL import Image, ImageTk
 
 customtkinter.set_appearance_mode("dark")
 
 altura = 400
 largura = 655
 
+# Fonte e Cores
+fonte = ("Arial", 18, "bold")
+fonteBotao = ("Arial", 16, "bold")
+cor_fundo = "#ed145b"
+cor_fundo_escuro = "#d01150"
+cor_input = "#242424"
+
+
 # BATS
 def executar_bat_desligar():
     os.system("shutdown.bat")  # Substituir posteriormente pelos caminhos dos bats
 
 
-# TELAS
+# Telas
 def telaPrincipal(nome_usuario):
     """
     --> Função que exibe a tela principal após o login
@@ -36,7 +45,7 @@ def telaPrincipal(nome_usuario):
     alturaTela = janela.winfo_screenheight()
     larguraTela = janela.winfo_screenwidth()
 
-    # Calculando o eixo X e Y para centralizar a janela
+    # Calculando o eixo X e Y pra centralizar a janela
     eixoX = (larguraTela / 2) - (largura / 2)
     eixoY = (alturaTela / 2) - (altura / 2)
 
@@ -48,13 +57,13 @@ def telaPrincipal(nome_usuario):
     janela.maxsize(655, 400)
 
     # Título
-    janela.title("FIAP AutoLab")
+    janela.title("FIAP AUTOLAB")
 
-    # Canvas
+    # Canvas1
     canvas1 = Canvas(janela, width=655, height=400)
     canvas1.pack(fill="both", expand=True)
 
-    # Carregar e exibir imagem de fundo
+    # Imagem de Fundo
     imagemFundo = PhotoImage(file="./assets/fundoFiap.png")
     canvas1.create_image(0, 0, image=imagemFundo, anchor="nw")
 
@@ -62,22 +71,14 @@ def telaPrincipal(nome_usuario):
     logoFiap = PhotoImage(file="./assets/fiapLogo.png")
     canvas1.create_image(410, 67, image=logoFiap)
 
-    # AutoLab
-    autoLab = PhotoImage(file="./assets/autoLAB.png")
-    canvas1.create_image(400, 135, image=autoLab)
-
-    # Cores dos Botões
-    cor_fundo = "#ed145b"
-    cor_fundo_escuro = "#d01150"
-
-    # Fonte
-    fonte = ("Arial", 18, "bold")
+    # Texto AUTOLAB
+    autoLab = PhotoImage(file="assets/autoLAB.png")
+    canvas1.create_image(400, 116, image=autoLab)
 
     # Mensagem de boas-vindas personalizada
-    canvas1.create_text(362, 200, text=f"Bem-vindo,", fill="white", font=("Arial", 20, "bold"))
-    canvas1.create_text(482, 200, text=f"{nome_usuario}!", fill=cor_fundo, font=("Arial", 20, "bold"))
+    canvas1.create_text(400, 180, text=f"Bem-vindo, {nome_usuario}!", fill="white", font=("Arial", 20, "bold"))
 
-    # Botões no Canvas (sem command, por enquanto)
+    # Botões no Canvas (sem o parâmetro "command" pra executar os bats, por enquanto)
     botao_desligar = customtkinter.CTkButton(janela, text="Desligar Lab", width=170, height=40, font=fonte,
                                              fg_color=cor_fundo, hover_color=cor_fundo_escuro)
     botao_reiniciar = customtkinter.CTkButton(janela, text="Reiniciar Lab", width=170, height=40, font=fonte,
@@ -91,32 +92,57 @@ def telaPrincipal(nome_usuario):
     janela.mainloop()
 
 
-# Função para exibir os dados coletados pelo usuário da tela de login
+# Funções
 def verificar_login():
     """
-    --> Função chamada ao clicar no botão de "Entrar" para capturar e validar os dados de login
-    :return: Não possui retorno
+    --> Função chamada ao clicar no botão de "Entrar" para capturar e validar os dados de login (por enquanto, só está printando os valores)
     """
-    nome_usuario = entrada_nome.get().strip().title()  # Pega o nome do campo de entrada
-    login_usuario = entrada_login.get()
-    senha_usuario = entrada_senha.get()
+    # Pegando os valores preenchidos
+    nome_usuario = entrada_nome.get().strip().title()
+    login_usuario = entrada_login.get().strip().lower()
+    senha_usuario = entrada_senha.get().strip()
+    senha_cmd_usuario = entrada_senha_cmd.get().strip()
 
-    # Para este exemplo, vamos apenas imprimir as informações no terminal
+    # Printando no Terminal
     print(f"Nome: {nome_usuario}")
     print(f"Login: {login_usuario}")
     print(f"Senha: {senha_usuario}")
+    print(f"Senha CMD: {senha_cmd_usuario}")
 
-    janela_login.destroy()  # Fecha a janela de login
-    telaPrincipal(nome_usuario)  # Chama a função para mostrar a tela principal com o nome do usuário
+    janela_login.destroy()  # Fecha a janela de login ao final, pra chamar a telaPrincipal
+    telaPrincipal(nome_usuario)  # Chama a função para mostrar a telaPrincipal com o nome do usuário
+
+
+def mostrar_senha_usuario():
+    """
+    --> Função para mostrar e esconder a senha do monitor
+    """
+    if entrada_senha.cget('show') == '*':
+        entrada_senha.configure(show='')  # Mostra a senha
+        botao_mostrar_senha_usuario.configure(image=imagem_olho)  # Altera o ícone para uma imagem de um olho aberto
+    else:
+        entrada_senha.configure(show='*')  # Oculta a senha
+        botao_mostrar_senha_usuario.configure(image=imagem_olho_fechado)  # Altera o ícone para uma imagem de um olho fechado
+
+
+def mostrar_senha_cmd():
+    """
+    --> Mesma lógica da função mostrar_senha_usuario(), porém para mostrar e esconder a senha do campo do CMD
+    """
+    if entrada_senha_cmd.cget('show') == '*':
+        entrada_senha_cmd.configure(show='')  # Mostra a senha
+        botao_mostrar_senha_cmd.configure(image=imagem_olho)  # Altera o ícone para uma imagem de um olho aberto
+    else:
+        entrada_senha_cmd.configure(show='*')  # Oculta a senha
+        botao_mostrar_senha_cmd.configure(image=imagem_olho_fechado)  # Altera o ícone para uma imagem de um olho fechado
 
 
 # Janela de Login
 janela_login = customtkinter.CTk()
 
 janela_login.iconbitmap("./assets/fiap-ico.ico")
-janela_login.geometry("400x300")
-janela_login.minsize(400, 300)  # Garantir tamanho mínimo da janela
-janela_login.title("Login Autobats")
+janela_login.minsize(400, 300)  # Tamanho mínimo pra janela
+janela_login.title("LOGIN")
 
 # Centralizar janela
 alturaTela = janela_login.winfo_screenheight()
@@ -127,27 +153,54 @@ eixoX = (larguraTela / 2) - (largura / 2)
 eixoY = (alturaTela / 2) - (altura / 2)
 
 # Definindo o tamanho e a posição da janela
-janela_login.geometry("{}x{}+{}+{}".format(largura, altura, int(eixoX), int(eixoY)))
+janela_login.geometry(f"{largura}x{altura}+{int(eixoX)}+{int(eixoY)}")
+janela_login.minsize(655, 400)
+janela_login.maxsize(655, 400)
+
+# Canvas
+canvas2 = Canvas(janela_login, width=655, height=400)
+canvas2.pack(fill="both", expand=True)
+
+# Carregando imagens
+imagem_olho = ImageTk.PhotoImage(Image.open("./assets/olho.png").resize((20, 20)))
+imagem_olho_fechado = ImageTk.PhotoImage(Image.open("./assets/olhoFechado.png").resize((20, 20)))
+imagemFundoLogin = PhotoImage(file="assets/fiapFundoLogin.png")
+canvas2.create_image(0, 0, image=imagemFundoLogin, anchor="nw")
 
 # Layout da Tela de Login
-label_bemvindo = customtkinter.CTkLabel(janela_login, text="Bem-vindo! Por favor, faça o login.", font=("Arial", 18, "bold"))
-label_bemvindo.pack(pady=10)
+canvas2.create_text(356, 65, text="Bem-vindo, ", fill="white", font=("Arial", 24, "bold"))
+canvas2.create_text(510, 65, text="Monitor!", fill=cor_fundo, font=("Arial", 24, "bold"))
 
-# Campo Nome
-entrada_nome = customtkinter.CTkEntry(janela_login, placeholder_text="Nome", width=200)
-entrada_nome.pack(pady=10)
+# Nome do Monitor
+canvas2.create_text(256, 111, text="Nome", fill="white", font=("Arial", 14, "bold"))
+entrada_nome = customtkinter.CTkEntry(janela_login, placeholder_text="Insira seu nome...", width=300, fg_color="transparent")
+canvas2.create_window(415, 146, window=entrada_nome)
 
-# Campo Login de Usuário (Runas)
-entrada_login = customtkinter.CTkEntry(janela_login, placeholder_text="Login de Usuário (Runas)", width=200)
-entrada_login.pack(pady=10)
+# Login do Monitor
+canvas2.create_text(347, 186, text="Login de Usuário (Runas)", fill="white", font=("Arial", 14, "bold"))
+entrada_login = customtkinter.CTkEntry(janela_login, placeholder_text="Insira o seu usuário...", width=300, fg_color="transparent")
+canvas2.create_window(415, 221, window=entrada_login)
 
-# Campo Senha de Usuário (Runas)
-entrada_senha = customtkinter.CTkEntry(janela_login, placeholder_text="Senha de Usuário (Runas)", show="*", width=200)
-entrada_senha.pack(pady=10)
+# Senha do Monitor
+canvas2.create_text(348, 264, text="Senha do Monitor (Runas)", fill="white", font=("Arial", 14, "bold"))
+entrada_senha = customtkinter.CTkEntry(janela_login, placeholder_text="Insira sua senha...", show="*", width=300, fg_color="transparent")
+canvas2.create_window(415, 299, window=entrada_senha)
+
+# Botão Mostrar/Ocultar Senha com Ícone
+botao_mostrar_senha_usuario = customtkinter.CTkButton(janela_login, image=imagem_olho_fechado, width=0, height=0, command=mostrar_senha_usuario, text="", hover_color=cor_input, fg_color=cor_input)
+canvas2.create_window(578, 299, window=botao_mostrar_senha_usuario)  # Posição ao lado do campo de senha
+
+# Senha para o CMD
+canvas2.create_text(318, 341, text="Senha para o CMD:", fill="white", font=("Arial", 14, "bold"))
+entrada_senha_cmd = customtkinter.CTkEntry(janela_login, placeholder_text="Insira sua senha para o CMD...", show="*", width=300, fg_color="transparent")
+canvas2.create_window(415, 376, window=entrada_senha_cmd)
+
+botao_mostrar_senha_cmd = customtkinter.CTkButton(janela_login, image=imagem_olho_fechado, width=0, height=0, command=mostrar_senha_cmd, text="", hover_color=cor_input, fg_color=cor_input)
+canvas2.create_window(578, 376, window=botao_mostrar_senha_cmd)  # Posição ao lado do campo de senha
 
 # Botão Entrar
-botao_entrar = customtkinter.CTkButton(janela_login, text="Entrar", width=150, command=verificar_login)
-botao_entrar.pack(pady=20)
+botao_entrar = customtkinter.CTkButton(janela_login, text="Entrar", width=300, height=34, command=verificar_login, fg_color=cor_fundo, font=fonteBotao, hover_color=cor_fundo_escuro)
+canvas2.create_window(415, 431, window=botao_entrar)
 
 # Iniciar o loop da tela de login
 janela_login.mainloop()
