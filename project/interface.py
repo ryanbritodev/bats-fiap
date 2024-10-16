@@ -81,15 +81,38 @@ def telaPrincipal(nome_usuario):
     # Mensagem de boas-vindas personalizada
     canvas1.create_text(325, 180, text=f"Bem-vindo, {nome_usuario}!", fill="white", font=("Arial", 20, "bold"))
 
-    # Botões no Canvas (sem o parâmetro "command" pra executar os bats, por enquanto)
-    botao_desligar = customtkinter.CTkButton(janela, text="Desligar Lab", width=170, height=40, font=fonte,
+    # Ideias de Botões (sem o parâmetro "command" pra executar os bats, por enquanto)
+    botao_desligar = customtkinter.CTkButton(janela, text="Desligar", width=170, height=40, font=fonte,
                                              fg_color=cor_fundo, hover_color=cor_fundo_escuro)
-    botao_reiniciar = customtkinter.CTkButton(janela, text="Reiniciar Lab", width=170, height=40, font=fonte,
+    botao_reiniciar = customtkinter.CTkButton(janela, text="Reiniciar", width=170, height=40, font=fonte,
                                               fg_color=cor_fundo, hover_color=cor_fundo_escuro)
+    botao_limpar = customtkinter.CTkButton(janela, text="Limpar o (D:)", width=170, height=40, font=fonte,
+                                           fg_color=cor_fundo, hover_color=cor_fundo_escuro)
+    botao_copiar = customtkinter.CTkButton(janela, text="Copiar Arquivo", width=170, height=40, font=fonte,
+                                           fg_color=cor_fundo, hover_color=cor_fundo_escuro)
+    botao_pon = customtkinter.CTkButton(janela, text="Logar PON", width=170, height=40, font=fonte,
+                                        fg_color=cor_fundo, hover_color=cor_fundo_escuro)
+    botao_pn = customtkinter.CTkButton(janela, text="Logar PN", width=170, height=40, font=fonte,
+                                       fg_color=cor_fundo, hover_color=cor_fundo_escuro)
+    botao_nac = customtkinter.CTkButton(janela, text="Abrir NAC", width=170, height=40, font=fonte,
+                                        fg_color=cor_fundo, hover_color=cor_fundo_escuro)
+    botao_mensagem = customtkinter.CTkButton(janela, text="Enviar Mensagem", width=170, height=40, font=fonte,
+                                             fg_color=cor_fundo, hover_color=cor_fundo_escuro)
+    botao_logar = customtkinter.CTkButton(janela, text="Logar Usuário", width=170, height=40, font=fonte,
+                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro)
+    botao_url = customtkinter.CTkButton(janela, text="Abrir URL", width=170, height=40, font=fonte,
+                                        fg_color=cor_fundo, hover_color=cor_fundo_escuro)
 
     # Posicionando os botões sobre o Canvas
     canvas1.create_window(140, 250, window=botao_desligar)
     canvas1.create_window(140, 300, window=botao_reiniciar)
+    canvas1.create_window(140, 350, window=botao_logar)
+    canvas1.create_window(320, 250, window=botao_limpar)
+    canvas1.create_window(320, 300, window=botao_copiar)
+    canvas1.create_window(320, 350, window=botao_url)
+    canvas1.create_window(500, 250, window=botao_pon)
+    canvas1.create_window(500, 300, window=botao_pn)
+    canvas1.create_window(500, 350, window=botao_nac)
 
     # Loop da Janela principal
     janela.mainloop()
@@ -149,10 +172,14 @@ def tela_confirmacao(nome_usuario, login_usuario, senha_usuario, senha_cmd_usuar
 
     canvas_confirmacao.create_text(325, 90, text="Confirme seus Dados", fill="white", font=("Arial", 23, "bold"))
     canvas_confirmacao.create_text(325, 125, text="(Criptografia)", fill=cor_fundo, font=("Arial", 23, "bold"))
-    canvas_confirmacao.create_text(166, 170, text=f"Nome: {nome_usuario}", fill="white", font=("Arial", 18, "bold"), anchor="w")
-    canvas_confirmacao.create_text(166, 202, text=f"Login: {login_usuario}", fill="white", font=("Arial", 18, "bold"), anchor="w")
-    canvas_confirmacao.create_text(166, 234, text=f"Senha: {'*' * len(senha_usuario)}", fill="white", font=("Arial", 18, "bold"), anchor="w")
-    canvas_confirmacao.create_text(166, 264, text=f"Senha CMD: {'*' * len(senha_cmd_usuario)}", fill="white", font=("Arial", 18, "bold"), anchor="w")
+    canvas_confirmacao.create_text(166, 170, text=f"Nome: {nome_usuario}", fill="white", font=("Arial", 18, "bold"),
+                                   anchor="w")
+    canvas_confirmacao.create_text(166, 202, text=f"Login: {login_usuario}", fill="white", font=("Arial", 18, "bold"),
+                                   anchor="w")
+    canvas_confirmacao.create_text(166, 234, text=f"Senha: {'*' * len(senha_usuario)}", fill="white",
+                                   font=("Arial", 18, "bold"), anchor="w")
+    canvas_confirmacao.create_text(166, 264, text=f"Senha CMD: {'*' * len(senha_cmd_usuario)}", fill="white",
+                                   font=("Arial", 18, "bold"), anchor="w")
 
     botao_voltar = customtkinter.CTkButton(janela_confirmacao, text="Voltar", width=152, height=40, font=fonteBotao,
                                            fg_color=cor_voltar, hover_color=cor_voltar_escuro,
