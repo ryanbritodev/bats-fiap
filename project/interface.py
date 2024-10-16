@@ -85,8 +85,8 @@ def telaPrincipal(nome_usuario):
                                               fg_color=cor_fundo, hover_color=cor_fundo_escuro)
 
     # Posicionando os botões sobre o Canvas
-    canvas1.create_window(140, 230, window=botao_desligar)
-    canvas1.create_window(140, 280, window=botao_reiniciar)
+    canvas1.create_window(140, 250, window=botao_desligar)
+    canvas1.create_window(140, 300, window=botao_reiniciar)
 
     # Loop da Janela principal
     janela.mainloop()
