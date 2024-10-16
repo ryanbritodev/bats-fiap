@@ -7,8 +7,7 @@
 # Ryan Brito Pereira Ramos
 
 import os
-from tkinter import Canvas
-from tkinter import PhotoImage
+from tkinter import Canvas, PhotoImage, messagebox
 import customtkinter
 from PIL import Image, ImageTk
 
@@ -102,6 +101,12 @@ def verificar_login():
     login_usuario = entrada_login.get().strip().lower()
     senha_usuario = entrada_senha.get().strip()
     senha_cmd_usuario = entrada_senha_cmd.get().strip()
+
+    # Verificação se algum dos campos está vazio
+    if not nome_usuario or not login_usuario or not senha_usuario or not senha_cmd_usuario:
+        # Exibe uma mensagem de alerta
+        messagebox.showwarning("CAMPOS VAZIOS", "Atenção! Todos os campos devem ser preenchidos")
+        return  # Retorna para não continuar o processo se os campos não estiverem preenchidos
 
     # Printando no Terminal
     print(f"Nome: {nome_usuario}")
