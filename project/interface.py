@@ -19,6 +19,8 @@ largura = 655
 # Fonte e Cores
 fonte = ("Arial", 18, "bold")
 fonteBotao = ("Arial", 16, "bold")
+fonteBotaoP = ("Arial", 14, "bold")
+
 cor_fundo = "#ed145b"
 cor_fundo_escuro = "#d01150"
 cor_input = "#242424"
@@ -82,37 +84,38 @@ def telaPrincipal(nome_usuario):
     canvas1.create_text(325, 180, text=f"Bem-vindo, {nome_usuario}!", fill="white", font=("Arial", 20, "bold"))
 
     # Ideias de Botões (sem o parâmetro "command" pra executar os bats, por enquanto)
-    botao_desligar = customtkinter.CTkButton(janela, text="Desligar", width=170, height=40, font=fonte,
+    botao_desligar = customtkinter.CTkButton(janela, text="Desligar", width=130, height=40, font=fonteBotaoP,
                                              fg_color=cor_fundo, hover_color=cor_fundo_escuro)
-    botao_reiniciar = customtkinter.CTkButton(janela, text="Reiniciar", width=170, height=40, font=fonte,
+    botao_reiniciar = customtkinter.CTkButton(janela, text="Reiniciar", width=130, height=40, font=fonteBotaoP,
                                               fg_color=cor_fundo, hover_color=cor_fundo_escuro)
-    botao_limpar = customtkinter.CTkButton(janela, text="Limpar o (D:)", width=170, height=40, font=fonte,
+    botao_limpar = customtkinter.CTkButton(janela, text="Limpar o (D:)", width=130, height=40, font=fonteBotaoP,
                                            fg_color=cor_fundo, hover_color=cor_fundo_escuro)
-    botao_copiar = customtkinter.CTkButton(janela, text="Copiar Arquivo", width=170, height=40, font=fonte,
+    botao_copiar = customtkinter.CTkButton(janela, text="Copiar Arquivo", width=130, height=40, font=fonteBotaoP,
                                            fg_color=cor_fundo, hover_color=cor_fundo_escuro)
-    botao_pon = customtkinter.CTkButton(janela, text="Logar PON", width=170, height=40, font=fonte,
+    botao_pon = customtkinter.CTkButton(janela, text="Logar PON", width=130, height=40, font=fonteBotaoP,
                                         fg_color=cor_fundo, hover_color=cor_fundo_escuro)
-    botao_pn = customtkinter.CTkButton(janela, text="Logar PN", width=170, height=40, font=fonte,
+    botao_pn = customtkinter.CTkButton(janela, text="Logar PN", width=130, height=40, font=fonteBotaoP,
                                        fg_color=cor_fundo, hover_color=cor_fundo_escuro)
-    botao_nac = customtkinter.CTkButton(janela, text="Abrir NAC", width=170, height=40, font=fonte,
+    botao_nac = customtkinter.CTkButton(janela, text="Abrir NAC", width=130, height=40, font=fonteBotaoP,
                                         fg_color=cor_fundo, hover_color=cor_fundo_escuro)
-    botao_mensagem = customtkinter.CTkButton(janela, text="Enviar Mensagem", width=170, height=40, font=fonte,
+    botao_mensagem = customtkinter.CTkButton(janela, text="Mensagem", width=130, height=40, font=fonteBotaoP,
                                              fg_color=cor_fundo, hover_color=cor_fundo_escuro)
-    botao_logar = customtkinter.CTkButton(janela, text="Logar Usuário", width=170, height=40, font=fonte,
+    botao_logar = customtkinter.CTkButton(janela, text="Logar Usuário", width=130, height=40, font=fonteBotaoP,
                                           fg_color=cor_fundo, hover_color=cor_fundo_escuro)
-    botao_url = customtkinter.CTkButton(janela, text="Abrir URL", width=170, height=40, font=fonte,
+    botao_url = customtkinter.CTkButton(janela, text="Abrir URL", width=130, height=40, font=fonteBotaoP,
                                         fg_color=cor_fundo, hover_color=cor_fundo_escuro)
 
     # Posicionando os botões sobre o Canvas
-    canvas1.create_window(140, 250, window=botao_desligar)
-    canvas1.create_window(140, 300, window=botao_reiniciar)
-    canvas1.create_window(140, 350, window=botao_logar)
-    canvas1.create_window(320, 250, window=botao_limpar)
-    canvas1.create_window(320, 300, window=botao_copiar)
-    canvas1.create_window(320, 350, window=botao_url)
-    canvas1.create_window(500, 250, window=botao_pon)
-    canvas1.create_window(500, 300, window=botao_pn)
-    canvas1.create_window(500, 350, window=botao_nac)
+    canvas1.create_window(118, 250, window=botao_desligar)
+    canvas1.create_window(118, 300, window=botao_reiniciar)
+    canvas1.create_window(118, 350, window=botao_logar)
+    canvas1.create_window(258, 250, window=botao_limpar)
+    canvas1.create_window(258, 300, window=botao_copiar)
+    canvas1.create_window(258, 350, window=botao_url)
+    canvas1.create_window(398, 250, window=botao_pon)
+    canvas1.create_window(398, 300, window=botao_pn)
+    canvas1.create_window(398, 350, window=botao_nac)
+    canvas1.create_window(538, 250, window=botao_mensagem)
 
     # Loop da Janela principal
     janela.mainloop()
