@@ -22,6 +22,10 @@ fonteBotao = ("Arial", 16, "bold")
 cor_fundo = "#ed145b"
 cor_fundo_escuro = "#d01150"
 cor_input = "#242424"
+cor_continuar = "#039A2B"
+cor_continuar_escuro = "#027C23"
+cor_voltar = "#D90404"
+cor_voltar_escuro = "#BC0404"
 
 
 # BATS
@@ -109,10 +113,10 @@ def verificar_login():
         return  # Retorna para não continuar o processo se os campos não estiverem preenchidos
 
     # Printando no Terminal
-    print(f"Nome: {nome_usuario}")
-    print(f"Login: {login_usuario}")
-    print(f"Senha: {senha_usuario}")
-    print(f"Senha CMD: {senha_cmd_usuario}")
+    # print(f"Nome: {nome_usuario}")
+    # print(f"Login: {login_usuario}")
+    # print(f"Senha: {senha_usuario}")
+    # print(f"Senha CMD: {senha_cmd_usuario}")
 
     janela_login.destroy()  # Fecha a janela de login ao final, pra chamar a telaPrincipal
     tela_confirmacao(nome_usuario, login_usuario, senha_usuario, senha_cmd_usuario)
@@ -143,25 +147,30 @@ def tela_confirmacao(nome_usuario, login_usuario, senha_usuario, senha_cmd_usuar
     imagemFundoConfirmacao = PhotoImage(file="assets/fiapFundoLogin.png")
     canvas_confirmacao.create_image(0, 0, image=imagemFundoConfirmacao, anchor="nw")
 
-    canvas_confirmacao.create_text(325, 60, text="Confirme seus dados", fill="white", font=("Arial", 23, "bold"))
-    canvas_confirmacao.create_text(325, 120, text=f"Nome: {nome_usuario}", fill="white", font=("Arial", 18))
-    canvas_confirmacao.create_text(325, 160, text=f"Login: {login_usuario}", fill="white", font=("Arial", 18))
-    canvas_confirmacao.create_text(325, 200, text=f"Senha: {'*' * len(senha_usuario)}", fill="white",
-                                   font=("Arial", 18))
-    canvas_confirmacao.create_text(325, 240, text=f"Senha CMD: {'*' * len(senha_cmd_usuario)}", fill="white",
-                                   font=("Arial", 18))
+    canvas_confirmacao.create_text(325, 90, text="Confirme seus Dados", fill="white", font=("Arial", 23, "bold"))
+    canvas_confirmacao.create_text(325, 125, text="(Criptografia)", fill=cor_fundo, font=("Arial", 23, "bold"))
+    canvas_confirmacao.create_text(166, 170, text=f"Nome: {nome_usuario}", fill="white", font=("Arial", 18, "bold"), anchor="w")
+    canvas_confirmacao.create_text(166, 202, text=f"Login: {login_usuario}", fill="white", font=("Arial", 18, "bold"), anchor="w")
+    canvas_confirmacao.create_text(166, 234, text=f"Senha: {'*' * len(senha_usuario)}", fill="white", font=("Arial", 18, "bold"), anchor="w")
+    canvas_confirmacao.create_text(166, 264, text=f"Senha CMD: {'*' * len(senha_cmd_usuario)}", fill="white", font=("Arial", 18, "bold"), anchor="w")
 
-    botao_voltar = customtkinter.CTkButton(janela_confirmacao, text="Voltar", width=170, height=40, font=fonteBotao,
-                                           fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+    botao_voltar = customtkinter.CTkButton(janela_confirmacao, text="Voltar", width=152, height=40, font=fonteBotao,
+                                           fg_color=cor_voltar, hover_color=cor_voltar_escuro,
                                            command=lambda: [janela_confirmacao.destroy(), tela_login()])
-    canvas_confirmacao.create_window(225, 300, window=botao_voltar)
+    canvas_confirmacao.create_window(241, 315, window=botao_voltar)
 
-    botao_confirmar = customtkinter.CTkButton(janela_confirmacao, text="Confirmar", width=170, height=40,
+    botao_confirmar = customtkinter.CTkButton(janela_confirmacao, text="Confirmar", width=152, height=40,
                                               font=fonteBotao,
-                                              fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                              fg_color=cor_continuar, hover_color=cor_continuar_escuro,
                                               command=lambda: [janela_confirmacao.destroy(),
                                                                telaPrincipal(nome_usuario)])
-    canvas_confirmacao.create_window(425, 300, window=botao_confirmar)
+    canvas_confirmacao.create_window(404, 315, window=botao_confirmar)
+
+    # Printando no Terminal
+    print(f"Nome: {nome_usuario}")
+    print(f"Login: {login_usuario}")
+    print(f"Senha: {senha_usuario}")
+    print(f"Senha CMD: {senha_cmd_usuario}")
 
     janela_confirmacao.mainloop()
 
