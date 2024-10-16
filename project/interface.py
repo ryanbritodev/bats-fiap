@@ -69,14 +69,14 @@ def telaPrincipal(nome_usuario):
 
     # Logo da FIAP
     logoFiap = PhotoImage(file="./assets/fiapLogo.png")
-    canvas1.create_image(410, 67, image=logoFiap)
+    canvas1.create_image(330, 67, image=logoFiap)
 
     # Texto AUTOLAB
     autoLab = PhotoImage(file="assets/autoLAB.png")
-    canvas1.create_image(400, 116, image=autoLab)
+    canvas1.create_image(324, 116, image=autoLab)
 
     # Mensagem de boas-vindas personalizada
-    canvas1.create_text(400, 180, text=f"Bem-vindo, {nome_usuario}!", fill="white", font=("Arial", 20, "bold"))
+    canvas1.create_text(325, 180, text=f"Bem-vindo, {nome_usuario}!", fill="white", font=("Arial", 20, "bold"))
 
     # Botões no Canvas (sem o parâmetro "command" pra executar os bats, por enquanto)
     botao_desligar = customtkinter.CTkButton(janela, text="Desligar Lab", width=170, height=40, font=fonte,
@@ -85,8 +85,8 @@ def telaPrincipal(nome_usuario):
                                               fg_color=cor_fundo, hover_color=cor_fundo_escuro)
 
     # Posicionando os botões sobre o Canvas
-    canvas1.create_window(165, 290, window=botao_desligar)
-    canvas1.create_window(165, 360, window=botao_reiniciar)
+    canvas1.create_window(140, 230, window=botao_desligar)
+    canvas1.create_window(140, 280, window=botao_reiniciar)
 
     # Loop da Janela principal
     janela.mainloop()
@@ -172,9 +172,9 @@ canvas2.create_text(267, 38, text="Bem-vindo, ", fill="white", font=("Arial", 23
 canvas2.create_text(412, 38, text="Monitor!", fill=cor_fundo, font=("Arial", 23, "bold"))
 
 # Nome do Monitor
-canvas2.create_text(202, 70, text="Nome", fill="white", font=("Arial", 14, "bold"))
+canvas2.create_text(202, 72, text="Nome", fill="white", font=("Arial", 14, "bold"))
 entrada_nome = customtkinter.CTkEntry(janela_login, placeholder_text="Insira seu nome...", width=300, fg_color="transparent")
-canvas2.create_window(325, 101, window=entrada_nome)
+canvas2.create_window(325, 103, window=entrada_nome)
 
 # Login do Monitor
 canvas2.create_text(293, 137, text="Login de Usuário (Runas)", fill="white", font=("Arial", 14, "bold"))
