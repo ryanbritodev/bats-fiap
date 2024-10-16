@@ -168,39 +168,39 @@ imagemFundoLogin = PhotoImage(file="assets/fiapFundoLogin.png")
 canvas2.create_image(0, 0, image=imagemFundoLogin, anchor="nw")
 
 # Layout da Tela de Login
-canvas2.create_text(356, 65, text="Bem-vindo, ", fill="white", font=("Arial", 24, "bold"))
-canvas2.create_text(510, 65, text="Monitor!", fill=cor_fundo, font=("Arial", 24, "bold"))
+canvas2.create_text(267, 38, text="Bem-vindo, ", fill="white", font=("Arial", 23, "bold"))
+canvas2.create_text(412, 38, text="Monitor!", fill=cor_fundo, font=("Arial", 23, "bold"))
 
 # Nome do Monitor
-canvas2.create_text(256, 111, text="Nome", fill="white", font=("Arial", 14, "bold"))
+canvas2.create_text(202, 70, text="Nome", fill="white", font=("Arial", 14, "bold"))
 entrada_nome = customtkinter.CTkEntry(janela_login, placeholder_text="Insira seu nome...", width=300, fg_color="transparent")
-canvas2.create_window(415, 146, window=entrada_nome)
+canvas2.create_window(325, 101, window=entrada_nome)
 
 # Login do Monitor
-canvas2.create_text(347, 186, text="Login de Usuário (Runas)", fill="white", font=("Arial", 14, "bold"))
+canvas2.create_text(293, 137, text="Login de Usuário (Runas)", fill="white", font=("Arial", 14, "bold"))
 entrada_login = customtkinter.CTkEntry(janela_login, placeholder_text="Insira o seu usuário...", width=300, fg_color="transparent")
-canvas2.create_window(415, 221, window=entrada_login)
+canvas2.create_window(325, 170, window=entrada_login)
 
 # Senha do Monitor
-canvas2.create_text(348, 264, text="Senha do Monitor (Runas)", fill="white", font=("Arial", 14, "bold"))
-entrada_senha = customtkinter.CTkEntry(janela_login, placeholder_text="Insira sua senha...", show="*", width=300, fg_color="transparent")
-canvas2.create_window(415, 299, window=entrada_senha)
+canvas2.create_text(296, 207, text="Senha do Monitor (Runas)", fill="white", font=("Arial", 14, "bold"))
+entrada_senha = customtkinter.CTkEntry(janela_login, placeholder_text="Insira sua senha...", show="*", width=300, fg_color="transparent", height=35)
+canvas2.create_window(325, 240, window=entrada_senha)
 
 # Botão Mostrar/Ocultar Senha com Ícone
 botao_mostrar_senha_usuario = customtkinter.CTkButton(janela_login, image=imagem_olho_fechado, width=0, height=0, command=mostrar_senha_usuario, text="", hover_color=cor_input, fg_color=cor_input)
-canvas2.create_window(578, 299, window=botao_mostrar_senha_usuario)  # Posição ao lado do campo de senha
+canvas2.create_window(455, 240, window=botao_mostrar_senha_usuario)  # Posição ao lado do campo de senha
 
 # Senha para o CMD
-canvas2.create_text(318, 341, text="Senha para o CMD:", fill="white", font=("Arial", 14, "bold"))
-entrada_senha_cmd = customtkinter.CTkEntry(janela_login, placeholder_text="Insira sua senha para o CMD...", show="*", width=300, fg_color="transparent")
-canvas2.create_window(415, 376, window=entrada_senha_cmd)
+canvas2.create_text(265, 278, text="Senha para o CMD:", fill="white", font=("Arial", 14, "bold"))
+entrada_senha_cmd = customtkinter.CTkEntry(janela_login, placeholder_text="Insira sua senha para o CMD...", show="*", width=300, fg_color="transparent", height=35)
+canvas2.create_window(325, 310, window=entrada_senha_cmd)
 
 botao_mostrar_senha_cmd = customtkinter.CTkButton(janela_login, image=imagem_olho_fechado, width=0, height=0, command=mostrar_senha_cmd, text="", hover_color=cor_input, fg_color=cor_input)
-canvas2.create_window(578, 376, window=botao_mostrar_senha_cmd)  # Posição ao lado do campo de senha
+canvas2.create_window(455, 310, window=botao_mostrar_senha_cmd)  # Posição ao lado do campo de senha
 
 # Botão Entrar
 botao_entrar = customtkinter.CTkButton(janela_login, text="Entrar", width=300, height=34, command=verificar_login, fg_color=cor_fundo, font=fonteBotao, hover_color=cor_fundo_escuro)
-canvas2.create_window(415, 431, window=botao_entrar)
+canvas2.create_window(325, 355, window=botao_entrar)
 
 # Iniciar o loop da tela de login
 janela_login.mainloop()
