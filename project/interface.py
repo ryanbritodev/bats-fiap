@@ -65,7 +65,7 @@ def telaPrincipal(nome_usuario):
     janela.title("FIAP AUTOLAB")
 
     # Canvas1
-    canvas1 = Canvas(janela, width=655, height=400)
+    canvas1 = Canvas(janela, width=655, height=400, bd=-10)
     canvas1.pack(fill="both", expand=True)
 
     # Imagem de Fundo
@@ -85,7 +85,7 @@ def telaPrincipal(nome_usuario):
 
     # Ideias de Botões (sem o parâmetro "command" pra executar os bats, por enquanto)
     botao_desligar = customtkinter.CTkButton(janela, text="Desligar", width=130, height=40, font=fonteBotaoP,
-                                             fg_color=cor_fundo, hover_color=cor_fundo_escuro)
+                                             fg_color=cor_fundo, hover_color=cor_fundo_escuro, command=lambda: [janela.destroy(), telaDesligar()])
     botao_reiniciar = customtkinter.CTkButton(janela, text="Reiniciar", width=130, height=40, font=fonteBotaoP,
                                               fg_color=cor_fundo, hover_color=cor_fundo_escuro)
     botao_limpar = customtkinter.CTkButton(janela, text="Limpar o (D:)", width=130, height=40, font=fonteBotaoP,
@@ -119,6 +119,54 @@ def telaPrincipal(nome_usuario):
 
     # Loop da Janela principal
     janela.mainloop()
+
+def telaDesligar():
+    """
+    --> Função que exibe a tela com os parâmetros do bat shutdown
+    """
+    # Janela principal
+    janelaDesligar = customtkinter.CTk()
+
+    janelaDesligar.iconbitmap("./assets/fiap-ico.ico")
+
+    # Pegando a altura e largura da tela
+    alturaTela = janelaDesligar.winfo_screenheight()
+    larguraTela = janelaDesligar.winfo_screenwidth()
+
+    # Calculando o eixo X e Y pra centralizar a janela
+    eixoX = (larguraTela / 2) - (largura / 2)
+    eixoY = (alturaTela / 2) - (altura / 2)
+
+    # Definindo o tamanho e a posição da janela
+    janelaDesligar.geometry("{}x{}+{}+{}".format(largura, altura, int(eixoX), int(eixoY)))
+
+    # Tamanhos (Máximo e Mínimo)
+    janelaDesligar.minsize(655, 400)
+    janelaDesligar.maxsize(655, 400)
+
+    # Título
+    janelaDesligar.title("AUTOSHUTDOWN")
+
+    # Canvas1
+    canvas1 = Canvas(janelaDesligar, width=655, height=400, bd=-10)
+    canvas1.pack(fill="both", expand=True)
+
+    # Imagem de Fundo
+    fundo = PhotoImage(file="./assets/fundoFiap.png")
+    canvas1.create_image(0, 0, image=fundo, anchor="nw")
+
+
+    # Ideias de Botões (sem o parâmetro "command" pra executar os bats, por enquanto)
+    botao_desligar = customtkinter.CTkButton(janelaDesligar, text="Desligar", width=130, height=40, font=fonteBotaoP,
+                                             fg_color=cor_fundo, hover_color=cor_fundo_escuro)
+
+
+    # Posicionando os botões sobre o Canvas
+    canvas1.create_window(118, 250, window=botao_desligar)
+
+
+    # Loop da Janela principal
+    janelaDesligar.mainloop()
 
 
 # Funções
@@ -167,34 +215,34 @@ def tela_confirmacao(nome_usuario, login_usuario, senha_usuario, senha_cmd_usuar
     janela_confirmacao.minsize(655, 400)
     janela_confirmacao.maxsize(655, 400)
 
-    canvas_confirmacao = Canvas(janela_confirmacao, width=655, height=400)
+    canvas_confirmacao = Canvas(janela_confirmacao, width=655, height=400, bd=-10)
     canvas_confirmacao.pack(fill="both", expand=True)
 
-    imagemFundoConfirmacao = PhotoImage(file="assets/fiapFundoLogin.png")
+    imagemFundoConfirmacao = PhotoImage(file="assets/fundoLogin.png")
     canvas_confirmacao.create_image(0, 0, image=imagemFundoConfirmacao, anchor="nw")
 
-    canvas_confirmacao.create_text(325, 90, text="Confirme seus Dados", fill="white", font=("Arial", 23, "bold"))
-    canvas_confirmacao.create_text(325, 125, text="(Criptografia)", fill=cor_fundo, font=("Arial", 23, "bold"))
-    canvas_confirmacao.create_text(166, 170, text=f"Nome: {nome_usuario}", fill="white", font=("Arial", 18, "bold"),
+    canvas_confirmacao.create_text(276, 115, text="Confirmação de", fill="white", font=("Arial", 22, "bold"))
+    canvas_confirmacao.create_text(438, 115, text="Dados", fill=cor_fundo, font=("Arial", 22, "bold"))
+    canvas_confirmacao.create_text(166, 155, text=f"Nome: {nome_usuario}", fill="white", font=("Arial", 18, "bold"),
                                    anchor="w")
-    canvas_confirmacao.create_text(166, 202, text=f"Login: {login_usuario}", fill="white", font=("Arial", 18, "bold"),
+    canvas_confirmacao.create_text(166, 187, text=f"Login: {login_usuario}", fill="white", font=("Arial", 18, "bold"),
                                    anchor="w")
-    canvas_confirmacao.create_text(166, 234, text=f"Senha: {'*' * len(senha_usuario)}", fill="white",
+    canvas_confirmacao.create_text(166, 219, text=f"Senha: {'*' * len(senha_usuario)}", fill="white",
                                    font=("Arial", 18, "bold"), anchor="w")
-    canvas_confirmacao.create_text(166, 264, text=f"Senha CMD: {'*' * len(senha_cmd_usuario)}", fill="white",
+    canvas_confirmacao.create_text(166, 249, text=f"Senha CMD: {'*' * len(senha_cmd_usuario)}", fill="white",
                                    font=("Arial", 18, "bold"), anchor="w")
 
     botao_voltar = customtkinter.CTkButton(janela_confirmacao, text="Voltar", width=152, height=40, font=fonteBotao,
                                            fg_color=cor_voltar, hover_color=cor_voltar_escuro,
                                            command=lambda: [janela_confirmacao.destroy(), tela_login()])
-    canvas_confirmacao.create_window(241, 315, window=botao_voltar)
+    canvas_confirmacao.create_window(241, 300, window=botao_voltar)
 
-    botao_confirmar = customtkinter.CTkButton(janela_confirmacao, text="Confirmar", width=152, height=40,
+    botao_confirmar = customtkinter.CTkButton(janela_confirmacao, text="Confirmar", width=154, height=40,
                                               font=fonteBotao,
                                               fg_color=cor_continuar, hover_color=cor_continuar_escuro,
                                               command=lambda: [janela_confirmacao.destroy(),
                                                                telaPrincipal(nome_usuario)])
-    canvas_confirmacao.create_window(404, 315, window=botao_confirmar)
+    canvas_confirmacao.create_window(404, 300, window=botao_confirmar)
 
     # Printando no Terminal
     print(f"Nome: {nome_usuario}")
@@ -265,7 +313,7 @@ def tela_login():
     janela_login.maxsize(655, 400)
 
     # Canvas
-    canvas2 = Canvas(janela_login, width=655, height=400)
+    canvas2 = Canvas(janela_login, width=655, height=400, bd=-10)
     canvas2.pack(fill="both", expand=True)
 
     # Carregando imagens
