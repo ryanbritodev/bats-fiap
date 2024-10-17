@@ -65,7 +65,7 @@ def telaPrincipal(nome_usuario):
     janela.title("FIAP AUTOLAB")
 
     # Canvas1
-    canvas1 = Canvas(janela, width=655, height=400, bd=-10)
+    canvas1 = Canvas(janela, width=655, height=400, bd=-50)
     canvas1.pack(fill="both", expand=True)
 
     # Imagem de Fundo
@@ -148,7 +148,7 @@ def telaDesligar():
     janelaDesligar.title("AUTOSHUTDOWN")
 
     # Canvas1
-    canvas1 = Canvas(janelaDesligar, width=655, height=400, bd=-10)
+    canvas1 = Canvas(janelaDesligar, width=655, height=400, bd=-50)
     canvas1.pack(fill="both", expand=True)
 
     # Imagem de Fundo
@@ -215,7 +215,7 @@ def tela_confirmacao(nome_usuario, login_usuario, senha_usuario, senha_cmd_usuar
     janela_confirmacao.minsize(655, 400)
     janela_confirmacao.maxsize(655, 400)
 
-    canvas_confirmacao = Canvas(janela_confirmacao, width=655, height=400, bd=-10)
+    canvas_confirmacao = Canvas(janela_confirmacao, width=655, height=400, bd=-50)
     canvas_confirmacao.pack(fill="both", expand=True)
 
     imagemFundoConfirmacao = PhotoImage(file="assets/fundoLogin.png")
@@ -313,7 +313,7 @@ def tela_login():
     janela_login.maxsize(655, 400)
 
     # Canvas
-    canvas2 = Canvas(janela_login, width=655, height=400, bd=-10)
+    canvas2 = Canvas(janela_login, width=655, height=400, bd=-50)
     canvas2.pack(fill="both", expand=True)
 
     # Carregando imagens
