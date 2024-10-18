@@ -65,7 +65,7 @@ def telaPrincipal(nome_usuario):
     janela.title("FIAP AUTOLAB")
 
     # Canvas1
-    canvas1 = Canvas(janela, width=655, height=400, bd=-50)
+    canvas1 = Canvas(janela, width=655, height=400, bd=-100)
     canvas1.pack(fill="both", expand=True)
 
     # Imagem de Fundo
@@ -85,7 +85,8 @@ def telaPrincipal(nome_usuario):
 
     # Ideias de Botões (sem o parâmetro "command" pra executar os bats, por enquanto)
     botao_desligar = customtkinter.CTkButton(janela, text="Desligar", width=130, height=40, font=fonteBotaoP,
-                                             fg_color=cor_fundo, hover_color=cor_fundo_escuro, command=lambda: [janela.destroy(), telaDesligar()])
+                                             fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                             command=lambda: [janela.destroy(), telaDesligar()])
     botao_reiniciar = customtkinter.CTkButton(janela, text="Reiniciar", width=130, height=40, font=fonteBotaoP,
                                               fg_color=cor_fundo, hover_color=cor_fundo_escuro)
     botao_limpar = customtkinter.CTkButton(janela, text="Limpar o (D:)", width=130, height=40, font=fonteBotaoP,
@@ -120,6 +121,7 @@ def telaPrincipal(nome_usuario):
     # Loop da Janela principal
     janela.mainloop()
 
+
 def telaDesligar():
     """
     --> Função que exibe a tela com os parâmetros do bat shutdown
@@ -148,22 +150,30 @@ def telaDesligar():
     janelaDesligar.title("AUTOSHUTDOWN")
 
     # Canvas1
-    canvas1 = Canvas(janelaDesligar, width=655, height=400, bd=-50)
+    canvas1 = Canvas(janelaDesligar, width=655, height=400, bd=-100)
     canvas1.pack(fill="both", expand=True)
 
     # Imagem de Fundo
     fundo = PhotoImage(file="./assets/fundoFiap.png")
     canvas1.create_image(0, 0, image=fundo, anchor="nw")
 
+    # Imagem Shutdown
+    shutdown = PhotoImage(file="assets/autoSHUTDOWN.png")
+    canvas1.create_image(328, 70, image=shutdown)
 
-    # Ideias de Botões (sem o parâmetro "command" pra executar os bats, por enquanto)
-    botao_desligar = customtkinter.CTkButton(janelaDesligar, text="Desligar", width=130, height=40, font=fonteBotaoP,
+    # Desligar Lab Inteiro
+    canvas1.create_text(120, 185, text="Desligar Lab", fill="white", font=("Arial", 21, "bold"))
+    botao_desligar_lab_inteiro = customtkinter.CTkButton(janelaDesligar, text="Desligar", width=170, height=50, font=fonte,
                                              fg_color=cor_fundo, hover_color=cor_fundo_escuro)
 
+    # Desligar Máquina
+    canvas1.create_text(328, 140, text="Desligar Máquina", fill="white", font=("Arial", 16, "bold"))
+    botao_desligar_maquina = customtkinter.CTkButton(janelaDesligar, text="Desligar", width=170, height=50, font=fonte,
+                                             fg_color=cor_fundo, hover_color=cor_fundo_escuro)
 
     # Posicionando os botões sobre o Canvas
-    canvas1.create_window(118, 250, window=botao_desligar)
-
+    canvas1.create_window(120, 235, window=botao_desligar_lab_inteiro)
+    canvas1.create_window(328, 295, window=botao_desligar_maquina)
 
     # Loop da Janela principal
     janelaDesligar.mainloop()
@@ -215,7 +225,7 @@ def tela_confirmacao(nome_usuario, login_usuario, senha_usuario, senha_cmd_usuar
     janela_confirmacao.minsize(655, 400)
     janela_confirmacao.maxsize(655, 400)
 
-    canvas_confirmacao = Canvas(janela_confirmacao, width=655, height=400, bd=-50)
+    canvas_confirmacao = Canvas(janela_confirmacao, width=655, height=400, bd=-100)
     canvas_confirmacao.pack(fill="both", expand=True)
 
     imagemFundoConfirmacao = PhotoImage(file="assets/fundoLogin.png")
@@ -313,7 +323,7 @@ def tela_login():
     janela_login.maxsize(655, 400)
 
     # Canvas
-    canvas2 = Canvas(janela_login, width=655, height=400, bd=-50)
+    canvas2 = Canvas(janela_login, width=655, height=400, bd=-100)
     canvas2.pack(fill="both", expand=True)
 
     # Carregando imagens
