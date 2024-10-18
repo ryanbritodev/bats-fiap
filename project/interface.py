@@ -29,6 +29,62 @@ cor_continuar_escuro = "#027C23"
 cor_voltar = "#D90404"
 cor_voltar_escuro = "#BC0404"
 
+# Variáveis globais para controle do estado dos botões
+incrementing = False
+decrementing = False
+
+
+# Função para aumentar o valor
+def increment():
+    if incrementing:
+        current_value = int(entry.get())
+        entry.delete(0, customtkinter.END)
+        entry.insert(0, str(current_value + 1))
+        janela.after(100, increment)
+
+
+# Função para diminuir o valor
+def decrement():
+    if decrementing:
+        current_value = int(entry.get())
+        if current_value > 1:
+            entry.delete(0, customtkinter.END)
+            entry.insert(0, str(current_value - 1))
+        else:
+            messagebox.showerror("Erro", "O valor deve ser maior que 0.")
+            entry.delete(0, customtkinter.END)
+            entry.insert(0, "1")
+        janela.after(100, decrement)
+
+
+# Funções para controlar incremento e decremento contínuos
+def start_increment(event):
+    global incrementing
+    incrementing = True
+    increment()
+
+
+def stop_increment(event):
+    global incrementing
+    incrementing = False
+
+
+def start_decrement(event):
+    global decrementing
+    decrementing = True
+    decrement()
+
+
+def stop_decrement(event):
+    global decrementing
+    decrementing = False
+
+
+# Função para capturar o valor final
+def enviar():
+    valor_final = entry.get()
+    print(f"Valor final escolhido: {valor_final}")
+
 
 # BATS
 def executar_bat_desligar():
@@ -42,6 +98,7 @@ def telaPrincipal(nome_usuario):
     :param nome_usuario: Nome do usuário preenchido na tela de login
     """
     # Janela principal
+    global janela
     janela = customtkinter.CTk()
 
     janela.iconbitmap("./assets/fiap-ico.ico")
@@ -164,7 +221,24 @@ def telaDesligar():
     # Desligar Lab Inteiro
     canvas1.create_text(120, 185, text="Desligar Lab", fill="white", font=("Arial", 21, "bold"))
     botao_desligar_lab_inteiro = customtkinter.CTkButton(janelaDesligar, text="Desligar", width=170, height=50, font=fonte,
-                                             fg_color=cor_fundo, hover_color=cor_fundo_escuro)
+                                             fg_color=cor_fundo, hover_color=cor_fundo_escuro, command=enviar)
+
+    # Campo de entrada numérica
+    global entry
+    entry = customtkinter.CTkEntry(janelaDesligar, width=100, justify="center", fg_color=cor_fundo, font=fonte)
+    entry.insert(0, "1")  # Valor inicial
+    canvas1.create_window(328, 200, window=entry)
+
+    # Botões de aumentar e diminuir o valor
+    increase_button = customtkinter.CTkButton(janelaDesligar, text="▲", width=30)
+    canvas1.create_window(380, 200, window=increase_button)
+    increase_button.bind("<ButtonPress-1>", start_increment)
+    increase_button.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button = customtkinter.CTkButton(janelaDesligar, text="▼", width=30)
+    canvas1.create_window(276, 200, window=decrease_button)
+    decrease_button.bind("<ButtonPress-1>", start_decrement)
+    decrease_button.bind("<ButtonRelease-1>", stop_decrement)
 
     # Desligar Máquina
     canvas1.create_text(328, 140, text="Desligar Máquina", fill="white", font=("Arial", 16, "bold"))
