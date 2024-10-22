@@ -46,6 +46,7 @@ def increment_value(entry_widget):
         entry_widget.insert(0, str(current_value + 1))
         janela.after(100, lambda: increment_value(entry_widget))
 
+
 # Função genérica para diminuir o valor de qualquer campo
 def decrement_value(entry_widget):
     if decrementing:
@@ -59,34 +60,38 @@ def decrement_value(entry_widget):
             entry_widget.insert(0, "1")
         janela.after(100, lambda: decrement_value(entry_widget))
 
+
 # Funções para iniciar o incremento ou decremento
 def start_increment(event, entry_widget):
     global incrementing
     incrementing = True
     increment_value(entry_widget)
 
+
 def stop_increment(event):
     global incrementing
     incrementing = False
+
 
 def start_decrement(event, entry_widget):
     global decrementing
     decrementing = True
     decrement_value(entry_widget)
 
+
 def stop_decrement(event):
     global decrementing
     decrementing = False
 
 
-
-# Função para capturar o valor final
+# Funçôes para Desligar
 def desligar():
     valor_final = entry.get()
     if valor_final == "" or not valor_final.isdigit() or valor_final == "0":  # Se o campo estiver vazio ou não for um número
         messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
     else:
         print(f"Tempo para Desligar Lab: {valor_final}s")
+
 
 def desligarMaquina():
     maquina = entry2.get()
@@ -95,10 +100,33 @@ def desligarMaquina():
         messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
     else:
         print(f"Máquina: {maquina}")
-    if tempo == "" or not tempo.isdigit() or maquina == "0":
+    if tempo == "" or not tempo.isdigit() or tempo == "0":
         messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
     else:
-        print(f"Tempo para Desligar: {tempo}")
+        print(f"Tempo para Desligar: {tempo}s")
+
+
+def desligarPersonalizado():
+    inicio = entry4.get()
+    fim = entry5.get()
+    passo = entry6.get()
+    tempo = entry7.get()
+    if inicio == "" or not inicio.isdigit() or inicio == "0":
+        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
+    else:
+        print(f"Início: {inicio}")
+    if fim == "" or not fim.isdigit() or fim == "0":
+        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
+    else:
+        print(f"Fim: {fim}")
+    if passo == "" or not passo.isdigit() or passo == "0":
+        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
+    else:
+        print(f"Passo: {passo}")
+    if tempo == "" or not tempo.isdigit() or tempo == "0":
+        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
+    else:
+        print(f"Tempo para Desligar: {tempo}s")
 
 
 # Função para validar a entrada
@@ -146,7 +174,7 @@ def telaPrincipal(nome_usuario):
     janela.title("FIAP AUTOLAB")
 
     # Canvas1
-    canvas1 = Canvas(janela, width=655, height=400, bd=-100)
+    canvas1 = Canvas(janela, width=655, height=400, bd=-100000)
     canvas1.pack(fill="both", expand=True)
 
     # Imagem de Fundo
@@ -231,7 +259,7 @@ def telaDesligar():
     janelaDesligar.title("AUTOSHUTDOWN")
 
     # Canvas1
-    canvas1 = Canvas(janelaDesligar, width=655, height=400, bd=-100)
+    canvas1 = Canvas(janelaDesligar, width=655, height=400, bd=-1000)
     canvas1.pack(fill="both", expand=True)
 
     # Imagem de Fundo
@@ -240,30 +268,48 @@ def telaDesligar():
 
     # Imagem Shutdown
     shutdown = PhotoImage(file="assets/autoSHUTDOWN.png")
-    canvas1.create_image(328, 70, image=shutdown)
+    canvas1.create_image(328, 50, image=shutdown)
 
-    # Desligar Lab Inteiro
-    canvas1.create_text(120, 165, text="Desligar Lab", fill="white", font=("Arial", 21, "bold"))
-    canvas1.create_text(120, 200, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
-    botao_desligar_lab_inteiro = customtkinter.CTkButton(janelaDesligar, text="Desligar", width=170, height=50,
-                                                         font=fonte,
-                                                         fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                         command=desligar)
-    # Campo de entrada numérica
-    global entry, entry2, entry3
+    # Campos dos Inputs
+    global entry, entry2, entry3, entry4, entry5, entry6, entry7
     vcmd = (janelaDesligar.register(validate_input), "%P")  # "%P" passa o valor atual para a função de validação
-    entry = customtkinter.CTkEntry(janelaDesligar, width=100, justify="center", fg_color=cor_fundo_input_numerico, font=fonte,
+    entry = customtkinter.CTkEntry(janelaDesligar, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                   font=fonte,
                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
     entry.insert(0, "5")  # Valor inicial
-    entry2 = customtkinter.CTkEntry(janelaDesligar, width=100, justify="center", fg_color=cor_fundo_input_numerico, font=fonte,
-                                   validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry2 = customtkinter.CTkEntry(janelaDesligar, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
     entry2.insert(0, "1")  # Valor inicial
-    entry3 = customtkinter.CTkEntry(janelaDesligar, width=100, justify="center", fg_color=cor_fundo_input_numerico, font=fonte,
-                                   validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry3 = customtkinter.CTkEntry(janelaDesligar, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
     entry3.insert(0, "5")  # Valor inicial
+    entry4 = customtkinter.CTkEntry(janelaDesligar, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry4.insert(0, "1")  # Valor inicial
+    entry5 = customtkinter.CTkEntry(janelaDesligar, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry5.insert(0, "40")  # Valor inicial
+    entry6 = customtkinter.CTkEntry(janelaDesligar, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry6.insert(0, "1")  # Valor inicial
+    entry7 = customtkinter.CTkEntry(janelaDesligar, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry7.insert(0, "5")  # Valor inicial
+
+    # Inputs numéricos
     canvas1.create_window(120, 235, window=entry)
-    canvas1.create_window(328, 200, window=entry2)
-    canvas1.create_window(328, 275, window=entry3)
+    canvas1.create_window(323, 200, window=entry2)
+    canvas1.create_window(323, 268, window=entry3)
+    canvas1.create_window(525, 165, window=entry4)
+    canvas1.create_window(525, 200, window=entry5)
+    canvas1.create_window(525, 235, window=entry6)
+    canvas1.create_window(525, 300, window=entry7)
 
     # Botões de aumentar e diminuir o valor do lab
     increase_button = customtkinter.CTkButton(janelaDesligar, text="▲", width=37, fg_color=cor_fundo,
@@ -284,14 +330,14 @@ def telaDesligar():
     increase_button_machine = customtkinter.CTkButton(janelaDesligar, text="▲", width=37, fg_color=cor_fundo,
                                                       hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
                                                       border_width=-100)
-    canvas1.create_window(393, 200, window=increase_button_machine)
+    canvas1.create_window(388, 200, window=increase_button_machine)
     increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry2))
     increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
 
     decrease_button_machine = customtkinter.CTkButton(janelaDesligar, text="▼", width=37, fg_color=cor_fundo,
                                                       hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
                                                       border_width=-100)
-    canvas1.create_window(263, 200, window=decrease_button_machine)
+    canvas1.create_window(258, 200, window=decrease_button_machine)
     decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry2))
     decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
 
@@ -299,39 +345,133 @@ def telaDesligar():
     increase_button_machine = customtkinter.CTkButton(janelaDesligar, text="▲", width=37, fg_color=cor_fundo,
                                                       hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
                                                       border_width=-100)
-    canvas1.create_window(393, 275, window=increase_button_machine)
+    canvas1.create_window(388, 268, window=increase_button_machine)
     increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry3))
     increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
 
     decrease_button_machine = customtkinter.CTkButton(janelaDesligar, text="▼", width=37, fg_color=cor_fundo,
                                                       hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
                                                       border_width=-100)
-    canvas1.create_window(263, 275, window=decrease_button_machine)
+    canvas1.create_window(258, 268, window=decrease_button_machine)
     decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry3))
     decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
 
-    # Desligar Máquina
-    canvas1.create_text(328, 125, text="Desligar Máquina", fill="white", font=("Arial", 16, "bold"))
-    canvas1.create_text(328, 160, text="N° da Máquina", fill="white", font=("Arial", 18, "bold"))
-    canvas1.create_text(328, 240, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
+    # Botões de Desligar Personalizado
+    # Início
+    increase_button_machine = customtkinter.CTkButton(janelaDesligar, text="▲", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(590, 165, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry4))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
 
+    decrease_button_machine = customtkinter.CTkButton(janelaDesligar, text="▼", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(460, 165, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry4))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+    # Fim
+    increase_button_machine = customtkinter.CTkButton(janelaDesligar, text="▲", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(590, 200, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry5))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaDesligar, text="▼", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(460, 200, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry5))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+    # Passo
+    increase_button_machine = customtkinter.CTkButton(janelaDesligar, text="▲", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(590, 235, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry6))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaDesligar, text="▼", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(460, 235, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry6))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+    # Tempo
+    increase_button_machine = customtkinter.CTkButton(janelaDesligar, text="▲", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(590, 300, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry7))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaDesligar, text="▼", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(460, 300, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry7))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Desligar Lab
+    canvas1.create_text(120, 170, text="Desligar Lab", fill="white", font=("Arial", 16, "bold"))
+    canvas1.create_text(120, 200, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
+
+    # Desligar Lab Inteiro
+    botao_desligar_lab_inteiro = customtkinter.CTkButton(janelaDesligar, text="Desligar", width=170, height=50,
+                                                         font=fonte,
+                                                         fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                         command=desligar)
+    # Desligar Máquina
+    canvas1.create_text(323, 140, text="Desligar Máquina", fill="white", font=("Arial", 16, "bold"))
+    canvas1.create_text(323, 170, text="N° da Máquina", fill="white", font=("Arial", 14, "bold"))
+    canvas1.create_text(323, 235, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
 
     botao_desligar_maquina = customtkinter.CTkButton(janelaDesligar, text="Desligar", width=170, height=50, font=fonte,
-                                                     fg_color=cor_fundo, hover_color=cor_fundo_escuro, command=desligarMaquina)
+                                                     fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                     command=desligarMaquina)
+
+    # Desligar Personalizado
+    canvas1.create_text(525, 105, text="Personalizado", fill="white", font=("Arial", 16, "bold"))
+    canvas1.create_text(525, 133, text="Início, Fim e Passo", fill="white", font=("Arial", 14, "bold"))
+    canvas1.create_text(525, 267, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
+
+    botao_desligar_personalizado = customtkinter.CTkButton(janelaDesligar, text="Desligar", width=170, height=50, font=fonte,
+                                                     fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                     command=desligarPersonalizado)
 
     # Posicionando os botões sobre o Canvas
-    canvas1.create_window(120, 290, window=botao_desligar_lab_inteiro)
-    canvas1.create_window(328, 332, window=botao_desligar_maquina)
+    canvas1.create_window(120, 285, window=botao_desligar_lab_inteiro)
+    canvas1.create_window(323, 319, window=botao_desligar_maquina)
+    canvas1.create_window(525, 350, window=botao_desligar_personalizado)
+
+    botao_voltar = customtkinter.CTkButton(
+        janelaDesligar,
+        text="⬅",
+        width=40,
+        height=40,
+        border_width=-1000,
+        font=fonteBotaoP,
+        fg_color=cor_fundo,
+        hover_color=cor_fundo_escuro,
+        command=lambda: [janelaDesligar.destroy(), telaPrincipal(nome_usuario)]
+        # Fecha a tela atual e volta à principal
+    )
+
+    # Posicionando o botão de Voltar na tela
+    canvas1.create_window(50, 48, window=botao_voltar)
 
     # Loop da Janela principal
     janelaDesligar.mainloop()
-
 
 # Funções
 def verificar_login():
     """
     --> Função chamada ao clicar no botão de "Entrar" para capturar e validar os dados de login (por enquanto, só está printando os valores)
     """
+
+    global nome_usuario
     # Pegando os valores preenchidos
     nome_usuario = entrada_nome.get().strip().title()
     login_usuario = entrada_login.get().strip().lower()
@@ -373,7 +513,7 @@ def tela_confirmacao(nome_usuario, login_usuario, senha_usuario, senha_cmd_usuar
     janela_confirmacao.minsize(655, 400)
     janela_confirmacao.maxsize(655, 400)
 
-    canvas_confirmacao = Canvas(janela_confirmacao, width=655, height=400, bd=-100)
+    canvas_confirmacao = Canvas(janela_confirmacao, width=655, height=400, bd=-1000)
     canvas_confirmacao.pack(fill="both", expand=True)
 
     imagemFundoConfirmacao = PhotoImage(file="assets/fundoLogin.png")
@@ -471,7 +611,7 @@ def tela_login():
     janela_login.maxsize(655, 400)
 
     # Canvas
-    canvas2 = Canvas(janela_login, width=655, height=400, bd=-100)
+    canvas2 = Canvas(janela_login, width=655, height=400, bd=-1000)
     canvas2.pack(fill="both", expand=True)
 
     # Carregando imagens
