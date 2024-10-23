@@ -6,21 +6,23 @@
 # Victor Flávio Demarchi Viana
 # Ryan Brito Pereira Ramos
 
+# Bibliotecas
 import os
 from tkinter import Canvas, PhotoImage, messagebox
 import customtkinter
 from PIL import Image, ImageTk
 
+# Tema
 customtkinter.set_appearance_mode("dark")
 
+# Altura e Largura da Janela
 altura = 400
 largura = 655
 
-# Fonte e Cores
+# Fontes e Cores
 fonte = ("Arial", 18, "bold")
 fonteBotao = ("Arial", 16, "bold")
 fonteBotaoP = ("Arial", 14, "bold")
-
 cor_fundo = "#ed145b"
 cor_fundo_escuro = "#d01150"
 cor_input = "#242424"
@@ -36,6 +38,66 @@ cor_voltar_escuro = "#BC0404"
 # Variáveis globais para controle do estado dos botões
 incrementing = False
 decrementing = False
+
+
+# Função para voltar a janela anterior, mostrando que o comando foi executado com sucesso
+def mostrar_comando_executado(janela_anterior):
+    """
+    --> Função que exibe a mensagem de "Comando executado com sucesso!" com um botão de "Continuar"
+    :param janela_anterior: Janela anterior que você deseja mostrar
+    """
+    # Fechando a janela anterior
+    janela_anterior.destroy()
+
+    # Criando a nova janela de sucesso
+    janela_sucesso = customtkinter.CTk()
+
+    janela_sucesso.iconbitmap("./assets/fiap-ico.ico")
+
+    # Pegando a altura e largura da tela
+    alturaTela = janela_sucesso.winfo_screenheight()
+    larguraTela = janela_sucesso.winfo_screenwidth()
+
+    # Definindo tamanho e posição da janela
+    largura, altura = 655, 400
+    eixoX = (larguraTela / 2) - (largura / 2)
+    eixoY = (alturaTela / 2) - (altura / 2)
+    janela_sucesso.geometry(f"{largura}x{altura}+{int(eixoX)}+{int(eixoY)}")
+
+    # Tamanhos (Máximo e Mínimo)
+    janela_sucesso.minsize(655, 400)
+    janela_sucesso.maxsize(655, 400)
+
+    # Canvas1 pra disposição dos elementos
+    canvas1 = Canvas(janela_sucesso, width=655, height=400, bd=-100000)
+    canvas1.pack(fill="both", expand=True)
+
+    # Imagem de Fundo
+    imagemFundo = PhotoImage(file="./assets/fundoFiap.png")
+    canvas1.create_image(0, 0, image=imagemFundo, anchor="nw")
+
+    # Título da janela
+    janela_sucesso.title("SUCESSO")
+
+    # Mensagem
+    canvas1.create_text(325, 125, text="Comando Executado", fill="white", font=("Arial", 30, "bold"))
+    canvas1.create_text(325, 167, text="com Sucesso!", fill=cor_fundo, font=("Arial", 30, "bold"))
+
+    # Botão "Continuar"
+    botao_continuar = customtkinter.CTkButton(
+        janela_sucesso,
+        text="Continuar",
+        width=275,
+        height=80,
+        fg_color=cor_fundo,
+        hover_color=cor_fundo_escuro,
+        font=("Arial", 26, "bold"),
+        command=lambda: [janela_sucesso.destroy(), telaDesligar()]
+    )
+    canvas1.create_window(325, 260, window=botao_continuar)
+
+    # Exibindo a janela de sucesso
+    janela_sucesso.mainloop()
 
 
 # Função genérica para aumentar o valor de qualquer campo
@@ -84,7 +146,7 @@ def stop_decrement(event):
     decrementing = False
 
 
-# Funçôes para Desligar
+# Funções para Desligar (Lab, Máquina e Personalizado)
 def desligar():
     valor_final = entry.get()
     if valor_final == "" or not valor_final.isdigit() or valor_final == "0":  # Se o campo estiver vazio ou não for um número
@@ -129,18 +191,18 @@ def desligarPersonalizado():
         print(f"Tempo para Desligar: {tempo}s")
 
 
-# Função para validar a entrada
+# Função para validar a entrada (apenas números)
 def validate_input(value):
-    # Verifica se a entrada é um número ou vazia (para permitir backspace)
+    # Verifica se a entrada é um número ou vazia
     if value.isdigit() or value == "":
         return True
     else:
         return False
 
 
-# BATS
+# Bats (Funções com a execução dos Bats)
 def executar_bat_desligar():
-    os.system("shutdown.bat")  # Substituir posteriormente pelos caminhos dos bats
+    os.system("shutdown.bat")  # Substituir posteriormente pelos caminhos dos Bats
 
 
 # Telas
@@ -173,7 +235,7 @@ def telaPrincipal(nome_usuario):
     # Título
     janela.title("FIAP AUTOLAB")
 
-    # Canvas1
+    # Canvas1 para disposição dos elementos
     canvas1 = Canvas(janela, width=655, height=400, bd=-100000)
     canvas1.pack(fill="both", expand=True)
 
@@ -183,16 +245,16 @@ def telaPrincipal(nome_usuario):
 
     # Logo da FIAP
     logoFiap = PhotoImage(file="./assets/fiapLogo.png")
-    canvas1.create_image(330, 67, image=logoFiap)
+    canvas1.create_image(330, 62, image=logoFiap)
 
     # Texto AUTOLAB
     autoLab = PhotoImage(file="assets/autoLAB.png")
-    canvas1.create_image(324, 116, image=autoLab)
+    canvas1.create_image(324, 111, image=autoLab)
 
     # Mensagem de boas-vindas personalizada
-    canvas1.create_text(325, 180, text=f"Bem-vindo, {nome_usuario}!", fill="white", font=("Arial", 20, "bold"))
+    canvas1.create_text(325, 175, text=f"Bem-vindo, {nome_usuario}!", fill="white", font=("Arial", 20, "bold"))
 
-    # Ideias de Botões (sem o parâmetro "command" pra executar os bats, por enquanto)
+    # Botões
     botao_desligar = customtkinter.CTkButton(janela, text="Desligar", width=130, height=40, font=fonteBotaoP,
                                              fg_color=cor_fundo, hover_color=cor_fundo_escuro,
                                              command=lambda: [janela.destroy(), telaDesligar()])
@@ -216,16 +278,16 @@ def telaPrincipal(nome_usuario):
                                         fg_color=cor_fundo, hover_color=cor_fundo_escuro)
 
     # Posicionando os botões sobre o Canvas
-    canvas1.create_window(118, 250, window=botao_desligar)
-    canvas1.create_window(118, 300, window=botao_reiniciar)
-    canvas1.create_window(118, 350, window=botao_logar)
-    canvas1.create_window(258, 250, window=botao_limpar)
-    canvas1.create_window(258, 300, window=botao_copiar)
-    canvas1.create_window(258, 350, window=botao_url)
-    canvas1.create_window(398, 250, window=botao_pon)
-    canvas1.create_window(398, 300, window=botao_pn)
-    canvas1.create_window(398, 350, window=botao_nac)
-    canvas1.create_window(538, 250, window=botao_mensagem)
+    canvas1.create_window(118, 240, window=botao_desligar)
+    canvas1.create_window(118, 290, window=botao_reiniciar)
+    canvas1.create_window(118, 340, window=botao_logar)
+    canvas1.create_window(258, 240, window=botao_limpar)
+    canvas1.create_window(258, 290, window=botao_copiar)
+    canvas1.create_window(258, 340, window=botao_url)
+    canvas1.create_window(398, 240, window=botao_pon)
+    canvas1.create_window(398, 290, window=botao_pn)
+    canvas1.create_window(398, 340, window=botao_nac)
+    canvas1.create_window(538, 240, window=botao_mensagem)
 
     # Loop da Janela principal
     janela.mainloop()
@@ -258,7 +320,7 @@ def telaDesligar():
     # Título
     janelaDesligar.title("AUTOSHUTDOWN")
 
-    # Canvas1
+    # Canvas1 para disposição dos elementos
     canvas1 = Canvas(janelaDesligar, width=655, height=400, bd=-1000)
     canvas1.pack(fill="both", expand=True)
 
@@ -311,7 +373,7 @@ def telaDesligar():
     canvas1.create_window(525, 235, window=entry6)
     canvas1.create_window(525, 300, window=entry7)
 
-    # Botões de aumentar e diminuir o valor do lab
+    # Botões de aumentar e diminuir o valor (Lab)
     increase_button = customtkinter.CTkButton(janelaDesligar, text="▲", width=37, fg_color=cor_fundo,
                                               hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
                                               border_width=-100)
@@ -326,7 +388,7 @@ def telaDesligar():
     decrease_button.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry))
     decrease_button.bind("<ButtonRelease-1>", stop_decrement)
 
-    # Botões de aumentar e diminuir o valor da máquina
+    # Botões de aumentar e diminuir o valor (Máquina)
     increase_button_machine = customtkinter.CTkButton(janelaDesligar, text="▲", width=37, fg_color=cor_fundo,
                                                       hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
                                                       border_width=-100)
@@ -341,7 +403,7 @@ def telaDesligar():
     decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry2))
     decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
 
-    # Botões de aumentar e diminuir o valor do tempo da máquina
+    # Botões de aumentar e diminuir o valor do tempo (Máquina)
     increase_button_machine = customtkinter.CTkButton(janelaDesligar, text="▲", width=37, fg_color=cor_fundo,
                                                       hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
                                                       border_width=-100)
@@ -371,6 +433,7 @@ def telaDesligar():
     canvas1.create_window(460, 165, window=decrease_button_machine)
     decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry4))
     decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
     # Fim
     increase_button_machine = customtkinter.CTkButton(janelaDesligar, text="▲", width=37, fg_color=cor_fundo,
                                                       hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
@@ -385,6 +448,7 @@ def telaDesligar():
     canvas1.create_window(460, 200, window=decrease_button_machine)
     decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry5))
     decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
     # Passo
     increase_button_machine = customtkinter.CTkButton(janelaDesligar, text="▲", width=37, fg_color=cor_fundo,
                                                       hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
@@ -399,6 +463,7 @@ def telaDesligar():
     canvas1.create_window(460, 235, window=decrease_button_machine)
     decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry6))
     decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
     # Tempo
     increase_button_machine = customtkinter.CTkButton(janelaDesligar, text="▲", width=37, fg_color=cor_fundo,
                                                       hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
@@ -422,7 +487,8 @@ def telaDesligar():
     botao_desligar_lab_inteiro = customtkinter.CTkButton(janelaDesligar, text="Desligar", width=170, height=50,
                                                          font=fonte,
                                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                         command=desligar)
+                                                         command=lambda: [desligar(),
+                                                                          mostrar_comando_executado(janelaDesligar)])
     # Desligar Máquina
     canvas1.create_text(323, 140, text="Desligar Máquina", fill="white", font=("Arial", 16, "bold"))
     canvas1.create_text(323, 170, text="N° da Máquina", fill="white", font=("Arial", 14, "bold"))
@@ -430,16 +496,20 @@ def telaDesligar():
 
     botao_desligar_maquina = customtkinter.CTkButton(janelaDesligar, text="Desligar", width=170, height=50, font=fonte,
                                                      fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                     command=desligarMaquina)
+                                                     command=lambda: [desligarMaquina(),
+                                                                      mostrar_comando_executado(janelaDesligar)])
 
     # Desligar Personalizado
     canvas1.create_text(525, 105, text="Personalizado", fill="white", font=("Arial", 16, "bold"))
     canvas1.create_text(525, 133, text="Início, Fim e Passo", fill="white", font=("Arial", 14, "bold"))
     canvas1.create_text(525, 267, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
 
-    botao_desligar_personalizado = customtkinter.CTkButton(janelaDesligar, text="Desligar", width=170, height=50, font=fonte,
-                                                     fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                     command=desligarPersonalizado)
+    # Botões
+    botao_desligar_personalizado = customtkinter.CTkButton(janelaDesligar, text="Desligar", width=170, height=50,
+                                                           font=fonte,
+                                                           fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                           command=lambda: [desligarPersonalizado(),
+                                                                            mostrar_comando_executado(janelaDesligar)])
 
     # Posicionando os botões sobre o Canvas
     canvas1.create_window(120, 285, window=botao_desligar_lab_inteiro)
@@ -465,12 +535,12 @@ def telaDesligar():
     # Loop da Janela principal
     janelaDesligar.mainloop()
 
+
 # Funções
 def verificar_login():
     """
     --> Função chamada ao clicar no botão de "Entrar" para capturar e validar os dados de login (por enquanto, só está printando os valores)
     """
-
     global nome_usuario
     # Pegando os valores preenchidos
     nome_usuario = entrada_nome.get().strip().title()
@@ -555,7 +625,7 @@ def mostrar_senha_usuario():
     """
     --> Função para mostrar e esconder a senha do monitor
     """
-    # Carregando imagens
+    # Carregando imagens (e ao mesmo tempo redimensionando)
     imagem_olho = ImageTk.PhotoImage(Image.open("./assets/olho.png").resize((20, 20)))
     imagem_olho_fechado = ImageTk.PhotoImage(Image.open("./assets/olhoFechado.png").resize((20, 20)))
     if entrada_senha.cget('show') == '*':
@@ -610,7 +680,7 @@ def tela_login():
     janela_login.minsize(655, 400)
     janela_login.maxsize(655, 400)
 
-    # Canvas
+    # Canvas2 para posicionar os elementos
     canvas2 = Canvas(janela_login, width=655, height=400, bd=-1000)
     canvas2.pack(fill="both", expand=True)
 
