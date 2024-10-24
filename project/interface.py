@@ -11,6 +11,11 @@ import os
 from tkinter import Canvas, PhotoImage, messagebox
 import customtkinter
 from PIL import Image, ImageTk
+import ctypes
+
+# Ícone da barra de tarefas da aplicação (Windows)
+myappid = 'mycompany.myproduct.subproduct.version'
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
 # Tema
 customtkinter.set_appearance_mode("dark")
@@ -192,7 +197,7 @@ def desligarPersonalizado():
         print(f"Tempo para Desligar: {tempo}s")
 
 
-# Funções para Desligar (Lab, Máquina e Personalizado)
+# Funções para Reiniciar (Lab, Máquina e Personalizado)
 def reiniciar():
     valor_final = entry.get()
     if valor_final == "" or not valor_final.isdigit() or valor_final == "0":  # Se o campo estiver vazio ou não for um número
@@ -235,6 +240,51 @@ def reiniciarPersonalizado():
         messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
     else:
         print(f"Tempo para Reiniciar: {tempo}s")
+
+
+# Funções para Reiniciar (Lab, Máquina e Personalizado)
+def limpar():
+    valor_final = entry.get()
+    if valor_final == "" or not valor_final.isdigit() or valor_final == "0":  # Se o campo estiver vazio ou não for um número
+        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
+    else:
+        print(f"Tempo para Limpar Lab: {valor_final}s")
+
+
+def limparMaquina():
+    maquina = entry2.get()
+    tempo = entry3.get()
+    if maquina == "" or not maquina.isdigit() or maquina == "0":
+        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
+    else:
+        print(f"Máquina: {maquina}")
+    if tempo == "" or not tempo.isdigit() or tempo == "0":
+        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
+    else:
+        print(f"Tempo para Limpar: {tempo}s")
+
+
+def limparPersonalizado():
+    inicio = entry4.get()
+    fim = entry5.get()
+    passo = entry6.get()
+    tempo = entry7.get()
+    if inicio == "" or not inicio.isdigit() or inicio == "0":
+        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
+    else:
+        print(f"Início: {inicio}")
+    if fim == "" or not fim.isdigit() or fim == "0":
+        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
+    else:
+        print(f"Fim: {fim}")
+    if passo == "" or not passo.isdigit() or passo == "0":
+        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
+    else:
+        print(f"Passo: {passo}")
+    if tempo == "" or not tempo.isdigit() or tempo == "0":
+        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
+    else:
+        print(f"Tempo para Limpar: {tempo}s")
 
 
 # Função para validar a entrada (apenas números)
@@ -308,7 +358,8 @@ def telaPrincipal(nome_usuario):
                                               fg_color=cor_fundo, hover_color=cor_fundo_escuro,
                                               command=lambda: [janela.destroy(), telaReiniciar()])
     botao_limpar = customtkinter.CTkButton(janela, text="Limpar o (D:)", width=130, height=40, font=fonteBotaoP,
-                                           fg_color=cor_fundo, hover_color=cor_fundo_escuro)
+                                           fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                           command=lambda: [janela.destroy(), telaLimpar()])
     botao_copiar = customtkinter.CTkButton(janela, text="Copiar Arquivo", width=130, height=40, font=fonteBotaoP,
                                            fg_color=cor_fundo, hover_color=cor_fundo_escuro)
     botao_pon = customtkinter.CTkButton(janela, text="Logar PON", width=130, height=40, font=fonteBotaoP,
@@ -711,7 +762,7 @@ def telaReiniciar():
     decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry3))
     decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
 
-    # Botões de Desligar Personalizado
+    # Botões de Reiniciar Personalizado
     # Início
     increase_button_machine = customtkinter.CTkButton(janelaReiniciar, text="▲", width=37, fg_color=cor_fundo,
                                                       hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
@@ -772,18 +823,18 @@ def telaReiniciar():
     decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry7))
     decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
 
-    # Desligar Lab
+    # Reiniciar Lab
     canvas1.create_text(120, 170, text="Reiniciar Lab", fill="white", font=("Arial", 16, "bold"))
     canvas1.create_text(120, 200, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
 
-    # Desligar Lab Inteiro
+    # Reiniciar Lab Inteiro
     botao_reiniciar_lab_inteiro = customtkinter.CTkButton(janelaReiniciar, text="Reiniciar", width=170, height=50,
                                                           font=fonte,
                                                           fg_color=cor_fundo, hover_color=cor_fundo_escuro,
                                                           command=lambda: [reiniciar(),
                                                                            mostrar_comando_executado(janelaReiniciar,
                                                                                                      telaReiniciar)])
-    # Desligar Máquina
+    # Reiniciar Máquina
     canvas1.create_text(323, 140, text="Reiniciar Máquina", fill="white", font=("Arial", 16, "bold"))
     canvas1.create_text(323, 170, text="N° da Máquina", fill="white", font=("Arial", 14, "bold"))
     canvas1.create_text(323, 235, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
@@ -795,7 +846,7 @@ def telaReiniciar():
                                                                        mostrar_comando_executado(janelaReiniciar,
                                                                                                  telaReiniciar)])
 
-    # Desligar Personalizado
+    # ReiniciarReiniciar Personalizado
     canvas1.create_text(525, 105, text="Personalizado", fill="white", font=("Arial", 16, "bold"))
     canvas1.create_text(525, 133, text="Início, Fim e Passo", fill="white", font=("Arial", 14, "bold"))
     canvas1.create_text(525, 267, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
@@ -831,6 +882,253 @@ def telaReiniciar():
 
     # Loop da Janela principal
     janelaReiniciar.mainloop()
+
+
+def telaLimpar():
+    """
+    --> Função que exibe a tela com os parâmetros do bat rd com o caminho para o disco d: das máquinas
+    """
+    # Janela principal
+    janelaLimpar = customtkinter.CTk()
+
+    janelaLimpar.iconbitmap("./assets/fiap-ico.ico")
+
+    # Pegando a altura e largura da tela
+    alturaTela = janelaLimpar.winfo_screenheight()
+    larguraTela = janelaLimpar.winfo_screenwidth()
+
+    # Calculando o eixo X e Y pra centralizar a janela
+    eixoX = (larguraTela / 2) - (largura / 2)
+    eixoY = (alturaTela / 2) - (altura / 2)
+
+    # Definindo o tamanho e a posição da janela
+    janelaLimpar.geometry("{}x{}+{}+{}".format(largura, altura, int(eixoX), int(eixoY)))
+
+    # Tamanhos (Máximo e Mínimo)
+    janelaLimpar.minsize(655, 400)
+    janelaLimpar.maxsize(655, 400)
+
+    # Título
+    janelaLimpar.title("AUTORD")
+
+    # Canvas1 para disposição dos elementos
+    canvas1 = Canvas(janelaLimpar, width=655, height=400, bd=-1000)
+    canvas1.pack(fill="both", expand=True)
+
+    # Imagem de Fundo
+    fundo = PhotoImage(file="./assets/fundoFiap.png")
+    canvas1.create_image(0, 0, image=fundo, anchor="nw")
+
+    # Imagem RD
+    remove = ImageTk.PhotoImage(Image.open("./assets/autoRD.png").resize((450, 225)))
+    canvas1.create_image(328, 50, image=remove)
+
+    # Campos dos Inputs
+    global entry, entry2, entry3, entry4, entry5, entry6, entry7
+    vcmd = (janelaLimpar.register(validate_input), "%P")  # "%P" passa o valor atual para a função de validação
+    entry = customtkinter.CTkEntry(janelaLimpar, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                   font=fonte,
+                                   validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry.insert(0, "5")  # Valor inicial
+    entry2 = customtkinter.CTkEntry(janelaLimpar, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry2.insert(0, "1")  # Valor inicial
+    entry3 = customtkinter.CTkEntry(janelaLimpar, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry3.insert(0, "5")  # Valor inicial
+    entry4 = customtkinter.CTkEntry(janelaLimpar, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry4.insert(0, "1")  # Valor inicial
+    entry5 = customtkinter.CTkEntry(janelaLimpar, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry5.insert(0, "40")  # Valor inicial
+    entry6 = customtkinter.CTkEntry(janelaLimpar, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry6.insert(0, "1")  # Valor inicial
+    entry7 = customtkinter.CTkEntry(janelaLimpar, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry7.insert(0, "5")  # Valor inicial
+
+    # Inputs numéricos
+    canvas1.create_window(120, 235, window=entry)
+    canvas1.create_window(323, 200, window=entry2)
+    canvas1.create_window(323, 268, window=entry3)
+    canvas1.create_window(525, 165, window=entry4)
+    canvas1.create_window(525, 200, window=entry5)
+    canvas1.create_window(525, 235, window=entry6)
+    canvas1.create_window(525, 300, window=entry7)
+
+    # Botões de aumentar e diminuir o valor (Lab)
+    increase_button = customtkinter.CTkButton(janelaLimpar, text="▲", width=37, fg_color=cor_fundo,
+                                              hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                              border_width=-100)
+    canvas1.create_window(185, 235, window=increase_button)
+    increase_button.bind("<ButtonPress-1>", lambda event: start_increment(event, entry))
+    increase_button.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button = customtkinter.CTkButton(janelaLimpar, text="▼", width=37, fg_color=cor_fundo,
+                                              hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                              border_width=-100)
+    canvas1.create_window(55, 235, window=decrease_button)
+    decrease_button.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry))
+    decrease_button.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Botões de aumentar e diminuir o valor (Máquina)
+    increase_button_machine = customtkinter.CTkButton(janelaLimpar, text="▲", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(388, 200, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry2))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaLimpar, text="▼", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(258, 200, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry2))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Botões de aumentar e diminuir o valor do tempo (Máquina)
+    increase_button_machine = customtkinter.CTkButton(janelaLimpar, text="▲", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(388, 268, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry3))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaLimpar, text="▼", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(258, 268, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry3))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Botões de Limpar Personalizado
+    # Início
+    increase_button_machine = customtkinter.CTkButton(janelaLimpar, text="▲", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(590, 165, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry4))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaLimpar, text="▼", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(460, 165, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry4))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Fim
+    increase_button_machine = customtkinter.CTkButton(janelaLimpar, text="▲", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(590, 200, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry5))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaLimpar, text="▼", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(460, 200, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry5))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Passo
+    increase_button_machine = customtkinter.CTkButton(janelaLimpar, text="▲", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(590, 235, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry6))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaLimpar, text="▼", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(460, 235, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry6))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Tempo
+    increase_button_machine = customtkinter.CTkButton(janelaLimpar, text="▲", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(590, 300, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry7))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaLimpar, text="▼", width=37, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(460, 300, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry7))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Limpar Lab
+    canvas1.create_text(120, 170, text="Limpar Lab", fill="white", font=("Arial", 16, "bold"))
+    canvas1.create_text(120, 200, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
+
+    # Limpar Lab Inteiro
+    botao_limpar_lab_inteiro = customtkinter.CTkButton(janelaLimpar, text="Limpar", width=170, height=50,
+                                                          font=fonte,
+                                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                          command=lambda: [limpar(),
+                                                                           mostrar_comando_executado(janelaLimpar,
+                                                                                                     telaLimpar)])
+    # Limpar Máquina
+    canvas1.create_text(323, 140, text="Limpar Máquina", fill="white", font=("Arial", 16, "bold"))
+    canvas1.create_text(323, 170, text="N° da Máquina", fill="white", font=("Arial", 14, "bold"))
+    canvas1.create_text(323, 235, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
+
+    botao_limpar_maquina = customtkinter.CTkButton(janelaLimpar, text="Limpar", width=170, height=50,
+                                                      font=fonte,
+                                                      fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                      command=lambda: [limparMaquina(),
+                                                                       mostrar_comando_executado(janelaLimpar,
+                                                                                                 telaLimpar)])
+
+    # Limpar Personalizado
+    canvas1.create_text(525, 105, text="Personalizado", fill="white", font=("Arial", 16, "bold"))
+    canvas1.create_text(525, 133, text="Início, Fim e Passo", fill="white", font=("Arial", 14, "bold"))
+    canvas1.create_text(525, 267, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
+
+    # Botões
+    botao_limpar_personalizado = customtkinter.CTkButton(janelaLimpar, text="Limpar", width=170, height=50,
+                                                            font=fonte,
+                                                            fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                            command=lambda: [limparPersonalizado(),
+                                                                             mostrar_comando_executado(janelaLimpar,
+                                                                                                       telaLimpar)])
+
+    # Posicionando os botões sobre o Canvas
+    canvas1.create_window(120, 285, window=botao_limpar_lab_inteiro)
+    canvas1.create_window(323, 319, window=botao_limpar_maquina)
+    canvas1.create_window(525, 350, window=botao_limpar_personalizado)
+
+    botao_voltar = customtkinter.CTkButton(
+        janelaLimpar,
+        text="⬅",
+        width=40,
+        height=40,
+        border_width=-1000,
+        font=fonteBotaoP,
+        fg_color=cor_fundo,
+        hover_color=cor_fundo_escuro,
+        command=lambda: [janelaLimpar.destroy(), telaPrincipal(nome_usuario)]
+        # Fecha a tela atual e volta à principal
+    )
+
+    # Posicionando o botão de Voltar na tela
+    canvas1.create_window(50, 48, window=botao_voltar)
+
+    # Loop da Janela principal
+    janelaLimpar.mainloop()
 
 
 # Funções
