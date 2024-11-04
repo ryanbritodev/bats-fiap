@@ -1,6 +1,6 @@
 # FIAP AUTOLAB
 # IMPORTANTE: se você achou este pen drive, NAO EXECUTE OS COMANDOS, eles servem
-# Unica e exclusivamente para auxIlio de monitores, utiliza-los indevidamente pode acarretar
+# Unica e exclusivamente para auxilio de monitores, utiliza-los indevidamente pode acarretar
 # em problemas serios.
 # Creditos:
 # Victor Flavio Demarchi Viana
@@ -11,10 +11,10 @@ import os
 from tkinter import Canvas, PhotoImage, messagebox
 import customtkinter
 from PIL import Image, ImageTk
-from autolab import screens, password
+from autolab import screens, password, action
 import ctypes
 
-# Ícone da barra de tarefas da aplicação (Windows)
+# Icone da barra de tarefas da aplicação (Windows)
 myappid = 'mycompany.myproduct.subproduct.version'
 ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 
@@ -41,73 +41,12 @@ cor_continuar_escuro = "#027C23"
 cor_voltar = "#D90404"
 cor_voltar_escuro = "#BC0404"
 
-# Variáveis globais para controle do estado dos botões
+# Variaveis globais para controle do estado dos botoes
 incrementing = False
 decrementing = False
 
 
-# Função para voltar à janela anterior, mostrando que o comando foi executado com sucesso
-def mostrar_comando_executado(janela_anterior, tela_destino):
-    """
-    --> Função que exibe a mensagem de "Comando executado com sucesso!" com um botão de "Continuar"
-    :param janela_anterior: Janela anterior que você deseja fechar
-    :param tela_destino: Função que abre a próxima tela (por exemplo, telaPrincipal, telaReiniciar, etc.)
-    """
-    # Fechando a janela anterior
-    janela_anterior.destroy()
-
-    # Criando a nova janela de sucesso
-    janela_sucesso = customtkinter.CTk()
-
-    janela_sucesso.iconbitmap("./assets/fiap-ico.ico")
-
-    # Pegando a altura e largura da tela
-    alturaTela = janela_sucesso.winfo_screenheight()
-    larguraTela = janela_sucesso.winfo_screenwidth()
-
-    # Definindo tamanho e posição da janela
-    largura, altura = 655, 400
-    eixoX = (larguraTela / 2) - (largura / 2)
-    eixoY = (alturaTela / 2) - (altura / 2)
-    janela_sucesso.geometry(f"{largura}x{altura}+{int(eixoX)}+{int(eixoY)}")
-
-    # Tamanhos (Máximo e Mínimo)
-    janela_sucesso.minsize(655, 400)
-    janela_sucesso.maxsize(655, 400)
-
-    # Canvas1 para disposição dos elementos
-    canvas1 = Canvas(janela_sucesso, width=655, height=400, bd=-100000)
-    canvas1.pack(fill="both", expand=True)
-
-    # Imagem de Fundo
-    imagemFundo = PhotoImage(file="./assets/fundoFiap.png")
-    canvas1.create_image(0, 0, image=imagemFundo, anchor="nw")
-
-    # Título da janela
-    janela_sucesso.title("SUCESSO")
-
-    # Mensagem
-    canvas1.create_text(325, 125, text="Comando Executado", fill="white", font=("Arial", 30, "bold"))
-    canvas1.create_text(325, 167, text="com Sucesso!", fill=cor_fundo, font=("Arial", 30, "bold"))
-
-    # Botão "Continuar"
-    botao_continuar = customtkinter.CTkButton(
-        janela_sucesso,
-        text="Continuar",
-        width=275,
-        height=80,
-        fg_color=cor_fundo,
-        hover_color=cor_fundo_escuro,
-        font=("Arial", 26, "bold"),
-        command=lambda: [janela_sucesso.destroy(), tela_destino()]  # Chama a tela de destino passada como argumento
-    )
-    canvas1.create_window(325, 260, window=botao_continuar)
-
-    # Exibindo a janela de sucesso
-    janela_sucesso.mainloop()
-
-
-# Função genérica para aumentar o valor de qualquer campo
+# Função generica para aumentar o valor de qualquer campo
 def increment_value(entry_widget):
     if incrementing:
         current_value = int(entry_widget.get())
@@ -116,7 +55,7 @@ def increment_value(entry_widget):
         janela.after(100, lambda: increment_value(entry_widget))
 
 
-# Função genérica para diminuir o valor de qualquer campo
+# Função generica para diminuir o valor de qualquer campo
 def decrement_value(entry_widget):
     if decrementing:
         current_value = int(entry_widget.get())
@@ -151,51 +90,6 @@ def start_decrement(event, entry_widget):
 def stop_decrement(event):
     global decrementing
     decrementing = False
-
-
-# Funções para Desligar (Lab, Máquina e Personalizado)
-def desligar():
-    valor_final = entry.get()
-    if valor_final == "" or not valor_final.isdigit() or valor_final == "0":  # Se o campo estiver vazio ou não for um número
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Tempo para Desligar Lab: {valor_final}s")
-
-
-def desligarMaquina():
-    maquina = entry2.get()
-    tempo = entry3.get()
-    if maquina == "" or not maquina.isdigit() or maquina == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Máquina: {maquina}")
-    if tempo == "" or not tempo.isdigit() or tempo == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Tempo para Desligar: {tempo}s")
-
-
-def desligarPersonalizado():
-    inicio = entry4.get()
-    fim = entry5.get()
-    passo = entry6.get()
-    tempo = entry7.get()
-    if inicio == "" or not inicio.isdigit() or inicio == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Início: {inicio}")
-    if fim == "" or not fim.isdigit() or fim == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Fim: {fim}")
-    if passo == "" or not passo.isdigit() or passo == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Passo: {passo}")
-    if tempo == "" or not tempo.isdigit() or tempo == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Tempo para Desligar: {tempo}s")
 
 
 # Funções para Reiniciar (Lab, Máquina e Personalizado)
@@ -678,9 +572,10 @@ def telaDesligar():
     botao_desligar_lab_inteiro = customtkinter.CTkButton(janelaDesligar, text="Desligar", width=170, height=50,
                                                          font=fonte,
                                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                         command=lambda: [desligar(),
-                                                                          mostrar_comando_executado(janelaDesligar,
-                                                                                                    telaDesligar)])
+                                                         command=lambda: [action.executar_acao("Desligar", "Lab", tempo=entry.get()),
+                                                                          screens.mostrar_comando_executado(
+                                                                              janelaDesligar,
+                                                                              telaDesligar)])
     # Desligar Máquina
     canvas1.create_text(323, 140, text="Desligar Máquina", fill="white", font=("Arial", 16, "bold"))
     canvas1.create_text(323, 170, text="N° da Máquina", fill="white", font=("Arial", 14, "bold"))
@@ -688,9 +583,9 @@ def telaDesligar():
 
     botao_desligar_maquina = customtkinter.CTkButton(janelaDesligar, text="Desligar", width=170, height=50, font=fonte,
                                                      fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                     command=lambda: [desligarMaquina(),
-                                                                      mostrar_comando_executado(janelaDesligar,
-                                                                                                telaDesligar)])
+                                                     command=lambda: [action.executar_acao("Desligar", "Maquina", maquina=entry2.get(), tempo=entry3.get()),
+                                                                      screens.mostrar_comando_executado(janelaDesligar,
+                                                                                                        telaDesligar)])
 
     # Desligar Personalizado
     canvas1.create_text(525, 105, text="Personalizado", fill="white", font=("Arial", 16, "bold"))
@@ -701,9 +596,10 @@ def telaDesligar():
     botao_desligar_personalizado = customtkinter.CTkButton(janelaDesligar, text="Desligar", width=170, height=50,
                                                            font=fonte,
                                                            fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                           command=lambda: [desligarPersonalizado(),
-                                                                            mostrar_comando_executado(janelaDesligar,
-                                                                                                      telaDesligar)])
+                                                           command=lambda: [action.executar_acao("Desligar", "Personalizado", inicio=entry4.get(), fim=entry5.get(), passo=entry6.get(), tempo=entry7.get()),
+                                                                            screens.mostrar_comando_executado(
+                                                                                janelaDesligar,
+                                                                                telaDesligar)])
 
     # Posicionando os botões sobre o Canvas
     canvas1.create_window(120, 285, window=botao_desligar_lab_inteiro)
@@ -925,8 +821,9 @@ def telaReiniciar():
                                                           font=fonte,
                                                           fg_color=cor_fundo, hover_color=cor_fundo_escuro,
                                                           command=lambda: [reiniciar(),
-                                                                           mostrar_comando_executado(janelaReiniciar,
-                                                                                                     telaReiniciar)])
+                                                                           screens.mostrar_comando_executado(
+                                                                               janelaReiniciar,
+                                                                               telaReiniciar)])
     # Reiniciar Máquina
     canvas1.create_text(323, 140, text="Reiniciar Máquina", fill="white", font=("Arial", 16, "bold"))
     canvas1.create_text(323, 170, text="N° da Máquina", fill="white", font=("Arial", 14, "bold"))
@@ -936,8 +833,9 @@ def telaReiniciar():
                                                       font=fonte,
                                                       fg_color=cor_fundo, hover_color=cor_fundo_escuro,
                                                       command=lambda: [reiniciarMaquina(),
-                                                                       mostrar_comando_executado(janelaReiniciar,
-                                                                                                 telaReiniciar)])
+                                                                       screens.mostrar_comando_executado(
+                                                                           janelaReiniciar,
+                                                                           telaReiniciar)])
 
     # ReiniciarReiniciar Personalizado
     canvas1.create_text(525, 105, text="Personalizado", fill="white", font=("Arial", 16, "bold"))
@@ -949,8 +847,9 @@ def telaReiniciar():
                                                             font=fonte,
                                                             fg_color=cor_fundo, hover_color=cor_fundo_escuro,
                                                             command=lambda: [reiniciarPersonalizado(),
-                                                                             mostrar_comando_executado(janelaReiniciar,
-                                                                                                       telaReiniciar)])
+                                                                             screens.mostrar_comando_executado(
+                                                                                 janelaReiniciar,
+                                                                                 telaReiniciar)])
 
     # Posicionando os botões sobre o Canvas
     canvas1.create_window(120, 285, window=botao_reiniciar_lab_inteiro)
@@ -1169,22 +1068,22 @@ def telaLimpar():
 
     # Limpar Lab Inteiro
     botao_limpar_lab_inteiro = customtkinter.CTkButton(janelaLimpar, text="Limpar", width=170, height=50,
-                                                          font=fonte,
-                                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                          command=lambda: [limpar(),
-                                                                           mostrar_comando_executado(janelaLimpar,
-                                                                                                     telaLimpar)])
+                                                       font=fonte,
+                                                       fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                       command=lambda: [limpar(),
+                                                                        screens.mostrar_comando_executado(janelaLimpar,
+                                                                                                          telaLimpar)])
     # Limpar Máquina
     canvas1.create_text(323, 140, text="Limpar Máquina", fill="white", font=("Arial", 16, "bold"))
     canvas1.create_text(323, 170, text="N° da Máquina", fill="white", font=("Arial", 14, "bold"))
     canvas1.create_text(323, 235, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
 
     botao_limpar_maquina = customtkinter.CTkButton(janelaLimpar, text="Limpar", width=170, height=50,
-                                                      font=fonte,
-                                                      fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                      command=lambda: [limparMaquina(),
-                                                                       mostrar_comando_executado(janelaLimpar,
-                                                                                                 telaLimpar)])
+                                                   font=fonte,
+                                                   fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                   command=lambda: [limparMaquina(),
+                                                                    screens.mostrar_comando_executado(janelaLimpar,
+                                                                                                      telaLimpar)])
 
     # Limpar Personalizado
     canvas1.create_text(525, 105, text="Personalizado", fill="white", font=("Arial", 16, "bold"))
@@ -1193,11 +1092,12 @@ def telaLimpar():
 
     # Botões
     botao_limpar_personalizado = customtkinter.CTkButton(janelaLimpar, text="Limpar", width=170, height=50,
-                                                            font=fonte,
-                                                            fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                            command=lambda: [limparPersonalizado(),
-                                                                             mostrar_comando_executado(janelaLimpar,
-                                                                                                       telaLimpar)])
+                                                         font=fonte,
+                                                         fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                         command=lambda: [limparPersonalizado(),
+                                                                          screens.mostrar_comando_executado(
+                                                                              janelaLimpar,
+                                                                              telaLimpar)])
 
     # Posicionando os botões sobre o Canvas
     canvas1.create_window(120, 285, window=botao_limpar_lab_inteiro)
@@ -1416,22 +1316,22 @@ def telaPON():
 
     # Limpar Lab Inteiro
     botao_limpar_lab_inteiro = customtkinter.CTkButton(janelaPON, text="Logar", width=170, height=50,
-                                                          font=fonte,
-                                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                          command=lambda: [logarPON(),
-                                                                           mostrar_comando_executado(janelaPON,
-                                                                                                     telaPON)])
+                                                       font=fonte,
+                                                       fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                       command=lambda: [logarPON(),
+                                                                        screens.mostrar_comando_executado(janelaPON,
+                                                                                                          telaPON)])
     # Limpar Máquina
     canvas1.create_text(323, 140, text="Logar Máquina", fill="white", font=("Arial", 16, "bold"))
     canvas1.create_text(323, 170, text="N° da Máquina", fill="white", font=("Arial", 14, "bold"))
     canvas1.create_text(323, 235, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
 
     botao_limpar_maquina = customtkinter.CTkButton(janelaPON, text="Logar", width=170, height=50,
-                                                      font=fonte,
-                                                      fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                      command=lambda: [logarPONMaquina(),
-                                                                       mostrar_comando_executado(janelaPON,
-                                                                                                 telaPON)])
+                                                   font=fonte,
+                                                   fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                   command=lambda: [logarPONMaquina(),
+                                                                    screens.mostrar_comando_executado(janelaPON,
+                                                                                                      telaPON)])
 
     # Limpar Personalizado
     canvas1.create_text(525, 105, text="Personalizado", fill="white", font=("Arial", 16, "bold"))
@@ -1440,11 +1340,11 @@ def telaPON():
 
     # Botões
     botao_limpar_personalizado = customtkinter.CTkButton(janelaPON, text="Logar", width=170, height=50,
-                                                            font=fonte,
-                                                            fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                            command=lambda: [logarPONPersonalizado(),
-                                                                             mostrar_comando_executado(janelaPON,
-                                                                                                       telaPON)])
+                                                         font=fonte,
+                                                         fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                         command=lambda: [logarPONPersonalizado(),
+                                                                          screens.mostrar_comando_executado(janelaPON,
+                                                                                                            telaPON)])
 
     # Posicionando os botões sobre o Canvas
     canvas1.create_window(120, 285, window=botao_limpar_lab_inteiro)
@@ -1663,22 +1563,22 @@ def telaPN():
 
     # Limpar Lab Inteiro
     botao_limpar_lab_inteiro = customtkinter.CTkButton(janelaPN, text="Logar", width=170, height=50,
-                                                          font=fonte,
-                                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                          command=lambda: [logarPN(),
-                                                                           mostrar_comando_executado(janelaPN,
-                                                                                                     telaPN)])
+                                                       font=fonte,
+                                                       fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                       command=lambda: [logarPN(),
+                                                                        screens.mostrar_comando_executado(janelaPN,
+                                                                                                          telaPN)])
     # Limpar Máquina
     canvas1.create_text(323, 140, text="Logar Máquina", fill="white", font=("Arial", 16, "bold"))
     canvas1.create_text(323, 170, text="N° da Máquina", fill="white", font=("Arial", 14, "bold"))
     canvas1.create_text(323, 235, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
 
     botao_limpar_maquina = customtkinter.CTkButton(janelaPN, text="Logar", width=170, height=50,
-                                                      font=fonte,
-                                                      fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                      command=lambda: [logarPNMaquina(),
-                                                                       mostrar_comando_executado(janelaPN,
-                                                                                                 telaPN)])
+                                                   font=fonte,
+                                                   fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                   command=lambda: [logarPNMaquina(),
+                                                                    screens.mostrar_comando_executado(janelaPN,
+                                                                                                      telaPN)])
 
     # Limpar Personalizado
     canvas1.create_text(525, 105, text="Personalizado", fill="white", font=("Arial", 16, "bold"))
@@ -1687,11 +1587,11 @@ def telaPN():
 
     # Botões
     botao_limpar_personalizado = customtkinter.CTkButton(janelaPN, text="Logar", width=170, height=50,
-                                                            font=fonte,
-                                                            fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                            command=lambda: [logarPNPersonalizado(),
-                                                                             mostrar_comando_executado(janelaPN,
-                                                                                                       telaPN)])
+                                                         font=fonte,
+                                                         fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                         command=lambda: [logarPNPersonalizado(),
+                                                                          screens.mostrar_comando_executado(janelaPN,
+                                                                                                            telaPN)])
 
     # Posicionando os botões sobre o Canvas
     canvas1.create_window(120, 285, window=botao_limpar_lab_inteiro)
@@ -1848,7 +1748,9 @@ def tela_login():
 
     # Botão Mostrar/Ocultar Senha com Ícone
     botao_mostrar_senha_usuario = customtkinter.CTkButton(janela_login, image=imagem_olho_fechado, width=0, height=0,
-                                                          command=lambda: password.mostrarSenha(entrada_senha, botao_mostrar_senha_usuario), text="", hover_color=cor_input,
+                                                          command=lambda: password.mostrarSenha(entrada_senha,
+                                                                                                botao_mostrar_senha_usuario),
+                                                          text="", hover_color=cor_input,
                                                           fg_color=cor_input)
     canvas2.create_window(455, 240, window=botao_mostrar_senha_usuario)  # Posição ao lado do campo de senha
 
@@ -1859,7 +1761,9 @@ def tela_login():
     canvas2.create_window(325, 310, window=entrada_senha_cmd)
 
     botao_mostrar_senha_cmd = customtkinter.CTkButton(janela_login, image=imagem_olho_fechado, width=0, height=0,
-                                                      command=lambda: password.mostrarSenha(entrada_senha_cmd, botao_mostrar_senha_cmd), text="", hover_color=cor_input,
+                                                      command=lambda: password.mostrarSenha(entrada_senha_cmd,
+                                                                                            botao_mostrar_senha_cmd),
+                                                      text="", hover_color=cor_input,
                                                       fg_color=cor_input)
     canvas2.create_window(455, 310, window=botao_mostrar_senha_cmd)  # Posição ao lado do campo de senha
 
