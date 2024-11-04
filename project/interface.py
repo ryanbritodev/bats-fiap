@@ -92,186 +92,6 @@ def stop_decrement(event):
     decrementing = False
 
 
-# Funções para Reiniciar (Lab, Máquina e Personalizado)
-def reiniciar():
-    valor_final = entry.get()
-    if valor_final == "" or not valor_final.isdigit() or valor_final == "0":  # Se o campo estiver vazio ou não for um número
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Tempo para Reiniciar Lab: {valor_final}s")
-
-
-def reiniciarMaquina():
-    maquina = entry2.get()
-    tempo = entry3.get()
-    if maquina == "" or not maquina.isdigit() or maquina == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Máquina: {maquina}")
-    if tempo == "" or not tempo.isdigit() or tempo == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Tempo para Reiniciar: {tempo}s")
-
-
-def reiniciarPersonalizado():
-    inicio = entry4.get()
-    fim = entry5.get()
-    passo = entry6.get()
-    tempo = entry7.get()
-    if inicio == "" or not inicio.isdigit() or inicio == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Início: {inicio}")
-    if fim == "" or not fim.isdigit() or fim == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Fim: {fim}")
-    if passo == "" or not passo.isdigit() or passo == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Passo: {passo}")
-    if tempo == "" or not tempo.isdigit() or tempo == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Tempo para Reiniciar: {tempo}s")
-
-
-# Funções para Limpar (Lab, Máquina e Personalizado)
-def limpar():
-    valor_final = entry.get()
-    if valor_final == "" or not valor_final.isdigit() or valor_final == "0":  # Se o campo estiver vazio ou não for um número
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Tempo para Limpar Lab: {valor_final}s")
-
-
-def limparMaquina():
-    maquina = entry2.get()
-    tempo = entry3.get()
-    if maquina == "" or not maquina.isdigit() or maquina == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Máquina: {maquina}")
-    if tempo == "" or not tempo.isdigit() or tempo == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Tempo para Limpar: {tempo}s")
-
-
-def limparPersonalizado():
-    inicio = entry4.get()
-    fim = entry5.get()
-    passo = entry6.get()
-    tempo = entry7.get()
-    if inicio == "" or not inicio.isdigit() or inicio == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Início: {inicio}")
-    if fim == "" or not fim.isdigit() or fim == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Fim: {fim}")
-    if passo == "" or not passo.isdigit() or passo == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Passo: {passo}")
-    if tempo == "" or not tempo.isdigit() or tempo == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Tempo para Limpar: {tempo}s")
-
-
-# Funções para logar PON (Lab, Máquina e Personalizado)
-def logarPON():
-    valor_final = entry.get()
-    if valor_final == "" or not valor_final.isdigit() or valor_final == "0":  # Se o campo estiver vazio ou não for um número
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Tempo para logar PON no Lab: {valor_final}s")
-
-
-def logarPONMaquina():
-    maquina = entry2.get()
-    tempo = entry3.get()
-    if maquina == "" or not maquina.isdigit() or maquina == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Máquina: {maquina}")
-    if tempo == "" or not tempo.isdigit() or tempo == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Tempo para Logar PON: {tempo}s")
-
-
-def logarPONPersonalizado():
-    inicio = entry4.get()
-    fim = entry5.get()
-    passo = entry6.get()
-    tempo = entry7.get()
-    if inicio == "" or not inicio.isdigit() or inicio == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Início: {inicio}")
-    if fim == "" or not fim.isdigit() or fim == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Fim: {fim}")
-    if passo == "" or not passo.isdigit() or passo == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Passo: {passo}")
-    if tempo == "" or not tempo.isdigit() or tempo == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Tempo para Logar PON: {tempo}s")
-
-
-# Funções para logar PN (Lab, Máquina e Personalizado)
-def logarPN():
-    valor_final = entry.get()
-    if valor_final == "" or not valor_final.isdigit() or valor_final == "0":  # Se o campo estiver vazio ou não for um número
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Tempo para logar PN no Lab: {valor_final}s")
-
-
-def logarPNMaquina():
-    maquina = entry2.get()
-    tempo = entry3.get()
-    if maquina == "" or not maquina.isdigit() or maquina == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Máquina: {maquina}")
-    if tempo == "" or not tempo.isdigit() or tempo == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Tempo para Logar PN: {tempo}s")
-
-
-def logarPNPersonalizado():
-    inicio = entry4.get()
-    fim = entry5.get()
-    passo = entry6.get()
-    tempo = entry7.get()
-    if inicio == "" or not inicio.isdigit() or inicio == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Início: {inicio}")
-    if fim == "" or not fim.isdigit() or fim == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Fim: {fim}")
-    if passo == "" or not passo.isdigit() or passo == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Passo: {passo}")
-    if tempo == "" or not tempo.isdigit() or tempo == "0":
-        messagebox.showerror("ERRO", "Por favor, insira um valor numérico válido!")
-    else:
-        print(f"Tempo para Logar PN: {tempo}s")
-
-
 # Função para validar a entrada (apenas números)
 def validate_input(value):
     # Verifica se a entrada é um número ou vazia
@@ -820,7 +640,7 @@ def telaReiniciar():
     botao_reiniciar_lab_inteiro = customtkinter.CTkButton(janelaReiniciar, text="Reiniciar", width=170, height=50,
                                                           font=fonte,
                                                           fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                          command=lambda: [reiniciar(),
+                                                          command=lambda: [action.executar_acao("Reiniciar", "Lab", tempo=entry.get()),
                                                                            screens.mostrar_comando_executado(
                                                                                janelaReiniciar,
                                                                                telaReiniciar)])
@@ -832,7 +652,7 @@ def telaReiniciar():
     botao_reiniciar_maquina = customtkinter.CTkButton(janelaReiniciar, text="Reiniciar", width=170, height=50,
                                                       font=fonte,
                                                       fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                      command=lambda: [reiniciarMaquina(),
+                                                      command=lambda: [action.executar_acao("Reiniciar", "Maquina", maquina=entry2.get(), tempo=entry3.get()),
                                                                        screens.mostrar_comando_executado(
                                                                            janelaReiniciar,
                                                                            telaReiniciar)])
@@ -846,7 +666,7 @@ def telaReiniciar():
     botao_reiniciar_personalizado = customtkinter.CTkButton(janelaReiniciar, text="Reiniciar", width=170, height=50,
                                                             font=fonte,
                                                             fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                            command=lambda: [reiniciarPersonalizado(),
+                                                            command=lambda: [action.executar_acao("Reiniciar", "Personalizado", inicio=entry4.get(), fim=entry5.get(), passo=entry6.get(), tempo=entry7.get()),
                                                                              screens.mostrar_comando_executado(
                                                                                  janelaReiniciar,
                                                                                  telaReiniciar)])
