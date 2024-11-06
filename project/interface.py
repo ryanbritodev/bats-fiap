@@ -21,7 +21,7 @@ ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 # Tema
 customtkinter.set_appearance_mode("dark")
 
-# Fontes e Cores
+# Fontes e Coresf
 fonte = ("Arial", 18, "bold")
 fonteBotao = ("Arial", 16, "bold")
 fonteBotaoP = ("Arial", 14, "bold")
@@ -131,7 +131,7 @@ def telaPrincipal(nome_usuario):
 
     # Texto AUTOLAB
     autoLab = PhotoImage(file="assets/autoLAB.png")
-    canvas1.create_image(324, 111, image=autoLab)
+    canvas1.create_image(324, 126, image=autoLab)
 
     # Mensagem de boas-vindas personalizada
     canvas1.create_text(325, 175, text=f"Bem-vindo, {nome_usuario}!", fill="white", font=("Arial", 20, "bold"))
@@ -200,7 +200,7 @@ def telaDesligar():
     screens.background(canvas1)
 
     # Imagem Shutdown
-    shutdown = PhotoImage(file="assets/autoSHUTDOWN.png")
+    shutdown = ImageTk.PhotoImage(Image.open("./assets/autoSHUTDOWN.png").resize((460, 36)))
     canvas1.create_image(328, 50, image=shutdown)
 
     # Campos dos Inputs
@@ -433,7 +433,7 @@ def telaReiniciar():
     screens.background(canvas1)
 
     # Imagem Shutdown
-    restart = ImageTk.PhotoImage(Image.open("./assets/autoRESTART.png").resize((450, 225)))
+    restart = ImageTk.PhotoImage(Image.open("./assets/autoRESTART.png"))
     canvas1.create_image(328, 50, image=restart)
 
     # Campos dos Inputs
@@ -668,7 +668,7 @@ def telaLimpar():
     screens.background(canvas1)
 
     # Imagem RD
-    remove = ImageTk.PhotoImage(Image.open("./assets/autoRD.png").resize((450, 225)))
+    remove = ImageTk.PhotoImage(Image.open("./assets/autoRD.png"))
     canvas1.create_image(328, 50, image=remove)
 
     # Campos dos Inputs
@@ -903,7 +903,7 @@ def telaPON():
     canvas1.create_image(0, 0, image=fundo, anchor="nw")
 
     # Imagem RD
-    pon = ImageTk.PhotoImage(Image.open("./assets/autoPON.png").resize((450, 225)))
+    pon = ImageTk.PhotoImage(Image.open("./assets/autoPON.png"))
     canvas1.create_image(328, 50, image=pon)
 
     # Campos dos Inputs
@@ -1134,8 +1134,8 @@ def telaPN():
 
     screens.background(canvas1)
 
-    # Imagem RD
-    pon = ImageTk.PhotoImage(Image.open("./assets/autoPON.png").resize((450, 225)))
+    # Imagem PN
+    pon = ImageTk.PhotoImage(Image.open("./assets/autoPN.png"))
     canvas1.create_image(328, 50, image=pon)
 
     # Campos dos Inputs
@@ -1396,8 +1396,10 @@ def tela_confirmacao(nome_usuario, login_usuario, senha_usuario, senha_cmd_usuar
 
     screens.background(canvas_confirmacao, "assets/fundoFiap.png")
 
-    canvas_confirmacao.create_text(276, 115, text="Confirmação de", fill="white", font=("Arial", 22, "bold"))
-    canvas_confirmacao.create_text(438, 115, text="Dados", fill="white", font=("Arial", 22, "bold"))
+    # Texto de Confirmacao
+    confirmar = ImageTk.PhotoImage(Image.open("./assets/confirmacao.png").resize((319, 41)))
+    canvas_confirmacao.create_image(326, 110, image=confirmar)
+
     canvas_confirmacao.create_text(166, 155, text=f"Nome: {nome_usuario}", fill="white", font=("Arial", 18, "bold"),
                                    anchor="w")
     canvas_confirmacao.create_text(166, 187, text=f"Login: {login_usuario}", fill="white", font=("Arial", 18, "bold"),
