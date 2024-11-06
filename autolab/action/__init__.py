@@ -1,7 +1,7 @@
 from tkinter import messagebox
 
 
-def executar_acao(tipo_acao, categoria, tempo="5", maquina="1", inicio="1", fim="40", passo="1"):
+def executar_acao(tipo_acao, categoria, senha="", tempo="5", maquina="1", inicio="1", fim="40", passo="1"):
     """
     --> Funcao generica para realizar acoes dos botoes dos comandos
     :param tipo_acao: Acao que voce deseja realizar (string contendo o nome da acao)
@@ -45,3 +45,7 @@ def executar_acao(tipo_acao, categoria, tempo="5", maquina="1", inicio="1", fim=
         print(f"Fim: {fim}")
         print(f"Passo: {passo}")
         print(f"Tempo para {tipo_acao}: {tempo}s")
+
+    # Caso seja login, printar senha
+    if "Logar Usuário" in tipo_acao:
+        print(f"Senha do Usuário: {senha}")

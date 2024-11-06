@@ -21,8 +21,9 @@ ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 # Tema
 customtkinter.set_appearance_mode("dark")
 
-# Fontes e Coresf
+# Fontes e Cores
 fonte = ("Arial", 18, "bold")
+fontePequena = ("Arial", 12, "bold")
 fonteBotao = ("Arial", 16, "bold")
 fonteBotaoP = ("Arial", 14, "bold")
 cor_fundo = "#ed145b"
@@ -159,7 +160,8 @@ def telaPrincipal(nome_usuario):
     botao_mensagem = customtkinter.CTkButton(janela, text="Mensagem", width=130, height=40, font=fonteBotaoP,
                                              fg_color=cor_fundo, hover_color=cor_fundo_escuro)
     botao_logar = customtkinter.CTkButton(janela, text="Logar Usuário", width=130, height=40, font=fonteBotaoP,
-                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro)
+                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                          command=lambda: [janela.destroy(), telaLogarUsuario()])
     botao_url = customtkinter.CTkButton(janela, text="Abrir URL", width=130, height=40, font=fonteBotaoP,
                                         fg_color=cor_fundo, hover_color=cor_fundo_escuro)
 
@@ -608,7 +610,7 @@ def telaReiniciar():
                                                                            janelaReiniciar,
                                                                            telaReiniciar)])
 
-    # ReiniciarReiniciar Personalizado
+    # Reiniciar Personalizado
     canvas1.create_text(525, 105, text="Personalizado", fill="white", font=("Arial", 16, "bold"))
     canvas1.create_text(525, 133, text="Início, Fim e Passo", fill="white", font=("Arial", 14, "bold"))
     canvas1.create_text(525, 267, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
@@ -645,6 +647,275 @@ def telaReiniciar():
 
     # Loop da Janela principal
     janelaReiniciar.mainloop()
+
+
+def telaLogarUsuario():
+    """
+    --> Funcao que exibe a tela coms os parâmetros para o bat de logon, com um usuario e uma senha personalizada
+    """
+    # Janela principal
+    janelaLogarUsuario = customtkinter.CTk()
+
+    janelaLogarUsuario.iconbitmap("./assets/fiap-ico.ico")
+
+    screens.centralizar(janelaLogarUsuario)
+
+    # Título
+    janelaLogarUsuario.title("AUTOLOGIN")
+
+    # Canvas1 para disposição dos elementos
+    canvas1 = Canvas(janelaLogarUsuario, width=655, height=400, bd=-1000)
+    canvas1.pack(fill="both", expand=True)
+
+    # Imagem de fundo e do ícone de olho
+    imagem_olho_fechado = ImageTk.PhotoImage(Image.open("./assets/olhoFechado.png").resize((20, 20)))
+    screens.background(canvas1)
+
+    # Imagem AutoLOGIN
+    login = ImageTk.PhotoImage(Image.open("./assets/autoLOGIN.png"))
+    canvas1.create_image(328, 50, image=login)
+
+    # Botao para Voltar a janela principal
+    botao_voltar = customtkinter.CTkButton(
+        janelaLogarUsuario,
+        text="⬅",
+        width=40,
+        height=40,
+        border_width=-1000,
+        font=fonteBotaoP,
+        fg_color=cor_fundo,
+        hover_color=cor_fundo_escuro,
+        command=lambda: [janelaLogarUsuario.destroy(), telaPrincipal(nome_usuario)]
+        # Fecha a tela atual e volta à principal
+    )
+
+    # Campos de Entrada para o Login Personalizado
+    # Login
+    canvas1.create_text(197, 94, text="Login:", fill="white", font=("Arial", 10, "bold"))
+    entrada_login = customtkinter.CTkEntry(janelaLogarUsuario, placeholder_text="Insira o usuário...", width=300,
+                                           fg_color="transparent")
+    canvas1.create_window(325, 120, window=entrada_login)
+    # Senha
+    canvas1.create_text(197, 150, text="Senha:", fill="white", font=("Arial", 10, "bold"))
+    entrada_senha = customtkinter.CTkEntry(janelaLogarUsuario, placeholder_text="Insira a senha...", show="*", width=300,
+                                           fg_color="transparent", height=35)
+    canvas1.create_window(325, 178, window=entrada_senha)
+
+    # Posicionando o botão de Voltar na tela
+    canvas1.create_window(50, 48, window=botao_voltar)
+
+    # Botão Mostrar/Ocultar Senha com Ícone
+    botao_mostrar_senha_usuario = customtkinter.CTkButton(janelaLogarUsuario, image=imagem_olho_fechado, width=0, height=0,
+                                                          command=lambda: password.mostrarSenha(entrada_senha,
+                                                                                                botao_mostrar_senha_usuario),
+                                                          text="", hover_color=cor_input,
+                                                          fg_color=cor_input)
+    canvas1.create_window(455, 178, window=botao_mostrar_senha_usuario)  # Posição ao lado do campo de senha
+
+    # Campos dos Inputs
+    global entry, entry2, entry3, entry4, entry5, entry6, entry7
+    vcmd = (janelaLogarUsuario.register(validate_input), "%P")  # "%P" passa o valor atual para a função de validação
+    entry = customtkinter.CTkEntry(janelaLogarUsuario, width=75, justify="center", fg_color=cor_fundo_input_numerico,
+                                   font=fontePequena,
+                                   validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry.insert(0, "5")  # Valor inicial
+    entry2 = customtkinter.CTkEntry(janelaLogarUsuario, width=75, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fontePequena,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry2.insert(0, "1")  # Valor inicial
+    entry3 = customtkinter.CTkEntry(janelaLogarUsuario, width=75, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fontePequena,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry3.insert(0, "5")  # Valor inicial
+    entry4 = customtkinter.CTkEntry(janelaLogarUsuario, width=75, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fontePequena,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry4.insert(0, "1")  # Valor inicial
+    entry5 = customtkinter.CTkEntry(janelaLogarUsuario, width=75, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fontePequena,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry5.insert(0, "40")  # Valor inicial
+    entry6 = customtkinter.CTkEntry(janelaLogarUsuario, width=75, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fontePequena,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry6.insert(0, "1")  # Valor inicial
+    entry7 = customtkinter.CTkEntry(janelaLogarUsuario, width=75, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fontePequena,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry7.insert(0, "5")  # Valor inicial
+
+    # Inputs numéricos
+    canvas1.create_window(120, 300, window=entry)
+    canvas1.create_window(323, 315, window=entry2)
+    canvas1.create_window(323, 268, window=entry3)
+    canvas1.create_window(525, 165, window=entry4)
+    canvas1.create_window(525, 200, window=entry5)
+    canvas1.create_window(525, 235, window=entry6)
+    canvas1.create_window(525, 300, window=entry7)
+
+    # Botões de aumentar e diminuir o valor (Lab)
+    increase_button = customtkinter.CTkButton(janelaLogarUsuario, text="▲", width=18, height=28, fg_color=cor_fundo,
+                                              hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                              border_width=-100)
+    canvas1.create_window(168, 300, window=increase_button)
+    increase_button.bind("<ButtonPress-1>", lambda event: start_increment(event, entry))
+    increase_button.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button = customtkinter.CTkButton(janelaLogarUsuario, text="▼", width=18, height=28, fg_color=cor_fundo,
+                                              hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                              border_width=-100)
+    canvas1.create_window(72, 300, window=decrease_button)
+    decrease_button.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry))
+    decrease_button.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Botões de aumentar e diminuir o valor (Máquina)
+    increase_button_machine = customtkinter.CTkButton(janelaLogarUsuario, text="▲", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(388, 200, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry2))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaLogarUsuario, text="▼", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(258, 200, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry2))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Botões de aumentar e diminuir o valor do tempo (Personalizado)
+    increase_button_machine = customtkinter.CTkButton(janelaLogarUsuario, text="▲", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(370, 315, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry3))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaLogarUsuario, text="▼", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(276, 315, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry3))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Botões de Logar Personalizado
+    # Início
+    increase_button_machine = customtkinter.CTkButton(janelaLogarUsuario, text="▲", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(590, 165, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry4))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaLogarUsuario, text="▼", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(460, 165, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry4))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Fim
+    increase_button_machine = customtkinter.CTkButton(janelaLogarUsuario, text="▲", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(590, 200, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry5))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaLogarUsuario, text="▼", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(460, 200, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry5))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Passo
+    increase_button_machine = customtkinter.CTkButton(janelaLogarUsuario, text="▲", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(590, 235, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry6))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaLogarUsuario, text="▼", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(460, 235, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry6))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Tempo
+    increase_button_machine = customtkinter.CTkButton(janelaLogarUsuario, text="▲", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(590, 300, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry7))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaLogarUsuario, text="▼", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(460, 300, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry7))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Logar Lab
+    canvas1.create_text(120, 247, text="Logar Lab", fill="white", font=("Arial", 12, "bold"))
+    canvas1.create_text(120, 270, text="Tempo (Segundos)", fill="white", font=("Arial", 10, "bold"))
+
+    # Logar Lab Inteiro
+    botao_logar_lab_inteiro = customtkinter.CTkButton(janelaLogarUsuario, text="Logar", width=120, height=30,
+                                                          font=fontePequena, bg_color="transparent",
+                                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                          command=lambda: [action.executar_acao(f'Logar Usuário "{entrada_login.get()}"', "Lab",
+                                                                                                tempo=entry.get(),
+                                                                                                senha=entrada_senha.get()),
+                                                                           screens.mostrar_comando_executado(
+                                                                               janelaLogarUsuario,
+                                                                               telaLogarUsuario)])
+    # Logar Máquina
+    canvas1.create_text(323, 140, text="Logar Máquina", fill="white", font=("Arial", 12, "bold"))
+    canvas1.create_text(323, 170, text="N° da Máquina", fill="white", font=("Arial", 10, "bold"))
+    canvas1.create_text(323, 235, text="Tempo (Segundos)", fill="white", font=("Arial", 10, "bold"))
+
+    botao_logar_maquina = customtkinter.CTkButton(janelaLogarUsuario, text="Logar", width=120, height=30,
+                                                      font=fontePequena, bg_color="transparent",
+                                                      fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                      command=lambda: [action.executar_acao(f'Logar Usuário "{entrada_login.get()}"', "Maquina",
+                                                                                            maquina=entry2.get(),
+                                                                                            tempo=entry3.get(),
+                                                                                            senha=entrada_senha.get()),
+                                                                       screens.mostrar_comando_executado(
+                                                                           janelaLogarUsuario,
+                                                                           telaLogarUsuario)])
+
+    # Logar Personalizado
+    canvas1.create_text(525, 105, text="Personalizado", fill="white", font=("Arial", 12, "bold"))
+    canvas1.create_text(525, 133, text="Início, Fim e Passo", fill="white", font=("Arial", 10, "bold"))
+    canvas1.create_text(525, 267, text="Tempo (Segundos)", fill="white", font=("Arial", 10, "bold"))
+
+    # Botões
+    botao_logar_personalizado = customtkinter.CTkButton(janelaLogarUsuario, text="Logar", width=120, height=30,
+                                                            font=fontePequena, bg_color="transparent",
+                                                            fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                            command=lambda: [
+                                                                action.executar_acao(f'Logar Usuário "{entrada_login.get()}"', "Personalizado",
+                                                                                     inicio=entry4.get(),
+                                                                                     fim=entry5.get(),
+                                                                                     passo=entry6.get(),
+                                                                                     tempo=entry7.get(),
+                                                                                     senha=entrada_senha.get()),
+                                                                screens.mostrar_comando_executado(
+                                                                    janelaLogarUsuario,
+                                                                    telaLogarUsuario)])
+
+    # Posicionando os botões sobre o Canvas
+    canvas1.create_window(120, 340, window=botao_logar_lab_inteiro)
+    canvas1.create_window(323, 355, window=botao_logar_maquina)
+    canvas1.create_window(525, 350, window=botao_logar_personalizado)
+
+    # Loop
+    janelaLogarUsuario.mainloop()
 
 
 def telaLimpar():
@@ -826,7 +1097,7 @@ def telaLimpar():
     botao_limpar_lab_inteiro = customtkinter.CTkButton(janelaLimpar, text="Limpar", width=170, height=50,
                                                        font=fonte,
                                                        fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                       command=lambda: [action.executar_acao("Reiniciar", "Lab", tempo=entry.get()),
+                                                       command=lambda: [action.executar_acao("Limpar", "Lab", tempo=entry.get()),
                                                                         screens.mostrar_comando_executado(janelaLimpar,
                                                                                                           telaLimpar)])
     # Limpar Máquina
@@ -837,7 +1108,7 @@ def telaLimpar():
     botao_limpar_maquina = customtkinter.CTkButton(janelaLimpar, text="Limpar", width=170, height=50,
                                                    font=fonte,
                                                    fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                   command=lambda: [action.executar_acao("Reiniciar", "Maquina", maquina=entry2.get(), tempo=entry3.get()),
+                                                   command=lambda: [action.executar_acao("Limpar", "Maquina", maquina=entry2.get(), tempo=entry3.get()),
                                                                     screens.mostrar_comando_executado(janelaLimpar,
                                                                                                       telaLimpar)])
 
@@ -850,7 +1121,7 @@ def telaLimpar():
     botao_limpar_personalizado = customtkinter.CTkButton(janelaLimpar, text="Limpar", width=170, height=50,
                                                          font=fonte,
                                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                         command=lambda: [action.executar_acao("Reiniciar", "Personalizado", inicio=entry4.get(), fim=entry5.get(), passo=entry6.get(), tempo=entry7.get()),
+                                                         command=lambda: [action.executar_acao("Limpar", "Personalizado", inicio=entry4.get(), fim=entry5.get(), passo=entry6.get(), tempo=entry7.get()),
                                                                           screens.mostrar_comando_executado(
                                                                               janelaLimpar,
                                                                               telaLimpar)])
@@ -1459,19 +1730,19 @@ def tela_login():
     canvas2.create_text(412, 38, text="Monitor!", fill=cor_fundo, font=("Arial", 23, "bold"))
 
     # Nome do Monitor
-    canvas2.create_text(202, 72, text="Nome", fill="white", font=("Arial", 14, "bold"))
+    canvas2.create_text(206, 72, text="Nome:", fill="white", font=("Arial", 14, "bold"))
     entrada_nome = customtkinter.CTkEntry(janela_login, placeholder_text="Insira seu nome...", width=300,
                                           fg_color="transparent")
     canvas2.create_window(325, 103, window=entrada_nome)
 
     # Login do Monitor
-    canvas2.create_text(293, 137, text="Login de Usuário (Runas)", fill="white", font=("Arial", 14, "bold"))
+    canvas2.create_text(297, 137, text="Login de Usuário (Runas):", fill="white", font=("Arial", 14, "bold"))
     entrada_login = customtkinter.CTkEntry(janela_login, placeholder_text="Insira o seu usuário...", width=300,
                                            fg_color="transparent")
     canvas2.create_window(325, 170, window=entrada_login)
 
     # Senha do Monitor
-    canvas2.create_text(296, 207, text="Senha do Monitor (Runas)", fill="white", font=("Arial", 14, "bold"))
+    canvas2.create_text(300, 207, text="Senha do Monitor (Runas):", fill="white", font=("Arial", 14, "bold"))
     entrada_senha = customtkinter.CTkEntry(janela_login, placeholder_text="Insira sua senha...", show="*", width=300,
                                            fg_color="transparent", height=35)
     canvas2.create_window(325, 240, window=entrada_senha)
