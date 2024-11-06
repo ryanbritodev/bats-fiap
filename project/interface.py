@@ -21,10 +21,6 @@ ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
 # Tema
 customtkinter.set_appearance_mode("dark")
 
-# Altura e Largura da Janela
-altura = 400
-largura = 655
-
 # Fontes e Cores
 fonte = ("Arial", 18, "bold")
 fonteBotao = ("Arial", 16, "bold")
@@ -118,20 +114,7 @@ def telaPrincipal(nome_usuario):
 
     janela.iconbitmap("./assets/fiap-ico.ico")
 
-    # Pegando a altura e largura da tela
-    alturaTela = janela.winfo_screenheight()
-    larguraTela = janela.winfo_screenwidth()
-
-    # Calculando o eixo X e Y pra centralizar a janela
-    eixoX = (larguraTela / 2) - (largura / 2)
-    eixoY = (alturaTela / 2) - (altura / 2)
-
-    # Definindo o tamanho e a posição da janela
-    janela.geometry("{}x{}+{}+{}".format(largura, altura, int(eixoX), int(eixoY)))
-
-    # Tamanhos (Máximo e Mínimo)
-    janela.minsize(655, 400)
-    janela.maxsize(655, 400)
+    screens.centralizar(janela)
 
     # Título
     janela.title("FIAP AUTOLAB")
@@ -140,9 +123,7 @@ def telaPrincipal(nome_usuario):
     canvas1 = Canvas(janela, width=655, height=400, bd=-100000)
     canvas1.pack(fill="both", expand=True)
 
-    # Imagem de Fundo
-    imagemFundo = PhotoImage(file="./assets/fundoFiap.png")
-    canvas1.create_image(0, 0, image=imagemFundo, anchor="nw")
+    screens.background(canvas1)
 
     # Logo da FIAP
     logoFiap = PhotoImage(file="./assets/fiapLogo.png")
@@ -207,20 +188,7 @@ def telaDesligar():
 
     janelaDesligar.iconbitmap("./assets/fiap-ico.ico")
 
-    # Pegando a altura e largura da tela
-    alturaTela = janelaDesligar.winfo_screenheight()
-    larguraTela = janelaDesligar.winfo_screenwidth()
-
-    # Calculando o eixo X e Y pra centralizar a janela
-    eixoX = (larguraTela / 2) - (largura / 2)
-    eixoY = (alturaTela / 2) - (altura / 2)
-
-    # Definindo o tamanho e a posição da janela
-    janelaDesligar.geometry("{}x{}+{}+{}".format(largura, altura, int(eixoX), int(eixoY)))
-
-    # Tamanhos (Máximo e Mínimo)
-    janelaDesligar.minsize(655, 400)
-    janelaDesligar.maxsize(655, 400)
+    screens.centralizar(janelaDesligar)
 
     # Título
     janelaDesligar.title("AUTOSHUTDOWN")
@@ -229,9 +197,7 @@ def telaDesligar():
     canvas1 = Canvas(janelaDesligar, width=655, height=400, bd=-1000)
     canvas1.pack(fill="both", expand=True)
 
-    # Imagem de Fundo
-    fundo = PhotoImage(file="./assets/fundoFiap.png")
-    canvas1.create_image(0, 0, image=fundo, anchor="nw")
+    screens.background(canvas1)
 
     # Imagem Shutdown
     shutdown = PhotoImage(file="assets/autoSHUTDOWN.png")
@@ -455,20 +421,7 @@ def telaReiniciar():
 
     janelaReiniciar.iconbitmap("./assets/fiap-ico.ico")
 
-    # Pegando a altura e largura da tela
-    alturaTela = janelaReiniciar.winfo_screenheight()
-    larguraTela = janelaReiniciar.winfo_screenwidth()
-
-    # Calculando o eixo X e Y pra centralizar a janela
-    eixoX = (larguraTela / 2) - (largura / 2)
-    eixoY = (alturaTela / 2) - (altura / 2)
-
-    # Definindo o tamanho e a posição da janela
-    janelaReiniciar.geometry("{}x{}+{}+{}".format(largura, altura, int(eixoX), int(eixoY)))
-
-    # Tamanhos (Máximo e Mínimo)
-    janelaReiniciar.minsize(655, 400)
-    janelaReiniciar.maxsize(655, 400)
+    screens.centralizar(janelaReiniciar)
 
     # Título
     janelaReiniciar.title("AUTORESTART")
@@ -477,9 +430,7 @@ def telaReiniciar():
     canvas1 = Canvas(janelaReiniciar, width=655, height=400, bd=-1000)
     canvas1.pack(fill="both", expand=True)
 
-    # Imagem de Fundo
-    fundo = PhotoImage(file="./assets/fundoFiap.png")
-    canvas1.create_image(0, 0, image=fundo, anchor="nw")
+    screens.background(canvas1)
 
     # Imagem Shutdown
     restart = ImageTk.PhotoImage(Image.open("./assets/autoRESTART.png").resize((450, 225)))
@@ -705,20 +656,7 @@ def telaLimpar():
 
     janelaLimpar.iconbitmap("./assets/fiap-ico.ico")
 
-    # Pegando a altura e largura da tela
-    alturaTela = janelaLimpar.winfo_screenheight()
-    larguraTela = janelaLimpar.winfo_screenwidth()
-
-    # Calculando o eixo X e Y pra centralizar a janela
-    eixoX = (larguraTela / 2) - (largura / 2)
-    eixoY = (alturaTela / 2) - (altura / 2)
-
-    # Definindo o tamanho e a posição da janela
-    janelaLimpar.geometry("{}x{}+{}+{}".format(largura, altura, int(eixoX), int(eixoY)))
-
-    # Tamanhos (Máximo e Mínimo)
-    janelaLimpar.minsize(655, 400)
-    janelaLimpar.maxsize(655, 400)
+    screens.centralizar(janelaLimpar)
 
     # Título
     janelaLimpar.title("AUTORD")
@@ -727,9 +665,7 @@ def telaLimpar():
     canvas1 = Canvas(janelaLimpar, width=655, height=400, bd=-1000)
     canvas1.pack(fill="both", expand=True)
 
-    # Imagem de Fundo
-    fundo = PhotoImage(file="./assets/fundoFiap.png")
-    canvas1.create_image(0, 0, image=fundo, anchor="nw")
+    screens.background(canvas1)
 
     # Imagem RD
     remove = ImageTk.PhotoImage(Image.open("./assets/autoRD.png").resize((450, 225)))
@@ -890,7 +826,7 @@ def telaLimpar():
     botao_limpar_lab_inteiro = customtkinter.CTkButton(janelaLimpar, text="Limpar", width=170, height=50,
                                                        font=fonte,
                                                        fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                       command=lambda: [limpar(),
+                                                       command=lambda: [action.executar_acao("Reiniciar", "Lab", tempo=entry.get()),
                                                                         screens.mostrar_comando_executado(janelaLimpar,
                                                                                                           telaLimpar)])
     # Limpar Máquina
@@ -901,7 +837,7 @@ def telaLimpar():
     botao_limpar_maquina = customtkinter.CTkButton(janelaLimpar, text="Limpar", width=170, height=50,
                                                    font=fonte,
                                                    fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                   command=lambda: [limparMaquina(),
+                                                   command=lambda: [action.executar_acao("Reiniciar", "Maquina", maquina=entry2.get(), tempo=entry3.get()),
                                                                     screens.mostrar_comando_executado(janelaLimpar,
                                                                                                       telaLimpar)])
 
@@ -914,7 +850,7 @@ def telaLimpar():
     botao_limpar_personalizado = customtkinter.CTkButton(janelaLimpar, text="Limpar", width=170, height=50,
                                                          font=fonte,
                                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                         command=lambda: [limparPersonalizado(),
+                                                         command=lambda: [action.executar_acao("Reiniciar", "Personalizado", inicio=entry4.get(), fim=entry5.get(), passo=entry6.get(), tempo=entry7.get()),
                                                                           screens.mostrar_comando_executado(
                                                                               janelaLimpar,
                                                                               telaLimpar)])
@@ -953,20 +889,7 @@ def telaPON():
 
     janelaPON.iconbitmap("./assets/fiap-ico.ico")
 
-    # Pegando a altura e largura da tela
-    alturaTela = janelaPON.winfo_screenheight()
-    larguraTela = janelaPON.winfo_screenwidth()
-
-    # Calculando o eixo X e Y pra centralizar a janela
-    eixoX = (larguraTela / 2) - (largura / 2)
-    eixoY = (alturaTela / 2) - (altura / 2)
-
-    # Definindo o tamanho e a posição da janela
-    janelaPON.geometry("{}x{}+{}+{}".format(largura, altura, int(eixoX), int(eixoY)))
-
-    # Tamanhos (Máximo e Mínimo)
-    janelaPON.minsize(655, 400)
-    janelaPON.maxsize(655, 400)
+    screens.centralizar(janelaPON)
 
     # Título
     janelaPON.title("AUTOPON")
@@ -1069,7 +992,7 @@ def telaPON():
     decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry3))
     decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
 
-    # Botões de Limpar Personalizado
+    # Botões de Logar Personalizado
     # Início
     increase_button_machine = customtkinter.CTkButton(janelaPON, text="▲", width=37, fg_color=cor_fundo,
                                                       hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
@@ -1130,18 +1053,18 @@ def telaPON():
     decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry7))
     decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
 
-    # Limpar Lab
+    # Logar Lab
     canvas1.create_text(120, 170, text="Logar Lab", fill="white", font=("Arial", 16, "bold"))
     canvas1.create_text(120, 200, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
 
-    # Limpar Lab Inteiro
+    # Logar Lab Inteiro
     botao_limpar_lab_inteiro = customtkinter.CTkButton(janelaPON, text="Logar", width=170, height=50,
                                                        font=fonte,
                                                        fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                       command=lambda: [logarPON(),
+                                                       command=lambda: [action.executar_acao("Logar PON", "Lab", tempo=entry.get()),
                                                                         screens.mostrar_comando_executado(janelaPON,
                                                                                                           telaPON)])
-    # Limpar Máquina
+    # Logar Máquina
     canvas1.create_text(323, 140, text="Logar Máquina", fill="white", font=("Arial", 16, "bold"))
     canvas1.create_text(323, 170, text="N° da Máquina", fill="white", font=("Arial", 14, "bold"))
     canvas1.create_text(323, 235, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
@@ -1149,11 +1072,11 @@ def telaPON():
     botao_limpar_maquina = customtkinter.CTkButton(janelaPON, text="Logar", width=170, height=50,
                                                    font=fonte,
                                                    fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                   command=lambda: [logarPONMaquina(),
+                                                   command=lambda: [action.executar_acao("Logar PON", "Maquina", maquina=entry2.get(), tempo=entry3.get()),
                                                                     screens.mostrar_comando_executado(janelaPON,
                                                                                                       telaPON)])
 
-    # Limpar Personalizado
+    # Logar Personalizado
     canvas1.create_text(525, 105, text="Personalizado", fill="white", font=("Arial", 16, "bold"))
     canvas1.create_text(525, 133, text="Início, Fim e Passo", fill="white", font=("Arial", 14, "bold"))
     canvas1.create_text(525, 267, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
@@ -1162,7 +1085,7 @@ def telaPON():
     botao_limpar_personalizado = customtkinter.CTkButton(janelaPON, text="Logar", width=170, height=50,
                                                          font=fonte,
                                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                         command=lambda: [logarPONPersonalizado(),
+                                                         command=lambda: [action.executar_acao("Logar PON", "Personalizado", inicio=entry4.get(), fim=entry5.get(), passo=entry6.get(), tempo=entry7.get()),
                                                                           screens.mostrar_comando_executado(janelaPON,
                                                                                                             telaPON)])
 
@@ -1200,20 +1123,7 @@ def telaPN():
 
     janelaPN.iconbitmap("./assets/fiap-ico.ico")
 
-    # Pegando a altura e largura da tela
-    alturaTela = janelaPN.winfo_screenheight()
-    larguraTela = janelaPN.winfo_screenwidth()
-
-    # Calculando o eixo X e Y pra centralizar a janela
-    eixoX = (larguraTela / 2) - (largura / 2)
-    eixoY = (alturaTela / 2) - (altura / 2)
-
-    # Definindo o tamanho e a posição da janela
-    janelaPN.geometry("{}x{}+{}+{}".format(largura, altura, int(eixoX), int(eixoY)))
-
-    # Tamanhos (Máximo e Mínimo)
-    janelaPN.minsize(655, 400)
-    janelaPN.maxsize(655, 400)
+    screens.centralizar(janelaPN)
 
     # Título
     janelaPN.title("AUTOPN")
@@ -1222,9 +1132,7 @@ def telaPN():
     canvas1 = Canvas(janelaPN, width=655, height=400, bd=-1000)
     canvas1.pack(fill="both", expand=True)
 
-    # Imagem de Fundo
-    fundo = PhotoImage(file="./assets/fundoFiap.png")
-    canvas1.create_image(0, 0, image=fundo, anchor="nw")
+    screens.background(canvas1)
 
     # Imagem RD
     pon = ImageTk.PhotoImage(Image.open("./assets/autoPON.png").resize((450, 225)))
@@ -1377,18 +1285,18 @@ def telaPN():
     decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry7))
     decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
 
-    # Limpar Lab
+    # Logar Lab
     canvas1.create_text(120, 170, text="Logar Lab", fill="white", font=("Arial", 16, "bold"))
     canvas1.create_text(120, 200, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
 
-    # Limpar Lab Inteiro
+    # Logar Lab Inteiro
     botao_limpar_lab_inteiro = customtkinter.CTkButton(janelaPN, text="Logar", width=170, height=50,
                                                        font=fonte,
                                                        fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                       command=lambda: [logarPN(),
+                                                       command=lambda: [action.executar_acao("Logar PN", "Lab", tempo=entry.get()),
                                                                         screens.mostrar_comando_executado(janelaPN,
                                                                                                           telaPN)])
-    # Limpar Máquina
+    # Logar Máquina
     canvas1.create_text(323, 140, text="Logar Máquina", fill="white", font=("Arial", 16, "bold"))
     canvas1.create_text(323, 170, text="N° da Máquina", fill="white", font=("Arial", 14, "bold"))
     canvas1.create_text(323, 235, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
@@ -1396,7 +1304,7 @@ def telaPN():
     botao_limpar_maquina = customtkinter.CTkButton(janelaPN, text="Logar", width=170, height=50,
                                                    font=fonte,
                                                    fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                   command=lambda: [logarPNMaquina(),
+                                                   command=lambda: [action.executar_acao("Logar PN", "Maquina", maquina=entry2.get(), tempo=entry3.get()),
                                                                     screens.mostrar_comando_executado(janelaPN,
                                                                                                       telaPN)])
 
@@ -1409,7 +1317,7 @@ def telaPN():
     botao_limpar_personalizado = customtkinter.CTkButton(janelaPN, text="Logar", width=170, height=50,
                                                          font=fonte,
                                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                         command=lambda: [logarPNPersonalizado(),
+                                                         command=lambda: [action.executar_acao("Logar PN", "Personalizado", inicio=entry4.get(), fim=entry5.get(), passo=entry6.get(), tempo=entry7.get()),
                                                                           screens.mostrar_comando_executado(janelaPN,
                                                                                                             telaPN)])
 
