@@ -1,4 +1,5 @@
 from PIL import ImageTk, Image
+from tkinter import messagebox
 
 
 def mostrarSenha(entradaSenha, botaoMostrarSenha):
@@ -17,3 +18,15 @@ def mostrarSenha(entradaSenha, botaoMostrarSenha):
     else:
         entradaSenha.configure(show='*')  # Oculta a senha
         botaoMostrarSenha.configure(image=imagem_olho_fechado)  # Altera o icone para uma imagem de um olho fechado
+
+
+def verificar_campos_vazios(login, senha):
+    """
+    --> Funcao que verifica se os campos de login e senha estao preenchidos.
+    :param login: Login personalizado do usuario
+    :param senha: Senha personalizada do usuario
+    """
+    if not login.strip() or not senha.strip():  # Verifica se os campos estão vazios ou com espaços em branco
+        messagebox.showwarning("CAMPOS VAZIOS", "Atenção! Todos os campos devem ser preenchidos.")
+        return False
+    return True

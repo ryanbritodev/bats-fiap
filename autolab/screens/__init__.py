@@ -18,8 +18,8 @@ def centralizar(janela, altura=400, largura=655):
 
     # Definindo o tamanho e a posição da janela
     janela.geometry(f"{largura}x{altura}+{int(eixoX)}+{int(eixoY)}")
-    janela.minsize(655, 400)
-    janela.maxsize(655, 400)
+    janela.minsize(largura, altura)
+    janela.maxsize(largura, altura)
 
 
 def background(canvas, caminhoImagem="assets/fundoFiap.png", ancoragem="nw"):
