@@ -2,14 +2,11 @@ from tkinter import PhotoImage
 from customtkinter import CTk, CTkCanvas, CTkButton
 
 
-def centralizar(janela):
+def centralizar(janela, altura=400, largura=655):
     """
     --> Funcao para centralizar qualquer janela, baseado na altura e na largura da tela.
     :param: Janela que você deseja centralizar
     """
-    # Altura e Largura da Janela
-    altura = 400
-    largura = 655
 
     # Centralizar janela
     alturaTela = janela.winfo_screenheight()
