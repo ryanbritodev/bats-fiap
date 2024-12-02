@@ -1,3 +1,4 @@
+import os
 from tkinter import PhotoImage
 from customtkinter import CTk, CTkCanvas, CTkButton
 
@@ -22,7 +23,7 @@ def centralizar(janela, altura=400, largura=655):
     janela.maxsize(largura, altura)
 
 
-def background(canvas, caminhoImagem="assets/fundoFiap.png", ancoragem="nw"):
+def background(canvas, caminhoImagem=os.getcwd()[0:2] + "\\bats-fiap-main\\project\\assets\\fundoFiap.png", ancoragem="nw"):
     """
     --> Funcao para definir o plano de fundo da janela atual.
     :param canvas: Canvas para disposicao da imagem de fundo
@@ -48,7 +49,7 @@ def mostrar_comando_executado(janela_anterior, tela_destino, cor_botao="#ed145b"
     # Criando a nova janela de sucesso
     janela_sucesso = CTk()
 
-    janela_sucesso.iconbitmap("./assets/fiap-ico.ico")
+    janela_sucesso.iconbitmap(os.getcwd()[0:2] + "\\bats-fiap-main\\project\\assets\\fiap-ico.ico")
 
     centralizar(janela_sucesso)
 
@@ -57,7 +58,7 @@ def mostrar_comando_executado(janela_anterior, tela_destino, cor_botao="#ed145b"
     canvas1.pack(fill="both", expand=True)
 
     # Imagem de Fundo
-    background(canvas1, "./assets/fundoFiap.png")
+    background(canvas1, os.getcwd()[0:2] + "\\bats-fiap-main\\project\\assets\\fundoFiap.png")
 
     # Título da janela
     janela_sucesso.title("SUCESSO")
