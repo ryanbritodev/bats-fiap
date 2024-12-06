@@ -15,14 +15,21 @@ import socket
 import threading
 import time
 from tkinter import Canvas, PhotoImage, messagebox
+from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+from cryptography.hazmat.backends import default_backend
+from cryptography.hazmat.primitives import padding
+import hashlib
 import customtkinter
 from PIL import Image, ImageTk
 import ctypes
 
-sys.path.append('bats-fiap-main')
+# Caminho do projeto
+path = __file__.split("\\")
+main = path[0] + f"\\{path[1]}\\"
 
-# Pasta do projeto
-main = os.getcwd()[0:2] + "\\bats-fiap-main\\"
+sys.path.append(path[1])
+
+# Subpastas do projeto
 autolab = main + "autolab\\"
 project = main + "project\\"
 scripts = main + "scripts\\"
@@ -68,9 +75,8 @@ decrementing = False
 
 def recadastrar():
     # Detecta se o caminho da credencial existe, se sim o apaga
-    if os.path.exists(os.getcwd()[0:2] + "\\bats-fiap-main\\scripts\\Credentials"):
-        time.sleep(0.1)
-        os.system('start cmd /c rd /s /q \"' + os.getcwd()[0:2] + '\\bats-fiap-main\\scripts\\Credentials\"')
+    if os.path.exists(scripts + "credentials.bin"):
+        os.remove(scripts + "credentials.bin")
 
 
 # Checagens
@@ -112,6 +118,7 @@ def pegar_chave_bitlocker():
     resultado = subprocess.run("manage-bde -protectors -get " + os.getcwd()[0:2], capture_output=True, text=True,
                                shell=True)
 
+    # Checa se a operação acima não deu erro e coleta a chave ID
     if resultado.returncode == 0:
         for linha in resultado.stdout.splitlines():
             if "ID" in linha:
@@ -123,68 +130,85 @@ def pegar_chave_bitlocker():
         return None
 
 
+def criptografa_arquivo(conteudo, arquivo_final, chave):
+    # Gera um vetor de inicialização aleatório de 16 bytes
+    vi = os.urandom(16)
+
+    # Cria a sifra usando o algoritmo AES, junto a chave
+    sifra = Cipher(algorithms.AES(chave), modes.CBC(vi), backend=default_backend())
+    encriptador = sifra.encryptor()
+
+    # Preenche o arquivo para o tamanho correto
+    enchimento = padding.PKCS7(algorithms.AES.block_size).padder()
+    conteudo_com_enchimento = enchimento.update(conteudo.encode()) + enchimento.finalize()
+
+    # Criptografa o arquivo
+    conteudo_criptografado = encriptador.update(conteudo_com_enchimento) + encriptador.finalize()
+
+    # Cria um novo arquivo com o conteúdo criptografado
+    with open(scripts + arquivo_final, 'wb') as arqv:
+        arqv.write(vi)  # Vetor de inicialização sempre no começo
+        arqv.write(conteudo_criptografado)
+
+
+def descriptografa_arquivo(arquivo, chave):
+    # Lê o arquivo criptografado
+    with open(scripts + arquivo, 'rb') as arqv:
+        vi = arqv.read(16)  # Vetor de inicialização no começo
+        conteudo_criptografado = arqv.read()  # conteúdo criptografado
+
+    try:
+        # Cria a sifra usando o algoritmo AES, junto a chave
+        sifra = Cipher(algorithms.AES(chave), modes.CBC(vi), backend=default_backend())
+        encriptador = sifra.decryptor()
+
+        # Descriptografa o conteúdo do arquivo
+        conteudo_descriptografado = encriptador.update(conteudo_criptografado) + encriptador.finalize()
+
+        # Remove o preenchimento e retorna o conteúdo descriptografado
+        remove_preenchimento = padding.PKCS7(algorithms.AES.block_size).unpadder()
+        conteudo_original = remove_preenchimento.update(conteudo_descriptografado) + remove_preenchimento.finalize()
+
+        return conteudo_original
+
+    except Exception:
+        recadastrar()
+        messagebox.showinfo("ERRO", "Ocorreu um erro ao ler as credenciais, usuário deverá ser recadastrado!")
+        exit()
+
+
 def checar_authenticator():
-    if os.path.exists(main + "\\scripts\\Credentials\\Credentials.py"):
+    if os.path.exists(scripts + "credentials.bin"):
         global nome_user, login_user, senha_user
 
-        result = subprocess.run([main + "\\venv\\Scripts\\python.exe", main + "\\scripts\\Credentials\\Credentials.py"],
-                                capture_output=True, text=True)
+        resultado = descriptografa_arquivo("credentials.bin", hashlib.sha256(pegar_chave_bitlocker().encode()).digest())
 
-        nome_user, login_user, senha_user = result.stdout.splitlines()
+        nome_user, login_user, senha_user = resultado.decode().split("\n")
 
         telaPrincipal(nome_user)
     else:
         tela_login()
 
 
-# Função para criar arquivo Authenticator criptografado
+# Função para criar arquivo criptografado com credenciais
 def cadastrar_monitor(nome, login, senha):
-    if os.path.exists(main + "\\scripts\\Credentials.py"):
-        with open(main + '\\scripts\\Credentials.py', 'r') as file:
-            user_content = file.read()
-
-        user_content = user_content.replace('print("< 0 >")', f'print("{nome}")')
-        user_content = user_content.replace('print("  |  ")', f'print("{login}")')
-        user_content = user_content.replace('print(" [ ] ")', f'print("{senha}")')
-        user_content = user_content.replace('key_id == "suaChaveIDAqui"', f'key_id == "{pegar_chave_bitlocker()}"')
-
-        with open(main + '\\scripts\\Credentials.py', 'w') as file:
-            file.write(user_content)
-
-        criptografar_executavel("Credentials")
-
-        user_content = user_content.replace(f'print("{nome}")', 'print("< 0 >")')
-        user_content = user_content.replace(f'print("{login}")', 'print("  |  ")')
-        user_content = user_content.replace(f'print("{senha}")', 'print(" [ ] ")')
-        user_content = user_content.replace(f'key_id == "{pegar_chave_bitlocker()}"', 'key_id == "suaChaveIDAqui"')
-
-        with open(main + '\\scripts\\Credentials.py', 'w') as file:
-            file.write(user_content)
-
-
-# Criptografia
-def criptografar_executavel(nome_arquivo):
-    if os.path.exists(main + "\\scripts\\" + nome_arquivo + ".py"):
-        if not os.path.exists(main + "\\scripts\\" + nome_arquivo):
-            os.mkdir(main + "\\scripts\\" + nome_arquivo)
-        result = subprocess.run(
-            [main + "\\venv\\Scripts\\pyarmor.exe", 'gen', main + "\\scripts\\" + nome_arquivo + ".py", '-O',
-             main + "\\scripts\\" + nome_arquivo], check=True, capture_output=True, text=True)
+    chave = hashlib.sha256(pegar_chave_bitlocker().encode()).digest()
+    criptografa_arquivo(nome + "\n" + login + "\n" + senha, "credentials.bin", chave)
 
 
 def auto_runas(login, senha):
-    if os.path.exists(main + "\\scripts\\Authenticator\\Authenticator.py"):
+    if os.path.exists(scripts + "Authenticator\\Authenticator.py"):
         subprocess.run(
-            [main + "\\venv\\Scripts\\python.exe", main + "\\scripts\\Authenticator\\Authenticator.py", login, senha],
+            [main + "venv\\Scripts\\python.exe", scripts + "Authenticator\\Authenticator.py", login, senha],
             check=True)
 
 
 def auto_copy(inicio, passo, fim, arquivo):
     auto_runas(login_user, senha_user)
 
-    if os.path.exists(main + "\\scripts\\AutoCopy\\AutoCopy.py"):
+    if os.path.exists(scripts + "AutoCopy\\AutoCopy.py"):
         subprocess.run(
-            [main + "\\venv\\Scripts\\python.exe", main + "\\scripts\\AutoCopy\\AutoCopy.py", str(inicio), str(passo), str(fim),
+            [main + "venv\\Scripts\\python.exe", scripts + "AutoCopy\\AutoCopy.py", str(inicio), str(passo), str(fim),
              str(arquivo)], check=True)
 
 
@@ -193,9 +217,9 @@ def auto_shutdown(inicio, passo, fim, tempo):
 
     time.sleep(0.5)
 
-    if os.path.exists(main + "\\scripts\\AutoShutdown\\AutoShutdown.py"):
+    if os.path.exists(scripts + "AutoShutdown\\AutoShutdown.py"):
         subprocess.run(
-            [main + "\\venv\\Scripts\\python.exe", main + "\\scripts\\AutoShutdown\\AutoShutdown.py", str(inicio),
+            [main + "venv\\Scripts\\python.exe", scripts + "AutoShutdown\\AutoShutdown.py", str(inicio),
              str(passo), str(fim), str(tempo)], check=True)
 
 
@@ -204,9 +228,9 @@ def auto_restart(inicio, passo, fim, tempo):
 
     time.sleep(0.5)
 
-    if os.path.exists(main + "\\scripts\\AutoRestart\\AutoRestart.py"):
+    if os.path.exists(scripts + "AutoRestart\\AutoRestart.py"):
         subprocess.run(
-            [main + "\\venv\\Scripts\\python.exe", main + "\\scripts\\AutoRestart\\AutoRestart.py", str(inicio),
+            [main + "venv\\Scripts\\python.exe", scripts + "AutoRestart\\AutoRestart.py", str(inicio),
              str(passo), str(fim), str(tempo)], check=True)
 
 
@@ -215,9 +239,9 @@ def auto_rd(inicio, passo, fim):
 
     time.sleep(0.5)
 
-    if os.path.exists(main + "\\scripts\\AutoRD\\AutoRD.py"):
+    if os.path.exists(scripts + "AutoRD\\AutoRD.py"):
         subprocess.run(
-            [main + "\\venv\\Scripts\\python.exe", main + "\\scripts\\AutoRD\\AutoRD.py", str(inicio),
+            [main + "venv\\Scripts\\python.exe", scripts + "AutoRD\\AutoRD.py", str(inicio),
              str(passo), str(fim)], check=True)
 
 
@@ -226,9 +250,9 @@ def auto_login(inicio, passo, fim, login, senha):
 
     time.sleep(0.5)
 
-    if os.path.exists(main + "\\scripts\\AutoLogin\\AutoLogin.py") and os.path.exists(main + "\\scripts\\AutoUser\\AutoUser.py"):
+    if os.path.exists(scripts + "AutoLogin\\AutoLogin.py") and os.path.exists(scripts + "AutoUser\\AutoUser.py"):
         subprocess.run(
-            [main + "\\venv\\Scripts\\python.exe", main + "\\scripts\\AutoLogin\\AutoLogin.py",str(inicio),
+            [main + "venv\\Scripts\\python.exe", scripts + "AutoLogin\\AutoLogin.py",str(inicio),
              str(passo), str(fim), str(login), str(senha)], check=True)
 
 
@@ -237,9 +261,9 @@ def auto_message(inicio, passo, fim, mensagem):
 
     time.sleep(0.5)
 
-    if os.path.exists(main + "\\scripts\\AutoMessage\\AutoMessage.py") and os.path.exists(main + "\\scripts\\AutoMessage\\AutoMessage.py"):
+    if os.path.exists(scripts + "AutoMessage\\AutoMessage.py") and os.path.exists(scripts + "AutoMessage\\AutoMessage.py"):
         subprocess.run(
-            [main + "\\venv\\Scripts\\python.exe", main + "\\scripts\\AutoMessage\\AutoMessage.py", str(inicio),
+            [main + "venv\\Scripts\\python.exe", scripts + "AutoMessage\\AutoMessage.py", str(inicio),
              str(passo), str(fim), str(mensagem)], check=True)
 
 # Função generica para aumentar o valor de qualquer campo
