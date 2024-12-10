@@ -13,6 +13,10 @@ def mostrarSenha(entradaSenha, botaoMostrarSenha):
     # Variaveis globais para imagens de olho aberto e fechado
     imagem_olho = ImageTk.PhotoImage(Image.open(os.getcwd()[0:2] + "\\bats-fiap-main\\project\\assets\\olho.png").resize((20, 20)))
     imagem_olho_fechado = ImageTk.PhotoImage(Image.open(os.getcwd()[0:2] + "\\bats-fiap-main\\project\\assets\\olhoFechado.png").resize((20, 20)))
+
+    # imagem_olho = ImageTk.PhotoImage(Image.open(os.getcwd()[0:2] + "\\bats-fiap\\project\\assets\\olho.png").resize((20, 20)))
+    # imagem_olho_fechado = ImageTk.PhotoImage(Image.open(os.getcwd()[0:2] + "\\bats-fiap\\project\\assets\\olhoFechado.png").resize((20, 20)))
+
     if entradaSenha.cget('show') == '*':
         entradaSenha.configure(show='')  # Mostra a senha
         botaoMostrarSenha.configure(image=imagem_olho)  # Altera o icone para uma imagem de um olho aberto
