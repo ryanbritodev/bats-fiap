@@ -2,6 +2,9 @@ import os
 from tkinter import PhotoImage
 from customtkinter import CTk, CTkCanvas, CTkButton
 
+# Caminho do projeto
+path = __file__.split("\\")
+main = path[0] + f"\\{path[1]}\\"
 
 def centralizar(janela, altura=400, largura=655):
     """
@@ -25,7 +28,7 @@ def centralizar(janela, altura=400, largura=655):
 
 # def background(canvas, caminhoImagem=os.getcwd()[0:2] + "\\bats-fiap-main\\project\\assets\\fundoFiap.png", ancoragem="nw"):
 # def background(canvas, caminhoImagem=os.getcwd()[0:2] + "\\bats-fiap\\project\\assets\\fundoFiap.png", ancoragem="nw"):
-def background(canvas, caminhoImagem=os.getcwd()[0:2] + "\\bats-fiap-main\\project\\assets\\fundoFiap.png", ancoragem="nw"):
+def background(canvas, caminhoImagem= main + "project\\assets\\fundoFiap.png", ancoragem="nw"):
     """
     --> Funcao para definir o plano de fundo da janela atual.
     :param canvas: Canvas para disposicao da imagem de fundo

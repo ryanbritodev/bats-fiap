@@ -84,7 +84,6 @@ def recadastrar():
 def checar_bitlocker():
     # Chama o manage-bde para verificar o status do BitLocker no drive
     result = subprocess.run(['manage-bde', '-status', os.getcwd()[0:2]], capture_output=True, text=True)
-
     # Verifica se a checagem deu erro
     if result.returncode != 0:
         # checar_authenticator()
@@ -118,16 +117,20 @@ def checar_bitlocker():
 
 def pegar_chave_bitlocker():
     # Pega a chave do Bitlocker para garantir que é a mesma do usuário cadastrado
-    resultado = subprocess.run("manage-bde -protectors -get " + os.getcwd()[0:2], capture_output=True, text=True,
-                               shell=True)
+    resultado = subprocess.run("manage-bde -protectors -get " + os.getcwd()[0:2], capture_output=True, text=True)
+
+    key_id = ""
 
     # Checa se a operação acima não deu erro e coleta a chave ID
     if resultado.returncode == 0:
-        for linha in resultado.stdout.splitlines():
-            if "ID" in linha:
-                key_id = linha.split(":")[1].strip()
-                return key_id
-        return None
+        conteudo = resultado.stdout.splitlines()
+        for i in range(0, len(conteudo)):
+            if i == 7 or i == 12:
+                if "ID" in conteudo[i]:
+                    key_id += str(conteudo[i].split(":")[1].strip())
+                else:
+                    key_id += str(conteudo[i].replace(" ", ""))
+        return key_id
     else:
         print(f"Error: {resultado.stderr}")
         return None
@@ -213,8 +216,7 @@ def cadastrar_monitor(nome, login, senha):
 def auto_runas(login, senha):
     if os.path.exists(scripts + "Authenticator\\Authenticator.py"):
         subprocess.run(
-            [main + "venv\\Scripts\\python.exe", scripts + "Authenticator\\Authenticator.py", login, senha],
-            check=True)
+            [main + "venv\\Scripts\\python.exe", scripts + "Authenticator\\Authenticator.py", login, senha])
 
 
 def auto_copy(inicio, passo, fim, arquivo):
@@ -223,7 +225,7 @@ def auto_copy(inicio, passo, fim, arquivo):
     if os.path.exists(scripts + "AutoCopy\\AutoCopy.py"):
         subprocess.run(
             [main + "venv\\Scripts\\python.exe", scripts + "AutoCopy\\AutoCopy.py", str(inicio), str(passo), str(fim),
-             str(arquivo)], check=True)
+             str(arquivo)])
 
 
 def auto_shutdown(inicio, passo, fim, tempo):
@@ -234,7 +236,7 @@ def auto_shutdown(inicio, passo, fim, tempo):
     if os.path.exists(scripts + "AutoShutdown\\AutoShutdown.py"):
         subprocess.run(
             [main + "venv\\Scripts\\python.exe", scripts + "AutoShutdown\\AutoShutdown.py", str(inicio),
-             str(passo), str(fim), str(tempo)], check=True)
+             str(passo), str(fim), str(tempo)])
 
 
 def auto_restart(inicio, passo, fim, tempo):
@@ -245,7 +247,7 @@ def auto_restart(inicio, passo, fim, tempo):
     if os.path.exists(scripts + "AutoRestart\\AutoRestart.py"):
         subprocess.run(
             [main + "venv\\Scripts\\python.exe", scripts + "AutoRestart\\AutoRestart.py", str(inicio),
-             str(passo), str(fim), str(tempo)], check=True)
+             str(passo), str(fim), str(tempo)])
 
 
 def auto_rd(inicio, passo, fim):
@@ -256,7 +258,7 @@ def auto_rd(inicio, passo, fim):
     if os.path.exists(scripts + "AutoRD\\AutoRD.py"):
         subprocess.run(
             [main + "venv\\Scripts\\python.exe", scripts + "AutoRD\\AutoRD.py", str(inicio),
-             str(passo), str(fim)], check=True)
+             str(passo), str(fim)])
 
 
 def auto_login(inicio, passo, fim, login, senha):
@@ -267,7 +269,7 @@ def auto_login(inicio, passo, fim, login, senha):
     if os.path.exists(scripts + "AutoLogin\\AutoLogin.py") and os.path.exists(scripts + "AutoUser\\AutoUser.py"):
         subprocess.run(
             [main + "venv\\Scripts\\python.exe", scripts + "AutoLogin\\AutoLogin.py",str(inicio),
-             str(passo), str(fim), str(login), str(senha)], check=True)
+             str(passo), str(fim), str(login), str(senha)])
 
 
 def auto_message(inicio, passo, fim, mensagem):
@@ -278,7 +280,7 @@ def auto_message(inicio, passo, fim, mensagem):
     if os.path.exists(scripts + "AutoMessage\\AutoMessage.py") and os.path.exists(scripts + "AutoMessage\\AutoMessage.py"):
         subprocess.run(
             [main + "venv\\Scripts\\python.exe", scripts + "AutoMessage\\AutoMessage.py", str(inicio),
-             str(passo), str(fim), str(mensagem)], check=True)
+             str(passo), str(fim), str(mensagem)])
 
 # Função generica para aumentar o valor de qualquer campo
 def increment_value(entry_widget):
