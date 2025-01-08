@@ -1,6 +1,6 @@
 # 💻⚙️ FIAP Autolab
 
-<div align="center">
+<div>
   <img src="project/assets/fiap_autolab.png" width="80%"/>
 </div>
 
