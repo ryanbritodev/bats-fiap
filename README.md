@@ -1,5 +1,5 @@
 <div>
-  <img src="project/assets/fiap_autolab.png" width="80%"/>
+  <img src="project/assets/fiap_autolab.png" width="100%"/>
 </div>
 
 ## 📜 Descrição
