@@ -1,2 +1,3 @@
-# bats-fiap
-Interface Gráfica para executar Bats na FIAP, utilizando o Tkinter
+<div align="center">
+  <img src="project/assets/fiap_autolab.png"/>
+</div>
