@@ -16,6 +16,25 @@ O FIAP Autolab é um software de automação criado para facilitar o dia a dia d
 
 ## 🤔 Como funciona?
 
-O FIAP Autolab 
+Este projeto foi desenvolvido para facilitar e automatizar tarefas do dia a dia dos monitores, aproveitando o poder dos scripts .bat para executar comandos do CMD de forma prática e eficiente.
 
+### 1. Execução Automatizada de Scripts
+O sistema é capaz de executar arquivos .bat que contêm scripts pré-configurados para diversas operações, como:
 
+- Desligar e reiniciar máquinas;
+- Apagar e copiar arquivos;
+- Enviar mensagens para usuários;
+- Logar automaticamente em sistemas;
+- Entre outras tarefas essenciais.
+
+### 2. Interface Intuitiva
+A interface foi projetada para tornar a execução desses scripts simples e acessível, mesmo para quem não possui conhecimentos nos comandos do CMD.
+
+### 3. Customização de Scripts
+Os usuários podem personalizar os scripts .bat conforme suas necessidades específicas, garantindo flexibilidade e eficiência no uso da ferramenta com parâmetros.
+
+### 4. Automação e Economia de Tempo
+Com a automação, tarefas que antes precisavam ser realizadas manualmente agora podem ser feitas com um único clique, economizando tempo e reduzindo erros operacionais.
+
+### 5. Segurança e Controle
+O uso do sistema garante que as operações sejam realizadas de maneira segura, controlada e criptografada, minimizando acessos indevidos.
