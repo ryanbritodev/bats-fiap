@@ -38,3 +38,11 @@ Com a automação, tarefas que antes precisavam ser realizadas manualmente agora
 
 ### 5. Segurança e Controle
 O uso do sistema garante que as operações sejam realizadas de maneira segura, controlada e criptografada, minimizando acessos indevidos.
+
+## 📁 Instalação
+
+Para começar, você precisa clonar o repositório do projeto em sua máquina local. Utilize o comando abaixo no terminal:
+
+```bash
+git clone https://github.com/ryanbritodev/bats-fiap.git
+```
