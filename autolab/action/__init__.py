@@ -47,5 +47,5 @@ def executar_acao(tipo_acao, categoria, senha="", tempo="5", maquina="1", inicio
         print(f"Tempo para {tipo_acao}: {tempo}s")
 
     # Caso seja login, printar senha
-    if "Logar Usuário" in tipo_acao:
-        print(f"Senha do Usuário: {senha}")
+    #if "Logar Usuário" in tipo_acao:
+        # print(f"Senha do Usuário: {senha}")

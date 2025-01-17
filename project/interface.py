@@ -12,6 +12,7 @@ import os
 import sys
 import subprocess
 import socket
+import psutil
 import threading
 import time
 import webbrowser
@@ -23,6 +24,12 @@ import hashlib
 import customtkinter
 from PIL import Image, ImageTk
 import ctypes
+
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.connect(("8.8.8.8", 80))
+ip = s.getsockname()[0]
+s.close()
+ip_split = ip.split(".")
 
 # Caminho do projeto
 path = __file__.split("\\")
@@ -36,12 +43,21 @@ project = main + "project\\"
 scripts = main + "scripts\\"
 assets = project + "assets\\"
 
+arquivo_usuario = "user.bin"
+arquivo_funcoes = "functions.bin"
+
 from autolab import screens, password, action
 
 # Credenciais
 nome_user = ""
 login_user = ""
 senha_user = ""
+login_lab = ""
+senha_lab = ""
+login_prova_normal = ""
+senha_prova_normal = ""
+login_prova_on = ""
+senha_prova_on = ""
 
 # connected_ips = set()
 
@@ -73,11 +89,24 @@ cor_voltar_escuro = "#BC0404"
 incrementing = False
 decrementing = False
 
+def recadastrar_geral():
+    # Detecta se o caminho das credenciais existe, se sim os apaga
+    if os.path.exists(scripts + arquivo_usuario):
+        os.remove(scripts + arquivo_usuario)
+    if os.path.exists(scripts + arquivo_funcoes):
+        os.remove(scripts + arquivo_funcoes)
 
-def recadastrar():
+
+def recadastrar_monitor():
     # Detecta se o caminho da credencial existe, se sim o apaga
-    if os.path.exists(scripts + "credentials.bin"):
-        os.remove(scripts + "credentials.bin")
+    if os.path.exists(scripts + arquivo_usuario):
+        os.remove(scripts + arquivo_usuario)
+
+
+def recadastrar_funcoes():
+    # Detecta se o caminho dos logins existe, se sim o apaga
+    if os.path.exists(scripts + arquivo_funcoes):
+        os.remove(scripts + arquivo_funcoes)
 
 
 # Checagens
@@ -86,8 +115,7 @@ def checar_bitlocker():
     result = subprocess.run(['manage-bde', '-status', os.getcwd()[0:2]], capture_output=True, text=True)
     # Verifica se a checagem deu erro
     if result.returncode != 0:
-        # checar_authenticator()
-        recadastrar()
+        recadastrar_geral()
         messagebox.showinfo("ERRO", "Ocorreu um erro inesperado!")
 
     # Checa o status da criptografia no drive
@@ -95,8 +123,7 @@ def checar_bitlocker():
     if "Protection On" in output:
         checar_authenticator()
     elif "Protection Off" in output:
-        # checar_authenticator()
-        recadastrar()
+        recadastrar_geral()
         messagebox.showinfo("ERRO", "Drive não está com o BitLocker ativo!")
 
 
@@ -178,22 +205,27 @@ def descriptografa_arquivo(arquivo, chave):
         return conteudo_original
 
     except Exception:
-        recadastrar()
+        recadastrar_geral()
         messagebox.showinfo("ERRO", "Ocorreu um erro ao ler as credenciais, usuário deverá ser recadastrado!")
         exit()
 
 
 def checar_authenticator():
-    if os.path.exists(scripts + "credentials.bin"):
-        global nome_user, login_user, senha_user
+    if os.path.exists(scripts + arquivo_usuario) and os.path.exists(scripts + arquivo_funcoes):
+        global nome_user, login_user, senha_user, login_lab, senha_lab, login_prova_normal, senha_prova_normal, login_prova_on, senha_prova_on
 
-        resultado = descriptografa_arquivo("credentials.bin", hashlib.sha256(pegar_chave_bitlocker().encode()).digest())
+        resultado_monitor = descriptografa_arquivo(arquivo_usuario, hashlib.sha256(pegar_chave_bitlocker().encode()).digest())
+        resultado_logins = descriptografa_arquivo(arquivo_funcoes, hashlib.sha256(pegar_chave_bitlocker().encode()).digest())
 
-        nome_user, login_user, senha_user = resultado.decode().split("\n")
+        nome_user, login_user, senha_user = resultado_monitor.decode().split("\n")
+        login_lab, senha_lab, login_prova_normal, senha_prova_normal, login_prova_on, senha_prova_on = resultado_logins.decode().split("\n")
 
         telaPrincipal(nome_user)
     else:
-        tela_login()
+        if not os.path.exists(scripts + arquivo_usuario):
+            tela_login_monitor()
+        if not os.path.exists(scripts + arquivo_funcoes):
+            tela_login_funcoes()
 
 
 def confirmar_acao(mensagem, comando):
@@ -210,7 +242,12 @@ def confirmar_acao(mensagem, comando):
 # Função para criar arquivo criptografado com credenciais
 def cadastrar_monitor(nome, login, senha):
     chave = hashlib.sha256(pegar_chave_bitlocker().encode()).digest()
-    criptografa_arquivo(nome + "\n" + login + "\n" + senha, "credentials.bin", chave)
+    criptografa_arquivo(nome + "\n" + login + "\n" + senha, arquivo_usuario, chave)
+
+
+def cadastrar_logins(login1, senha1, login2, senha2, login3, senha3):
+    chave = hashlib.sha256(pegar_chave_bitlocker().encode()).digest()
+    criptografa_arquivo(login1 + "\n" + senha1 + "\n" + login2 + "\n" + senha2 + "\n" + login3 + "\n" + senha3, arquivo_funcoes, chave)
 
 
 def auto_runas(login, senha):
@@ -269,7 +306,7 @@ def auto_login(inicio, passo, fim, login, senha):
     if os.path.exists(scripts + "AutoLogin\\AutoLogin.py") and os.path.exists(scripts + "AutoUser\\AutoUser.py"):
         subprocess.run(
             [main + "venv\\Scripts\\python.exe", scripts + "AutoLogin\\AutoLogin.py",str(inicio),
-             str(passo), str(fim), str(login), str(senha)])
+             str(passo), str(fim), str(login_lab), str(senha_lab), str(login), str(senha)])
 
 
 def auto_message(inicio, passo, fim, mensagem):
@@ -281,6 +318,18 @@ def auto_message(inicio, passo, fim, mensagem):
         subprocess.run(
             [main + "venv\\Scripts\\python.exe", scripts + "AutoMessage\\AutoMessage.py", str(inicio),
              str(passo), str(fim), str(mensagem)])
+
+
+def auto_url(inicio, passo, fim, url):
+    auto_runas(login_user, senha_user)
+
+    time.sleep(0.5)
+
+    if os.path.exists(scripts + "AutoURL\\AutoURL.py") and os.path.exists(scripts + "AutoURL\\AutoURL.py"):
+        subprocess.run(
+            [main + "venv\\Scripts\\python.exe", scripts + "AutoURL\\AutoURL.py", str(inicio),
+             str(passo), str(fim), str(url)])
+
 
 # Função generica para aumentar o valor de qualquer campo
 def increment_value(entry_widget):
@@ -373,6 +422,7 @@ def telaPrincipal(nome_user):
     --> Função que exibe a tela principal após o login
     :param nome_user: Nome do usuário preenchido na tela de login
     """
+
     # Janela principal
     global janela
     janela = customtkinter.CTk()
@@ -463,17 +513,26 @@ def telaPrincipal(nome_user):
 
     # Botão de Logoff
     botao_logoff = canvas1.create_image(585, 40, image=imagem_logoff)
-    canvas1.tag_bind(botao_logoff, "<Button-1>", lambda event: [recadastrar(), janela.destroy(), tela_login()])
+    canvas1.tag_bind(botao_logoff, "<Button-1>", lambda event: [recadastrar_monitor(), janela.destroy(), tela_login_monitor()])
     # Adicionar o efeito de hover (cursor)
     canvas1.tag_bind(botao_logoff, "<Enter>", on_hover)
     canvas1.tag_bind(botao_logoff, "<Leave>", on_hover_out)
 
-    # Botão de Configurações
-    botao_config = canvas1.create_image(585, 80, image=imagem_config)
-    canvas1.tag_bind(botao_config, "<Button-1>")
+    # Botão de Logoff
+    botao_logoff = canvas1.create_image(585, 80, image=imagem_logoff)
+    canvas1.tag_bind(botao_logoff, "<Button-1>", lambda event: [recadastrar_funcoes(), janela.destroy(), tela_login_funcoes()])
     # Adicionar o efeito de hover (cursor)
-    canvas1.tag_bind(botao_config, "<Enter>", on_hover)
-    canvas1.tag_bind(botao_config, "<Leave>", on_hover_out)
+    canvas1.tag_bind(botao_logoff, "<Enter>", on_hover)
+    canvas1.tag_bind(botao_logoff, "<Leave>", on_hover_out)
+
+
+
+    # # Botão de Configurações
+    # botao_config = canvas1.create_image(585, 80, image=imagem_config)
+    # canvas1.tag_bind(botao_config, "<Button-1>")
+    # # Adicionar o efeito de hover (cursor)
+    # canvas1.tag_bind(botao_config, "<Enter>", on_hover)
+    # canvas1.tag_bind(botao_config, "<Leave>", on_hover_out)
 
     # Botão de Ajuda
     botao_help = canvas1.create_image(72, 40, image=imagem_help)
@@ -490,17 +549,30 @@ def telaPrincipal(nome_user):
     canvas1.tag_bind(botao_credits, "<Leave>", on_hover_out)
 
     # Posicionando os botões sobre o Canvas
+    # canvas1.create_window(118, 240, window=botao_desligar)
+    # canvas1.create_window(118, 290, window=botao_reiniciar)
+    # canvas1.create_window(118, 340, window=botao_logar)
+    # canvas1.create_window(258, 240, window=botao_limpar)
+    # canvas1.create_window(258, 290, window=botao_copiar)
+    # canvas1.create_window(258, 340, window=botao_url)
+    # canvas1.create_window(398, 240, window=botao_pon)
+    # canvas1.create_window(398, 290, window=botao_pn)
+    # canvas1.create_window(398, 340, window=botao_nac)
+    # canvas1.create_window(538, 240, window=botao_mensagem)
+    # canvas1.create_window(538, 290, window=botao_runas)
     canvas1.create_window(118, 240, window=botao_desligar)
     canvas1.create_window(118, 290, window=botao_reiniciar)
-    canvas1.create_window(118, 340, window=botao_logar)
+    canvas1.create_window(118, 340, window=botao_copiar)
     canvas1.create_window(258, 240, window=botao_limpar)
-    canvas1.create_window(258, 290, window=botao_copiar)
-    canvas1.create_window(258, 340, window=botao_url)
-    canvas1.create_window(398, 240, window=botao_pon)
-    canvas1.create_window(398, 290, window=botao_pn)
-    canvas1.create_window(398, 340, window=botao_nac)
-    canvas1.create_window(538, 240, window=botao_mensagem)
-    canvas1.create_window(538, 290, window=botao_runas)
+    canvas1.create_window(258, 290, window=botao_mensagem)
+    canvas1.create_window(258, 340, window=botao_runas)
+    if ip_split[-1] == "100":
+        canvas1.create_window(398, 240, window=botao_logar)
+        canvas1.create_window(398, 290, window=botao_pon)
+        canvas1.create_window(398, 340, window=botao_pn)
+        canvas1.create_window(538, 240, window=botao_url)
+        canvas1.create_window(538, 290, window=botao_nac)
+
     # canvas1.create_window(580, 35, window=botao_logoff)
 
     # Loop da Janela principal
@@ -2029,7 +2101,7 @@ def telaURL():
     botao_abrir_lab_inteiro = customtkinter.CTkButton(janelaURL, text="Abrir", width=145, height=40,
                                                        font=fonte,
                                                        fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                       command=lambda: [auto_message(1, 1, 99, entrada_URL.get("0.0", "end")),
+                                                       command=lambda: [auto_url(1, 1, 99, entrada_URL.get("0.0", "end")),
                                                                         action.executar_acao("URL", "Lab",
                                                                                              tempo=entry.get()),
                                                                         screens.mostrar_comando_executado(janelaURL,
@@ -2042,7 +2114,7 @@ def telaURL():
     botao_abrir_maquina = customtkinter.CTkButton(janelaURL, text="Abrir", width=145, height=40,
                                                    font=fonte,
                                                    fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                   command=lambda: [auto_message(entry2.get(), 1, entry2.get(), entrada_URL.get("0.0", "end")),
+                                                   command=lambda: [auto_url(entry2.get(), 1, entry2.get(), entrada_URL.get("0.0", "end")),
                                                                     action.executar_acao("URL", "Maquina",
                                                                                          maquina=entry2.get(),
                                                                                          # tempo=entry3.get()
@@ -2060,7 +2132,7 @@ def telaURL():
                                                          font=fonte,
                                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro,
                                                          command=lambda: [
-                                                             auto_message(entry4.get(), entry6.get(), entry5.get(), entrada_URL.get("0.0", "end")),
+                                                             auto_url(entry4.get(), entry6.get(), entry5.get(), entrada_URL.get("0.0", "end")),
                                                              action.executar_acao("URL", "Personalizado",
                                                                                   inicio=entry4.get(), fim=entry5.get(),
                                                                                   passo=entry6.get(),
@@ -2275,7 +2347,7 @@ def telaPON():
     botao_logar_lab_inteiro = customtkinter.CTkButton(janelaPON, text="Logar", width=170, height=50,
                                                       font=fonte,
                                                       fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                      command=lambda: [auto_rd(1, 1, 99),
+                                                      command=lambda: [auto_login(1, 1, 99, login_prova_on, senha_prova_on),
                                                                        action.executar_acao("Logar", "Lab",
                                                                                             tempo=entry.get()),
                                                                        screens.mostrar_comando_executado(janelaPON,
@@ -2288,7 +2360,7 @@ def telaPON():
     botao_logar_maquina = customtkinter.CTkButton(janelaPON, text="Logar", width=170, height=50,
                                                   font=fonte,
                                                   fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                  command=lambda: [auto_rd(entry2.get(), 1, entry2.get()),
+                                                  command=lambda: [auto_login(entry2.get(), 1, entry2.get(), login_prova_on, senha_prova_on),
                                                                    action.executar_acao("Logar", "Maquina",
                                                                                         maquina=entry2.get(),
                                                                                         # tempo=entry3.get()
@@ -2306,7 +2378,7 @@ def telaPON():
                                                         font=fonte,
                                                         fg_color=cor_fundo, hover_color=cor_fundo_escuro,
                                                         command=lambda: [
-                                                            auto_rd(entry4.get(), entry6.get(), entry5.get()),
+                                                            auto_login(entry4.get(), entry6.get(), entry5.get(), login_prova_on, senha_prova_on),
                                                             action.executar_acao("Logar", "Personalizado",
                                                                                  inicio=entry4.get(), fim=entry5.get(),
                                                                                  passo=entry6.get(),
@@ -2519,7 +2591,7 @@ def telaPN():
     botao_logar_lab_inteiro = customtkinter.CTkButton(janelaPN, text="Logar", width=170, height=50,
                                                        font=fonte,
                                                        fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                       command=lambda: [auto_rd(1, 1, 99),
+                                                       command=lambda: [auto_login(1, 1, 99, login_prova_normal, senha_prova_normal),
                                                                         action.executar_acao("Logar", "Lab",
                                                                                              tempo=entry.get()),
                                                                         screens.mostrar_comando_executado(janelaPN,
@@ -2532,7 +2604,7 @@ def telaPN():
     botao_logar_maquina = customtkinter.CTkButton(janelaPN, text="Logar", width=170, height=50,
                                                    font=fonte,
                                                    fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                   command=lambda: [auto_rd(entry2.get(), 1, entry2.get()),
+                                                   command=lambda: [auto_login(entry2.get(), 1, entry2.get(), login_prova_normal, senha_prova_normal),
                                                                     action.executar_acao("Logar", "Maquina",
                                                                                          maquina=entry2.get(),
                                                                                          # tempo=entry3.get()
@@ -2550,7 +2622,7 @@ def telaPN():
                                                          font=fonte,
                                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro,
                                                          command=lambda: [
-                                                             auto_rd(entry4.get(), entry6.get(), entry5.get()),
+                                                             auto_login(entry4.get(), entry6.get(), entry5.get(), login_prova_normal, senha_prova_normal),
                                                              action.executar_acao("Logar", "Personalizado",
                                                                                   inicio=entry4.get(), fim=entry5.get(),
                                                                                   passo=entry6.get(),
@@ -2763,7 +2835,7 @@ def telaNAC():
     botao_abrir_lab_inteiro = customtkinter.CTkButton(janelaNAC, text="Abrir", width=170, height=50,
                                                        font=fonte,
                                                        fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                       command=lambda: [auto_rd(1, 1, 99),
+                                                       command=lambda: [auto_url(1, 1, 99, "nac.fiap.com.br"),
                                                                         action.executar_acao("NAC", "Lab",
                                                                                              tempo=entry.get()),
                                                                         screens.mostrar_comando_executado(janelaNAC,
@@ -2776,7 +2848,7 @@ def telaNAC():
     botao_abrir_maquina = customtkinter.CTkButton(janelaNAC, text="Abrir", width=170, height=50,
                                                    font=fonte,
                                                    fg_color=cor_fundo, hover_color=cor_fundo_escuro,
-                                                   command=lambda: [auto_rd(entry2.get(), 1, entry2.get()),
+                                                   command=lambda: [auto_url(entry2.get(), 1, entry2.get(), "nac.fiap.com.br"),
                                                                     action.executar_acao("NAC", "Maquina",
                                                                                          maquina=entry2.get(),
                                                                                          # tempo=entry3.get()
@@ -2794,7 +2866,7 @@ def telaNAC():
                                                          font=fonte,
                                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro,
                                                          command=lambda: [
-                                                             auto_rd(entry4.get(), entry6.get(), entry5.get()),
+                                                             auto_url(entry4.get(), entry6.get(), entry5.get(), "nac.fiap.com.br"),
                                                              action.executar_acao("NAC", "Personalizado",
                                                                                   inicio=entry4.get(), fim=entry5.get(),
                                                                                   passo=entry6.get(),
@@ -2829,7 +2901,7 @@ def telaNAC():
 
 
 # Funções
-def verificar_login():
+def verificar_login_monitor():
     """
     --> Função chamada ao clicar no botão de "Entrar" para capturar e validar os dados de login (por enquanto, só está printando os valores)
     """
@@ -2853,17 +2925,39 @@ def verificar_login():
     # print(f"Senha CMD: {senha_cmd_usuario}")
 
     janela_login.destroy()  # Fecha a janela de login ao final, pra chamar a telaPrincipal
-    tela_confirmacao(nome_usuario, login_usuario, senha_usuario)#, senha_cmd_usuario)
+    tela_confirmacao_monitor(nome_usuario, login_usuario, senha_usuario)#, senha_cmd_usuario)
+
+
+def verificar_login_logins():
+    """
+    --> Função chamada ao clicar no botão de "Entrar" para capturar e validar os dados de login
+    """
+    # Pegando os valores preenchidos
+    login_lab = entrada_login_lab.get().strip().lower()
+    senha_lab = entrada_senha_lab.get().strip()
+    login_prova = entrada_login_prova.get().strip().lower()
+    senha_prova = entrada_senha_prova.get().strip()
+    login_prova_on = entrada_login_prova_on.get().strip().lower()
+    senha_prova_on = entrada_senha_prova_on.get().strip()
+
+    # Verificação se algum dos campos está vazio
+    if not login_lab or not senha_lab or not login_prova or not senha_prova or not login_prova_on or not senha_prova_on:
+        # Exibe uma mensagem de alerta
+        messagebox.showwarning("CAMPOS VAZIOS", "Atenção! Todos os campos devem ser preenchidos.")
+        return  # Retorna para não continuar o processo se os campos não estiverem preenchidos
+
+    janela_login.destroy()  # Fecha a janela de login ao final, pra chamar a telaPrincipal
+    tela_confirmacao_logins(login_lab, senha_lab, login_prova, senha_prova, login_prova_on, senha_prova_on)
 
 
 # Função para exibir a tela de confirmação
-def tela_confirmacao(nome_usuario, login_usuario, senha_usuario):#, senha_cmd_usuario):
+def tela_confirmacao_monitor(nome_usuario, login_usuario, senha_usuario):#, senha_cmd_usuario):
     """
     --> Funcao para criar e exibir a tela de confirmacao das credenciais do monitor.
     :param nome_usuario: Nome preenchido monitor
     :param login_usuario: User do monitor
     :param senha_usuario: Senha do monitor
-    Essa funcao possibilita que o monitor volte a tela de login para cadastrar suas
+    Essa funcao possibilita que o monitor volte a tela de login do monitor para cadastrar suas
     credenciais novamente, desconsiderando as preenchidas anteriormente.
     """
     global nome_user, login_user, senha_user
@@ -2898,24 +2992,90 @@ def tela_confirmacao(nome_usuario, login_usuario, senha_usuario):#, senha_cmd_us
 
     botao_voltar = customtkinter.CTkButton(janela_confirmacao, text="Voltar", width=152, height=40, font=fonteBotao,
                                            fg_color=cor_voltar, hover_color=cor_voltar_escuro,
-                                           command=lambda: [janela_confirmacao.destroy(), tela_login()])
+                                           command=lambda: [janela_confirmacao.destroy(), tela_login_monitor()])
     canvas_confirmacao.create_window(241, 280, window=botao_voltar)
 
     botao_confirmar = customtkinter.CTkButton(janela_confirmacao, text="Confirmar", width=154, height=40,
                                               font=fonteBotao,
                                               fg_color=cor_continuar, hover_color=cor_continuar_escuro,
                                               command=lambda: [janela_confirmacao.destroy(),
-                                                               telaPrincipal(nome_usuario),
                                                                cadastrar_monitor(nome_usuario, login_usuario,
-                                                                                 senha_usuario)])
+                                                                                 senha_usuario),
+                                                               checar_authenticator()])
     canvas_confirmacao.create_window(404, 280, window=botao_confirmar)
 
     janela_confirmacao.mainloop()
 
 
-def tela_login():
+def tela_confirmacao_logins(login_laboratorio, senha_laboratorio, login_prova, senha_prova, login_prova_online, senha_prova_online):
     """
-    --> Funcao para criar e exibir a tela de login.
+    --> Funcao para criar e exibir a tela de confirmacao das credenciais dos logins.
+    :param login_laboratorio: Usuário para criar cmd interativo nas máquinas remotas
+    :param senha_laboratorio: Senha do usuário laboratorio
+    :param login_prova: Usuário para entrar na conta de prova da aplicação
+    :param senha_prova: Senha do usuário prova
+    :param login_prova_online: Usuário para entrar na conta de prova online da aplicação
+    :param senha_prova_online: Senha do usuário prova online
+    Essa funcao possibilita que o monitor volte a tela de logins de máquina para cadastrar suas
+    credenciais novamente, desconsiderando as preenchidas anteriormente.
+    """
+    global login_lab, senha_lab, login_prova_normal, senha_prova_normal, login_prova_on, senha_prova_on
+
+    login_lab = login_laboratorio
+    senha_lab = senha_laboratorio
+    login_prova_normal = login_prova
+    senha_prova_normal = senha_prova
+    login_prova_on = login_prova_online
+    senha_prova_on = senha_prova_online
+
+    janela_confirmacao = customtkinter.CTk()
+    screens.centralizar(janela_confirmacao)
+
+    janela_confirmacao.iconbitmap(assets + "fiap-ico.ico")
+    janela_confirmacao.title("CONFIRMAÇÃO DE DADOS")
+
+    canvas_confirmacao = Canvas(janela_confirmacao, width=655, height=400, bd=-1000)
+    canvas_confirmacao.pack(fill="both", expand=True)
+
+    screens.background(canvas_confirmacao, assets + "fundoFiap.png")
+
+    # Texto de Confirmacao
+    confirmar = ImageTk.PhotoImage(Image.open(assets + "confirmacao.png").resize((319, 44)))
+    canvas_confirmacao.create_image(326, 120, image=confirmar)
+
+    canvas_confirmacao.create_text(26, 165, text=f"Laboratorio: {login_lab}", fill="white", font=("Arial", 12, "bold"),
+                                   anchor="w")
+    canvas_confirmacao.create_text(26, 197, text=f"Senha: {'*' * len(senha_lab)}", fill="white",
+                                   font=("Arial", 12, "bold"), anchor="w")
+    canvas_confirmacao.create_text(266, 165, text=f"Prova: {login_prova_normal}", fill="white", font=("Arial", 12, "bold"),
+                                   anchor="w")
+    canvas_confirmacao.create_text(266, 197, text=f"Senha: {'*' * len(senha_prova_normal)}", fill="white",
+                                   font=("Arial", 12, "bold"), anchor="w")
+    canvas_confirmacao.create_text(476, 165, text=f"Prova ON: {login_prova_on}", fill="white", font=("Arial", 12, "bold"),
+                                   anchor="w")
+    canvas_confirmacao.create_text(476, 197, text=f"Senha: {'*' * len(senha_prova_on)}", fill="white",
+                                   font=("Arial", 12, "bold"), anchor="w")
+
+    botao_voltar = customtkinter.CTkButton(janela_confirmacao, text="Voltar", width=152, height=40, font=fonteBotao,
+                                           fg_color=cor_voltar, hover_color=cor_voltar_escuro,
+                                           command=lambda: [janela_confirmacao.destroy(), tela_login_funcoes()])
+    canvas_confirmacao.create_window(241, 280, window=botao_voltar)
+
+    botao_confirmar = customtkinter.CTkButton(janela_confirmacao, text="Confirmar", width=154, height=40,
+                                              font=fonteBotao,
+                                              fg_color=cor_continuar, hover_color=cor_continuar_escuro,
+                                              command=lambda: [janela_confirmacao.destroy(),
+                                                               cadastrar_logins(login_lab, senha_lab,
+                                                                                login_prova_normal, senha_prova_normal,
+                                                                                login_prova_on, senha_prova_on),
+                                                               checar_authenticator()])
+    canvas_confirmacao.create_window(404, 280, window=botao_confirmar)
+
+    janela_confirmacao.mainloop()
+
+def tela_login_monitor():
+    """
+    --> Funcao para criar e exibir a tela de login do monitor.
     Chamada tanto no inicio quanto ao voltar da tela de confirmacao.
     """
     global janela_login, entrada_nome, entrada_login, entrada_senha, entrada_senha_cmd, botao_mostrar_senha_usuario, botao_mostrar_senha_cmd  # Variáveis globais para acessar em outros momentos
@@ -2952,7 +3112,7 @@ def tela_login():
     canvas2.create_window(325, 179, window=entrada_nome)
 
     # Adicionando evento de Enter ao campo entrada_nome
-    entrada_nome.bind("<Return>", lambda event: verificar_login())
+    entrada_nome.bind("<Return>", lambda event: verificar_login_monitor())
 
     # Login do Monitor
     canvas2.create_text(297, 214, text="Login de Usuário (Runas):", fill="white", font=("Arial", 14, "bold"))
@@ -2961,7 +3121,7 @@ def tela_login():
     canvas2.create_window(325, 247, window=entrada_login)
 
     # Adicionando evento de Enter ao campo entrada_login
-    entrada_login.bind("<Return>", lambda event: verificar_login())
+    entrada_login.bind("<Return>", lambda event: verificar_login_monitor())
 
     # Senha do Monitor
     canvas2.create_text(300, 282, text="Senha do Monitor (Runas):", fill="white", font=("Arial", 14, "bold"))
@@ -2978,16 +3138,141 @@ def tela_login():
     canvas2.create_window(455, 315, window=botao_mostrar_senha_usuario)  # Posição ao lado do campo de senha
 
     # Adicionando evento de Enter ao campo entrada_senha
-    entrada_senha.bind("<Return>", lambda event: verificar_login())
+    entrada_senha.bind("<Return>", lambda event: verificar_login_monitor())
 
     # Botão Entrar
-    botao_entrar = customtkinter.CTkButton(janela_login, text="Entrar", width=300, height=34, command=verificar_login,
+    botao_entrar = customtkinter.CTkButton(janela_login, text="Entrar", width=300, height=34, command=verificar_login_monitor,
                                            fg_color=cor_fundo, font=fonteBotao, hover_color=cor_fundo_escuro)
     canvas2.create_window(325, 357, window=botao_entrar)
 
     # Iniciar o loop da tela de login
     janela_login.mainloop()
 
+
+def tela_login_funcoes():
+    """
+    --> Funcao para criar e exibir a tela de login do monitor.
+    Chamada tanto no inicio quanto ao voltar da tela de confirmacao.
+    """
+    global janela_login, entrada_login_lab, entrada_senha_lab, entrada_login_prova, entrada_senha_prova, entrada_login_prova_on, entrada_senha_prova_on, botao_mostrar_senha_usuario, botao_mostrar_senha_cmd  # Variáveis globais para acessar em outros momentos
+
+    # Janela de Login
+    janela_login = customtkinter.CTk()
+
+    janela_login.iconbitmap(assets + "fiap-ico.ico")
+    janela_login.title("LOGIN")
+
+    screens.centralizar(janela_login)
+
+    # Canvas2 para posicionar os elementos
+    canvas2 = Canvas(janela_login, width=655, height=400, bd=-1000)
+    canvas2.pack(fill="both", expand=True)
+
+    # Carregando imagens
+    imagem_olho_fechado = ImageTk.PhotoImage(Image.open(assets + "olhoFechado.png").resize((20, 20)))
+
+    screens.background(canvas2, assets + "fiapFundoLogin.png")
+
+    # Logo da FIAP
+    logoFiap = PhotoImage(file=assets + "fiapLogo.png")
+    canvas2.create_image(330, 52, image=logoFiap)
+
+    # Login do Laboratorio
+    canvas2.create_text(30, 148, text="Login Laboratório (Windows):", fill="white", font=("Arial", 9, "bold"), anchor="w")
+    entrada_login_lab = customtkinter.CTkEntry(janela_login, placeholder_text="Insira seu nome...", width=170,
+                                          fg_color="transparent", height=35)
+    canvas2.create_window(115, 179, window=entrada_login_lab)
+
+    # Adicionando evento de Enter ao campo entrada_login_lab
+    entrada_login_lab.bind("<Return>", lambda event: verificar_login_logins())
+
+    # Senha do Laboratorio
+    canvas2.create_text(30, 214, text="Senha Laboratório (Windows):", fill="white", font=("Arial", 9, "bold"), anchor="w")
+    entrada_senha_lab = customtkinter.CTkEntry(janela_login, placeholder_text="Insira sua senha...", show="*", width=170,
+                                           fg_color="transparent", height=35)
+    canvas2.create_window(115, 247, window=entrada_senha_lab)
+
+    # Botão Mostrar/Ocultar Senha com Ícone
+    botao_mostrar_senha_lab = customtkinter.CTkButton(janela_login, image=imagem_olho_fechado, width=0, height=0,
+                                                          command=lambda: password.mostrarSenha(entrada_senha_lab,
+                                                                                                botao_mostrar_senha_lab),
+                                                          text="", hover_color=cor_input,
+                                                          fg_color=cor_input)
+    canvas2.create_window(183, 247, window=botao_mostrar_senha_lab)  # Posição ao lado do campo de senha
+
+    # Adicionando evento de Enter ao campo entrada_senha_lab
+    entrada_senha_lab.bind("<Return>", lambda event: verificar_login_logins())
+
+
+    # Login da Prova Normal
+    canvas2.create_text(235, 148, text="Login Prova (Aplicação):", fill="white", font=("Arial", 9, "bold"),
+                        anchor="w")
+    entrada_login_prova = customtkinter.CTkEntry(janela_login, placeholder_text="Insira seu nome...", width=170,
+                                               fg_color="transparent", height=35)
+    canvas2.create_window(320, 179, window=entrada_login_prova)
+
+    # Adicionando evento de Enter ao campo entrada_login_lab
+    entrada_login_prova.bind("<Return>", lambda event: verificar_login_logins())
+
+
+    # Senha da Prova Normal
+    canvas2.create_text(235, 214, text="Senha Prova (Aplicação):", fill="white", font=("Arial", 9, "bold"),
+                        anchor="w")
+    entrada_senha_prova = customtkinter.CTkEntry(janela_login, placeholder_text="Insira sua senha...", show="*",
+                                               width=170,
+                                               fg_color="transparent", height=35)
+    canvas2.create_window(320, 247, window=entrada_senha_prova)
+
+    # Botão Mostrar/Ocultar Senha com Ícone
+    botao_mostrar_senha_prova = customtkinter.CTkButton(janela_login, image=imagem_olho_fechado, width=0, height=0,
+                                                          command=lambda: password.mostrarSenha(entrada_senha_prova,
+                                                                                                botao_mostrar_senha_prova),
+                                                          text="", hover_color=cor_input,
+                                                          fg_color=cor_input)
+    canvas2.create_window(388, 247, window=botao_mostrar_senha_prova)  # Posição ao lado do campo de senha
+
+    # Adicionando evento de Enter ao campo entrada_senha_lab
+    entrada_senha_prova.bind("<Return>", lambda event: verificar_login_logins())
+
+    440 / 525 / 593
+    # Login da Prova Online
+    canvas2.create_text(440, 148, text="Login Prova ON (Aplicação):", fill="white", font=("Arial", 9, "bold"),
+                        anchor="w")
+    entrada_login_prova_on = customtkinter.CTkEntry(janela_login, placeholder_text="Insira seu nome...", width=170,
+                                               fg_color="transparent", height=35)
+    canvas2.create_window(525, 179, window=entrada_login_prova_on)
+
+    # Adicionando evento de Enter ao campo entrada_login_lab
+    entrada_login_prova_on.bind("<Return>", lambda event: verificar_login_logins())
+
+    # Senha da Prova Online
+    canvas2.create_text(440, 214, text="Senha Prova ON (Aplicação):", fill="white", font=("Arial", 9, "bold"),
+                        anchor="w")
+    entrada_senha_prova_on = customtkinter.CTkEntry(janela_login, placeholder_text="Insira sua senha...", show="*",
+                                               width=170,
+                                               fg_color="transparent", height=35)
+    canvas2.create_window(525, 247, window=entrada_senha_prova_on)
+
+    # Botão Mostrar/Ocultar Senha com Ícone
+    botao_mostrar_senha_prova_on = customtkinter.CTkButton(janela_login, image=imagem_olho_fechado, width=0, height=0,
+                                                          command=lambda: password.mostrarSenha(entrada_senha_prova_on,
+                                                                                                botao_mostrar_senha_prova_on),
+                                                          text="", hover_color=cor_input,
+                                                          fg_color=cor_input)
+    canvas2.create_window(593, 247, window=botao_mostrar_senha_prova_on)  # Posição ao lado do campo de senha
+
+    # Adicionando evento de Enter ao campo entrada_senha_lab
+    entrada_senha_prova_on.bind("<Return>", lambda event: verificar_login_logins())
+
+
+
+    # Botão Entrar
+    botao_entrar = customtkinter.CTkButton(janela_login, text="Entrar", width=300, height=34, command=verificar_login_logins,
+                                           fg_color=cor_fundo, font=fonteBotao, hover_color=cor_fundo_escuro)
+    canvas2.create_window(325, 357, window=botao_entrar)
+
+    # Iniciar o loop da tela de login
+    janela_login.mainloop()
 
 def telaMensagem():
     """
