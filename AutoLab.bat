@@ -1,2 +1,4 @@
 @echo off
-bats-fiap\venv\Scripts\python.exe bats-fiap\project\interface.py
+%~d0
+cd \
+%~d0\bats-fiap\venv\Scripts\python.exe %~d0\bats-fiap\project\interface.py

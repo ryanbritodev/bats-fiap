@@ -89,6 +89,7 @@ cor_voltar_escuro = "#BC0404"
 incrementing = False
 decrementing = False
 
+
 def recadastrar_geral():
     # Detecta se o caminho das credenciais existe, se sim os apaga
     if os.path.exists(scripts + arquivo_usuario):
@@ -239,6 +240,7 @@ def confirmar_acao(mensagem, comando):
     if resposta:  # Se o usuário clicar em "Sim"
         comando()
 
+
 # Função para criar arquivo criptografado com credenciais
 def cadastrar_monitor(nome, login, senha):
     chave = hashlib.sha256(pegar_chave_bitlocker().encode()).digest()
@@ -331,6 +333,17 @@ def auto_url(inicio, passo, fim, url):
              str(passo), str(fim), str(url)])
 
 
+def auto_psexec(inicio, passo, fim, comando):
+    auto_runas(login_user, senha_user)
+
+    time.sleep(0.5)
+
+    if os.path.exists(scripts + "AutoExec\\AutoExec.py"):
+        subprocess.run(
+            [main + "venv\\Scripts\\python.exe", scripts + "AutoExec\\AutoExec.py", str(inicio),
+             str(passo), str(fim), str(login_lab), str(senha_lab), str(comando)])
+
+
 # Função generica para aumentar o valor de qualquer campo
 def increment_value(entry_widget):
     if incrementing:
@@ -393,6 +406,7 @@ def on_hover(event):
     """
     janela.config(cursor="hand2")  # Muda o cursor para o símbolo de mão
 
+
 def on_hover_out(event):
     """
     --> Restaura o cursor para o padrão quando o mouse sai da área do botão.
@@ -449,7 +463,8 @@ def telaPrincipal(nome_user):
     canvas1.create_image(324, 126, image=autoLab)
 
     # Logoff
-    imagem_logoff = ImageTk.PhotoImage(Image.open(assets + "logoff.png").resize((25, 25)))
+    imagem_logoff_user = ImageTk.PhotoImage(Image.open(assets + "logoff_user.png").resize((25, 25)))
+    imagem_logoff_functions = ImageTk.PhotoImage(Image.open(assets + "logoff_functions.png").resize((25, 25)))
 
     # Configurações
     imagem_config = ImageTk.PhotoImage(Image.open(assets + "config.png").resize((27, 27)))
@@ -497,6 +512,9 @@ def telaPrincipal(nome_user):
     botao_runas = customtkinter.CTkButton(janela, text="Runas", width=130, height=40, font=fonteBotaoP,
                                           fg_color=cor_fundo, hover_color=cor_fundo_escuro,
                                           command=lambda: [auto_runas(login_user, senha_user)])
+    botao_psexec = customtkinter.CTkButton(janela, text="PsExec", width=130, height=40, font=fonteBotaoP,
+                                          fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                          command=lambda: [janela.destroy(), telaPSEXEC()])
 
     # Botão de Logoff
     # botao_logoff = customtkinter.CTkButton(
@@ -512,14 +530,14 @@ def telaPrincipal(nome_user):
     # )
 
     # Botão de Logoff
-    botao_logoff = canvas1.create_image(585, 40, image=imagem_logoff)
+    botao_logoff = canvas1.create_image(585, 40, image=imagem_logoff_user)
     canvas1.tag_bind(botao_logoff, "<Button-1>", lambda event: [recadastrar_monitor(), janela.destroy(), tela_login_monitor()])
     # Adicionar o efeito de hover (cursor)
     canvas1.tag_bind(botao_logoff, "<Enter>", on_hover)
     canvas1.tag_bind(botao_logoff, "<Leave>", on_hover_out)
 
     # Botão de Logoff
-    botao_logoff = canvas1.create_image(585, 80, image=imagem_logoff)
+    botao_logoff = canvas1.create_image(585, 80, image=imagem_logoff_functions)
     canvas1.tag_bind(botao_logoff, "<Button-1>", lambda event: [recadastrar_funcoes(), janela.destroy(), tela_login_funcoes()])
     # Adicionar o efeito de hover (cursor)
     canvas1.tag_bind(botao_logoff, "<Enter>", on_hover)
@@ -572,6 +590,7 @@ def telaPrincipal(nome_user):
         canvas1.create_window(398, 340, window=botao_pn)
         canvas1.create_window(538, 240, window=botao_url)
         canvas1.create_window(538, 290, window=botao_nac)
+        canvas1.create_window(538, 340, window=botao_psexec)
 
     # canvas1.create_window(580, 35, window=botao_logoff)
 
@@ -2164,6 +2183,260 @@ def telaURL():
 
     # Loop da Janela principal
     janelaURL.mainloop()
+
+
+def telaPSEXEC():
+    """
+        --> Função que exibe a tela com os parâmetros do PsExec a ser executado nas máquinas
+    """
+    # Janela principal
+    janelaPSEXEC = customtkinter.CTk()
+
+    janelaPSEXEC.iconbitmap(assets + "fiap-ico.ico")
+
+    screens.centralizar(janelaPSEXEC)
+
+    # Título
+    janelaPSEXEC.title("AUTOPSEXEC")
+
+    # Canvas1 para disposição dos elementos
+    canvas1 = Canvas(janelaPSEXEC, width=655, height=400, bd=-1000)
+    canvas1.pack(fill="both", expand=True)
+
+    screens.background(canvas1)
+
+    # Imagem URL
+    remove = ImageTk.PhotoImage(Image.open(assets + "autoPSEXEC.png"))
+    canvas1.create_image(328, 50, image=remove)
+
+    # Imagem Globo
+    globo = ImageTk.PhotoImage(Image.open(assets + "command.png").resize((20, 20)))
+    canvas1.create_image(71, 135, image=globo)
+
+    canvas1.create_text(140, 135, text="Comando:", fill="white", font=("Arial", 14, "bold"))
+    entrada_comando = customtkinter.CTkTextbox(janelaPSEXEC, width=400, height=20,
+                                                border_width=1, border_color=cor_input_numerico,)
+    canvas1.create_window(400, 135, window=entrada_comando)
+
+
+    # Campos dos Inputs
+    global entry, entry2, entry3, entry4, entry5, entry6, entry7
+    vcmd = (janelaPSEXEC.register(validate_input), "%P")  # "%P" passa o valor atual para a função de validação
+    entry = customtkinter.CTkEntry(janelaPSEXEC, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                   font=fonte,
+                                   validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry.insert(0, "5")  # Valor inicial
+    entry2 = customtkinter.CTkEntry(janelaPSEXEC, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry2.insert(0, "1")  # Valor inicial
+    entry3 = customtkinter.CTkEntry(janelaPSEXEC, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry3.insert(0, "5")  # Valor inicial
+    entry4 = customtkinter.CTkEntry(janelaPSEXEC, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry4.insert(0, "1")  # Valor inicial
+    entry5 = customtkinter.CTkEntry(janelaPSEXEC, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry5.insert(0, "40")  # Valor inicial
+    entry6 = customtkinter.CTkEntry(janelaPSEXEC, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry6.insert(0, "1")  # Valor inicial
+    entry7 = customtkinter.CTkEntry(janelaPSEXEC, width=100, justify="center", fg_color=cor_fundo_input_numerico,
+                                    font=fonte,
+                                    validate="key", validatecommand=vcmd, border_color=cor_fundo_input_numerico)
+    entry7.insert(0, "5")  # Valor inicial
+
+    # Inputs numéricos
+    # canvas1.create_window(120, 235, window=entry)
+    canvas1.create_window(323, 250, window=entry2)
+    # canvas1.create_window(323, 268, window=entry3)
+    canvas1.create_window(525, 250, window=entry4)
+    canvas1.create_window(525, 285, window=entry5)
+    canvas1.create_window(525, 320, window=entry6)
+    # canvas1.create_window(525, 300, window=entry7)
+
+    # Botões de aumentar e diminuir o valor (Lab)
+    # increase_button = customtkinter.CTkButton(janelaLimpar, text="▲", width=37, fg_color=cor_fundo,
+    #                                           hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+    #                                           border_width=-100)
+    # canvas1.create_window(185, 235, window=increase_button)
+    # increase_button.bind("<ButtonPress-1>", lambda event: start_increment(event, entry))
+    # increase_button.bind("<ButtonRelease-1>", stop_increment)
+    #
+    # decrease_button = customtkinter.CTkButton(janelaLimpar, text="▼", width=37, fg_color=cor_fundo,
+    #                                           hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+    #                                           border_width=-100)
+    # canvas1.create_window(55, 235, window=decrease_button)
+    # decrease_button.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry))
+    # decrease_button.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Botões de aumentar e diminuir o valor (Máquina)
+    increase_button_machine = customtkinter.CTkButton(janelaPSEXEC, text="▲", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(384, 250, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry2))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaPSEXEC, text="▼", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(262, 250, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry2))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Botões de aumentar e diminuir o valor do tempo (Máquina)
+    # increase_button_machine = customtkinter.CTkButton(janelaLimpar, text="▲", width=37, fg_color=cor_fundo,
+    #                                                   hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+    #                                                   border_width=-100)
+    # canvas1.create_window(388, 268, window=increase_button_machine)
+    # increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry3))
+    # increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+    #
+    # decrease_button_machine = customtkinter.CTkButton(janelaLimpar, text="▼", width=37, fg_color=cor_fundo,
+    #                                                   hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+    #                                                   border_width=-100)
+    # canvas1.create_window(258, 268, window=decrease_button_machine)
+    # decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry3))
+    # decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Botões de Limpar Personalizado
+    # Início
+    increase_button_machine = customtkinter.CTkButton(janelaPSEXEC, text="▲", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(586, 250, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry4))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaPSEXEC, text="▼", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(464, 250, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry4))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Fim
+    increase_button_machine = customtkinter.CTkButton(janelaPSEXEC, text="▲", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(586, 285, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry5))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaPSEXEC, text="▼", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(464, 285, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry5))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Passo
+    increase_button_machine = customtkinter.CTkButton(janelaPSEXEC, text="▲", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(586, 320, window=increase_button_machine)
+    increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry6))
+    increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+
+    decrease_button_machine = customtkinter.CTkButton(janelaPSEXEC, text="▼", width=18, height=28, fg_color=cor_fundo,
+                                                      hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+                                                      border_width=-100)
+    canvas1.create_window(464, 320, window=decrease_button_machine)
+    decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry6))
+    decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Tempo
+    # increase_button_machine = customtkinter.CTkButton(janelaURL, text="▲", width=37, fg_color=cor_fundo,
+    #                                                   hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+    #                                                   border_width=-100)
+    # canvas1.create_window(590, 300, window=increase_button_machine)
+    # increase_button_machine.bind("<ButtonPress-1>", lambda event: start_increment(event, entry7))
+    # increase_button_machine.bind("<ButtonRelease-1>", stop_increment)
+    #
+    # decrease_button_machine = customtkinter.CTkButton(janelaURL, text="▼", width=37, fg_color=cor_fundo,
+    #                                                   hover_color=cor_fundo_escuro, border_color=cor_input_numerico,
+    #                                                   border_width=-100)
+    # canvas1.create_window(460, 300, window=decrease_button_machine)
+    # decrease_button_machine.bind("<ButtonPress-1>", lambda event: start_decrement(event, entry7))
+    # decrease_button_machine.bind("<ButtonRelease-1>", stop_decrement)
+
+    # Mensagem Lab
+    canvas1.create_text(120, 190, text="Executar Lab", fill="white", font=("Arial", 16, "bold"))
+    # canvas1.create_text(120, 200, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
+
+    # Executar comando no lab inteiro
+    botao_abrir_lab_inteiro = customtkinter.CTkButton(janelaPSEXEC, text="Executar", width=145, height=40,
+                                                       font=fonte,
+                                                       fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                       command=lambda: [auto_psexec(1, 1, 99, entrada_comando.get("0.0", "end")),
+                                                                        action.executar_acao("URL", "Lab",
+                                                                                             tempo=entry.get()),
+                                                                        screens.mostrar_comando_executado(janelaPSEXEC,
+                                                                                                          telaPSEXEC)])
+    # Executar comando na máquina selecionada
+    canvas1.create_text(323, 190, text="Executar Máquina", fill="white", font=("Arial", 16, "bold"))
+    canvas1.create_text(323, 220, text="N° da Máquina", fill="white", font=("Arial", 14, "bold"))
+    # canvas1.create_text(323, 235, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
+
+    botao_abrir_maquina = customtkinter.CTkButton(janelaPSEXEC, text="Executar", width=145, height=40,
+                                                   font=fonte,
+                                                   fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                   command=lambda: [auto_psexec(entry2.get(), 1, entry2.get(), entrada_comando.get("0.0", "end")),
+                                                                    action.executar_acao("URL", "Maquina",
+                                                                                         maquina=entry2.get(),
+                                                                                         # tempo=entry3.get()
+                                                                                         ),
+                                                                    screens.mostrar_comando_executado(janelaPSEXEC,
+                                                                                                      telaPSEXEC)])
+
+    # Executar de forma personalizada
+    canvas1.create_text(525, 190, text="Personalizado", fill="white", font=("Arial", 16, "bold"))
+    canvas1.create_text(525, 216, text="Início, Fim e Passo", fill="white", font=("Arial", 14, "bold"))
+    # canvas1.create_text(525, 267, text="Tempo (Segundos)", fill="white", font=("Arial", 14, "bold"))
+
+    # Botões
+    botao_abrir_personalizado = customtkinter.CTkButton(janelaPSEXEC, text="Executar", width=145, height=40,
+                                                         font=fonte,
+                                                         fg_color=cor_fundo, hover_color=cor_fundo_escuro,
+                                                         command=lambda: [
+                                                             auto_psexec(entry4.get(), entry6.get(), entry5.get(), entrada_comando.get("0.0", "end")),
+                                                             action.executar_acao("URL", "Personalizado",
+                                                                                  inicio=entry4.get(), fim=entry5.get(),
+                                                                                  passo=entry6.get(),
+                                                                                  tempo=entry7.get()),
+                                                             screens.mostrar_comando_executado(
+                                                                 janelaPSEXEC,
+                                                                 telaPSEXEC)])
+
+    # Posicionando os botões sobre o Canvas
+    canvas1.create_window(120, 230, window=botao_abrir_lab_inteiro)
+    canvas1.create_window(323, 295, window=botao_abrir_maquina)
+    canvas1.create_window(525, 365, window=botao_abrir_personalizado)
+
+    botao_voltar = customtkinter.CTkButton(
+        janelaPSEXEC,
+        text="⬅",
+        width=40,
+        height=40,
+        border_width=-1000,
+        font=fonteBotaoP,
+        fg_color=cor_fundo,
+        hover_color=cor_fundo_escuro,
+        command=lambda: [janelaPSEXEC.destroy(), telaPrincipal(nome_user)]
+        # Fecha a tela atual e volta à principal
+    )
+
+    # Posicionando o botão de Voltar na tela
+    canvas1.create_window(50, 48, window=botao_voltar)
+
+    # Loop da Janela principal
+    janelaPSEXEC.mainloop()
 
 
 def telaPON():
