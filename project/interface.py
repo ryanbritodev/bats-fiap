@@ -24,6 +24,7 @@ import customtkinter
 from PIL import Image, ImageTk
 import ctypes
 import pywinstyles
+import compileall
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.connect(("8.8.8.8", 80))
@@ -33,15 +34,20 @@ ip_split = ip.split(".")
 
 # Caminho do projeto
 path = __file__.split("\\")
-main = path[0] + f"\\{path[1]}\\"
+main = ""
+for directory in path[0:-2]:
+    main = main + directory + "\\"
 
-sys.path.append(path[1])
+sys.path.append(path[-3])
 
 # Subpastas do projeto
 autolab = main + "autolab\\"
 project = main + "project\\"
 scripts = main + "scripts\\"
 assets = project + "assets\\"
+
+if not os.path.exists(project + "__pycache__"):
+    compileall.compile_dir(main)
 
 arquivo_usuario = "user.bin"
 arquivo_funcoes = "functions.bin"
