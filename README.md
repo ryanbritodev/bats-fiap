@@ -31,7 +31,7 @@ O sistema é capaz de executar arquivos .bat que contêm scripts pré-configurad
 A interface foi projetada para tornar a execução desses scripts simples e acessível, mesmo para quem não possui conhecimentos nos comandos do CMD.
 
 ### 3. Customização de Scripts
-Os usuários podem personalizar os scripts .bat conforme suas necessidades específicas, garantindo flexibilidade e eficiência no uso da ferramenta com parâmetros.
+Os usuários podem personalizar os scripts .bat com parâmetros conforme suas necessidades específicas, garantindo flexibilidade e eficiência no uso da ferramenta.
 
 ### 4. Automação e Economia de Tempo
 Com a automação, tarefas que antes precisavam ser realizadas manualmente agora podem ser feitas com um único clique, economizando tempo e reduzindo erros operacionais.
