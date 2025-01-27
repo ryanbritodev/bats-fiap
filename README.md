@@ -47,7 +47,8 @@ Para começar, certifique-se de atender aos seguintes requisitos:
 - Sistema Operacional: Windows (requer CMD para a execução dos scripts).
 - Python: Já incluso no ambiente configurado no projeto.
 
-<img src="project/assets/ativando-bitlocker.gif" width="100%" alt="FIAP Autolab"/>
+## 💾 Ativando o BitLocker no Pen Drive
+<img src="project/assets/ativando-bitlocker.gif" width="100%" alt="Ativando o BitLocker"/>
 
 Passo a Passo
 - Clone o repositório do projeto na raíz do seu Pen Drive com o BitLocker ativo.
