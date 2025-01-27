@@ -63,3 +63,10 @@ Configuração do Ambiente Virtual
 
 Ajustes de Nomenclatura
 - Se for necessário renomear a pasta bats-fiap, atualize o nome no arquivo AutoLab.vbs.
+
+## 🚀 Como Usar
+Inicializar o Software
+- Clique duas vezes no arquivo AutoLab.bat para iniciar a aplicação.
+
+Executar Scripts
+- Escolha as tarefas disponíveis na interface e clique no botão correspondente para executar.
