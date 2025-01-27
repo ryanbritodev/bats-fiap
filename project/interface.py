@@ -3231,7 +3231,7 @@ def verificar_login_monitor():
     # Verificacao se algum dos campos esta vazio
     if not nome_usuario or not login_usuario or not senha_usuario: # or not senha_cmd_usuario:
         # Exibe uma mensagem de alerta
-        messagebox.showwarning("CAMPOS VAZIOS", "Atencao! Todos os campos devem ser preenchidos.")
+        messagebox.showwarning("CAMPOS VAZIOS", "Atenção! Todos os campos devem ser preenchidos.")
         return  # Retorna para nao continuar o processo se os campos nao estiverem preenchidos
 
     # Printando no Terminal
@@ -3262,11 +3262,11 @@ def verificar_login_logins():
     # Verificacao se algum dos campos esta vazio
     if not login_lab or not senha_lab or not login_prova or not senha_prova or not login_prova_on or not senha_prova_on:
         # Exibe uma mensagem de alerta
-        messagebox.showwarning("CAMPOS VAZIOS", "Atencao! Todos os campos obrigatórios devem ser preenchidos.")
+        messagebox.showwarning("CAMPOS VAZIOS", "Atenção! Todos os campos obrigatórios devem ser preenchidos.")
         return  # Retorna para nao continuar o processo se os campos nao estiverem preenchidos
 
     if not login_admin and senha_admin:
-        messagebox.showwarning("CAMPOS VAZIOS", "Atencao! Preencha o login de administrador.")
+        messagebox.showwarning("CAMPOS VAZIOS", "Atenção! Preencha o login de administrador.")
         return
 
     janela_login.destroy()  # Fecha a janela de login ao final, pra chamar a telaPrincipal
@@ -3359,7 +3359,7 @@ def tela_confirmacao_logins(login_laboratorio, senha_laboratorio, login_prova, s
     screens.centralizar(janela_confirmacao)
 
     janela_confirmacao.iconbitmap(assets + "fiap-ico.ico")
-    janela_confirmacao.title("CONFIRMAcaO DE DADOS")
+    janela_confirmacao.title("CONFIRMAÇÃO DE DADOS")
 
     canvas_confirmacao = Canvas(janela_confirmacao, width=655, height=400, bd=-1000)
     canvas_confirmacao.pack(fill="both", expand=True)
@@ -3380,7 +3380,7 @@ def tela_confirmacao_logins(login_laboratorio, senha_laboratorio, login_prova, s
     canvas_confirmacao.create_text(170, 163, text=f"Senha: {'*' * len(senha_prova_on)}", fill="white",
                                    font=("Arial", 12, "bold"), anchor="w")
 
-    canvas_confirmacao.create_text(170, 203, text=f"Laboratorio: {login_lab}", fill="white", font=("Arial", 12, "bold"),
+    canvas_confirmacao.create_text(170, 203, text=f"Laboratório: {login_lab}", fill="white", font=("Arial", 12, "bold"),
                                    anchor="w")
     canvas_confirmacao.create_text(170, 223, text=f"Senha: {'*' * len(senha_lab)}", fill="white",
                                    font=("Arial", 12, "bold"), anchor="w")
@@ -3514,9 +3514,9 @@ def tela_login_funcoes():
     canvas2.create_image(330, 52, image=logoFiap)
 
     # Login da Prova Normal
-    canvas2.create_text(88, 136, text="Prova (Aplicacao):", fill="white", font=("Arial", 12, "bold"),
+    canvas2.create_text(88, 136, text="Prova (Aplicação):", fill="white", font=("Arial", 12, "bold"),
                         anchor="w")
-    entrada_login_prova = customtkinter.CTkEntry(janela_login, placeholder_text="login da prova normal...", width=170,
+    entrada_login_prova = customtkinter.CTkEntry(janela_login, placeholder_text="Login PN...", width=170,
                                                fg_color="transparent", height=35)
     canvas2.create_window(335, 136, window=entrada_login_prova)
 
@@ -3525,7 +3525,7 @@ def tela_login_funcoes():
 
 
     # Senha da Prova Normal
-    entrada_senha_prova = customtkinter.CTkEntry(janela_login, placeholder_text="senha da prova normal...", show="*",
+    entrada_senha_prova = customtkinter.CTkEntry(janela_login, placeholder_text="Senha PN...", show="*",
                                                width=170,
                                                fg_color="transparent", height=35)
     canvas2.create_window(535, 136, window=entrada_senha_prova)
@@ -3543,9 +3543,9 @@ def tela_login_funcoes():
 
 
     # Login da Prova Online
-    canvas2.create_text(60, 186, text="Prova ON (Aplicacao):", fill="white", font=("Arial", 12, "bold"),
+    canvas2.create_text(60, 186, text="Prova ON (Aplicação):", fill="white", font=("Arial", 12, "bold"),
                         anchor="w")
-    entrada_login_prova_on = customtkinter.CTkEntry(janela_login, placeholder_text="senha da prova online...", width=170,
+    entrada_login_prova_on = customtkinter.CTkEntry(janela_login, placeholder_text="Login PON...", width=170,
                                                fg_color="transparent", height=35)
     canvas2.create_window(335, 186, window=entrada_login_prova_on)
 
@@ -3553,7 +3553,7 @@ def tela_login_funcoes():
     entrada_login_prova_on.bind("<Return>", lambda event: verificar_login_logins())
 
     # Senha da Prova Online
-    entrada_senha_prova_on = customtkinter.CTkEntry(janela_login, placeholder_text="senha da prova online...", show="*",
+    entrada_senha_prova_on = customtkinter.CTkEntry(janela_login, placeholder_text="Senha PON...", show="*",
                                                width=170,
                                                fg_color="transparent", height=35)
     canvas2.create_window(535, 186, window=entrada_senha_prova_on)
@@ -3573,7 +3573,7 @@ def tela_login_funcoes():
     # Login do Laboratorio
     canvas2.create_text(47, 236, text="Laboratório (Windows):", fill="white", font=("Arial", 12, "bold"),
                         anchor="w")
-    entrada_login_lab = customtkinter.CTkEntry(janela_login, placeholder_text="login do laboratorio...", width=170,
+    entrada_login_lab = customtkinter.CTkEntry(janela_login, placeholder_text="Login Lab...", width=170,
                                                fg_color="transparent", height=35)
     canvas2.create_window(335, 236, window=entrada_login_lab)
 
@@ -3581,7 +3581,7 @@ def tela_login_funcoes():
     entrada_login_lab.bind("<Return>", lambda event: verificar_login_logins())
 
     # Senha do Laboratorio
-    entrada_senha_lab = customtkinter.CTkEntry(janela_login, placeholder_text="senha do laboratorio...", show="*",
+    entrada_senha_lab = customtkinter.CTkEntry(janela_login, placeholder_text="Senha Lab...", show="*",
                                                width=170,
                                                fg_color="transparent", height=35)
     canvas2.create_window(535, 236, window=entrada_senha_lab)
@@ -3599,11 +3599,11 @@ def tela_login_funcoes():
 
 
     # Login do Administrador
-    canvas2.create_text(30, 286, text="Administrador (Windows):", fill="white", font=("Arial", 12, "bold"),
+    canvas2.create_text(30, 286, text="Administrator (Windows):", fill="white", font=("Arial", 12, "bold"),
                         anchor="w")
     canvas2.create_text(90, 306, text="(Opcional)", fill="white", font=("Arial", 10, "bold"),
                         anchor="w")
-    entrada_login_adm = customtkinter.CTkEntry(janela_login, placeholder_text="login de administrador...", width=170,
+    entrada_login_adm = customtkinter.CTkEntry(janela_login, placeholder_text="Login Administrator...", width=170,
                                                fg_color="transparent", height=35)
     canvas2.create_window(335, 286, window=entrada_login_adm)
 
@@ -3612,7 +3612,7 @@ def tela_login_funcoes():
 
 
     # Senha do Administrador
-    entrada_senha_adm = customtkinter.CTkEntry(janela_login, placeholder_text="senha de administrador...", show="*",
+    entrada_senha_adm = customtkinter.CTkEntry(janela_login, placeholder_text="Senha Administrator...", show="*",
                                                width=170,
                                                fg_color="transparent", height=35)
     canvas2.create_window(535, 286, window=entrada_senha_adm)
