@@ -67,6 +67,7 @@ Ajustes de Nomenclatura
 ## 🚀 Como Usar
 Inicializar o Software
 - Clique duas vezes no arquivo AutoLab.bat para iniciar a aplicação.
+- Preencha suas credenciais no campo de Login.
 
 Executar Scripts
 - Escolha as tarefas disponíveis na interface e clique no botão correspondente para executar.
