@@ -43,12 +43,12 @@ O uso do sistema garante que as operações sejam realizadas de maneira segura, 
 ### Pré-requisitos
 
 Para começar, certifique-se de atender aos seguintes requisitos:
-- Hardware: Pen Drive com BitLocker ativo
+- Hardware: Pen Drive com BitLocker ativo.
 - Sistema Operacional: Windows (requer CMD para a execução dos scripts).
 - Python: Já incluso no ambiente configurado no projeto.
 
 Passo a Passo
-- Clone o repositório do projeto
+- Clone o repositório do projeto na raíz do seu Pen Drive com o BitLocker ativo.
 - No terminal, execute o comando:
 
 ```bash
