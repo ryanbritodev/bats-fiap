@@ -76,7 +76,7 @@ Inicializar o Software
 Executar Scripts
 - Escolha as tarefas disponíveis na interface e clique no botão correspondente para executar!
 
-📞 Suporte
+## 📞 Suporte
 Caso tenha dúvidas ou sugestões, entre em contato com os criadores.
 
-Agradecemos por usar o FIAP Autolab e contribuir para um ambiente de aula mais produtivo! 🚀
+## Agradecemos por usar o FIAP Autolab e contribuir para um ambiente de aula mais produtivo! 🚀
