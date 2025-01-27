@@ -40,9 +40,26 @@ Com a automação, tarefas que antes precisavam ser realizadas manualmente agora
 O uso do sistema garante que as operações sejam realizadas de maneira segura, controlada e criptografada, minimizando acessos indevidos.
 
 ## 📁 Instalação
+### Pré-requisitos
 
-Para começar, você precisa clonar o repositório do projeto em sua máquina local. Utilize o comando abaixo no terminal:
+Para começar, certifique-se de atender aos seguintes requisitos:
+- Sistema Operacional: Windows (requer CMD para a execução dos scripts).
+- Python: Já incluso no ambiente configurado no projeto.
+
+Passo a Passo
+- Clone o repositório do projeto
+- No terminal, execute o comando:
 
 ```bash
 git clone -b LabLogins https://github.com/ryanbritodev/bats-fiap.git
 ```
+
+Configuração da Estrutura do Projeto
+- Coloque a pasta bats-fiap na raiz do drive (ex.: E:\bats-fiap).
+- Certifique-se de manter o arquivo AutoLab.vbs na mesma pasta.
+
+Configuração do Ambiente Virtual
+- Extraia o conteúdo do arquivo venv.zip dentro da pasta bats-fiap.
+
+Ajustes de Nomenclatura
+- Se for necessário renomear a pasta bats-fiap, atualize o nome no arquivo AutoLab.vbs.
