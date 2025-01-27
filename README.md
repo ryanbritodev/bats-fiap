@@ -56,7 +56,7 @@ git clone -b LabLogins https://github.com/ryanbritodev/bats-fiap.git
 ```
 
 Configuração da Estrutura do Projeto
-- Coloque a pasta bats-fiap na raiz do drive (ex.: E:\bats-fiap).
+- Mantenha a pasta bats-fiap na raiz do drive (ex.: E:\bats-fiap).
 - Certifique-se de manter o arquivo AutoLab.vbs na mesma pasta.
 
 Configuração do Ambiente Virtual
