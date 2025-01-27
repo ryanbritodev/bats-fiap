@@ -43,6 +43,7 @@ O uso do sistema garante que as operações sejam realizadas de maneira segura, 
 ### Pré-requisitos
 
 Para começar, certifique-se de atender aos seguintes requisitos:
+- Hardware: Pen Drive com BitLocker ativo
 - Sistema Operacional: Windows (requer CMD para a execução dos scripts).
 - Python: Já incluso no ambiente configurado no projeto.
 
@@ -66,7 +67,7 @@ Ajustes de Nomenclatura
 
 ## 🚀 Como Usar
 Inicializar o Software
-- Clique duas vezes no arquivo AutoLab.bat para iniciar a aplicação.
+- Clique duas vezes no arquivo AutoLab.vbs para iniciar a aplicação.
 - Preencha suas credenciais no campo de Login.
 
 Executar Scripts
