@@ -48,7 +48,7 @@ Para começar, certifique-se de atender aos seguintes requisitos:
 - Python: Já incluso no ambiente configurado no projeto.
 
 ## 💾 Ativando o BitLocker no Pen Drive
-<img src="project/assets/ativando-bitlocker.gif" width="100%" alt="Ativando o BitLocker"/>
+<img src="https://github.com/ryanbritodev/autolab/raw/main/project/assets/ativando-bitlocker.gif" width="100%" alt="Ativando o BitLocker"/>
 
 Passo a Passo
 - Clone o repositório do projeto na raíz do seu Pen Drive com o BitLocker ativo.
@@ -73,7 +73,7 @@ Inicializar o Software
 - Clique duas vezes no arquivo AutoLab.vbs para iniciar a aplicação.
 - Preencha suas credenciais no campo de Login.
 
-<img src="project/assets/login-autolab.png" width="100%" alt="Tela de Login"/>
+<img src="https://github.com/ryanbritodev/autolab/raw/main/project/assets/login-autolab.png" width="100%" alt="Tela de Login"/>
 
 Executar Scripts
 - Escolha as tarefas disponíveis na interface e clique no botão correspondente para executar!
