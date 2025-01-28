@@ -445,7 +445,7 @@ def abrir_creditos():
     """
     --> Abre o link do repositório no GitHub com o detalhamento do projeto
     """
-    url_creditos = "https://github.com/ryanbritodev/bats-fiap"
+    url_creditos = "https://github.com/ryanbritodev/autolab"
     webbrowser.open(url_creditos)
 
 
