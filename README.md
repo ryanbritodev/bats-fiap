@@ -79,6 +79,6 @@ Executar Scripts
 - Escolha as tarefas disponíveis na interface e clique no botão correspondente para executar!
 
 ## 📞 Suporte
-Caso tenha dúvidas ou sugestões, entre em contato com os criadores ou consulte o diretório [_ajuda_](https://github.com/ryanbritodev/autolab/tree/LabLogins/ajuda) para saber mais sobre.
+Caso tenha dúvidas ou sugestões, entre em contato com os criadores ou consulte o diretório [ajuda](https://github.com/ryanbritodev/autolab/tree/LabLogins/ajuda) para saber mais sobre.
 
 ### Agradecemos por usar o FIAP Autolab e contribuir para um ambiente de aula mais produtivo! 🚀
