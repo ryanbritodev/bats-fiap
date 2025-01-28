@@ -11,7 +11,7 @@ O FIAP Autolab é um software de automação criado para facilitar o dia a dia d
 - Ryan Brito Pereira Ramos
 <div style="display: flex;">
  <a href="https://www.linkedin.com/in/victor-fl%C3%A1vio/"><img src="https://github.com/ryanbritodev/autolab/raw/main/project/assets/victor.jpeg" alt="Victor Flávio" width="150px"></a>
- <a href="https://www.linkedin.com/in/ryanbritodev"><img src="https://www.linkedin.com/in/ryanbritodev" alt="Ryan Brito" width="150px"></a>
+ <a href="https://www.linkedin.com/in/ryanbritodev"><img src="https://github.com/ryanbritodev/autolab/raw/main/project/assets/ryan.jpeg" alt="Ryan Brito" width="150px"></a>
 </div>
 
 ## 🤔 Como funciona?
