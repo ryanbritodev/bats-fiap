@@ -73,7 +73,7 @@ Inicializar o Software
 - Clique duas vezes no arquivo AutoLab.vbs para iniciar a aplicação.
 - Preencha suas credenciais no campo de Login.
 
-<img src="project/assets/login.png" width="100%" alt="Tela de Login"/>
+<img src="project/assets/login-autolab.png" width="100%" alt="Tela de Login"/>
 
 Executar Scripts
 - Escolha as tarefas disponíveis na interface e clique no botão correspondente para executar!
