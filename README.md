@@ -50,7 +50,7 @@ Para começar, certifique-se de atender aos seguintes requisitos:
 ## 💾 Ativando o BitLocker no Pen Drive
 <img src="project/assets/ativando-bitlocker.gif" width="100%" alt="Ativando o BitLocker"/>
 
-Passo a Passo
+### Passo a Passo
 - Clone o repositório do projeto na raíz do seu Pen Drive com o BitLocker ativo.
 - No terminal, execute o comando:
 
@@ -58,7 +58,7 @@ Passo a Passo
 git clone -b LabLogins https://github.com/ryanbritodev/bats-fiap.git
 ```
 
-Configuração da Estrutura do Projeto
+### Configuração da Estrutura do Projeto
 - Mantenha a pasta bats-fiap na raiz do drive (ex.: E:\bats-fiap).
 - Certifique-se de manter o arquivo AutoLab.vbs na mesma pasta.
 
@@ -79,10 +79,10 @@ autolab/
 └── venv.zip            # Ambiente virtual compactado do Python (com todas as dependências)
 ```
 
-Configuração do Ambiente Virtual
+### Configuração do Ambiente Virtual
 - Extraia o conteúdo do arquivo venv.zip dentro da pasta bats-fiap.
 
-Ajustes de Nomenclatura
+### Ajustes de Nomenclatura
 - Se for necessário renomear a pasta bats-fiap, atualize o nome no arquivo AutoLab.vbs.
 
 ## 🚀 Como Usar
@@ -92,7 +92,7 @@ Inicializar o Software
 
 <img src="project/assets/login-autolab.png" width="100%" alt="Tela de Login"/>
 
-Executar Scripts
+### Executar Scripts
 - Escolha as tarefas disponíveis na interface e clique no botão correspondente para executar!
 
 ## 📞 Suporte
