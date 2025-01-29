@@ -2,6 +2,10 @@ import os
 from PIL import ImageTk, Image
 from tkinter import messagebox
 
+path = __file__.split("\\")
+main = ""
+for directory in path[0:-3]:
+    main = main + directory + "\\"
 
 def mostrarSenha(entradaSenha, botaoMostrarSenha):
     """
@@ -11,8 +15,8 @@ def mostrarSenha(entradaSenha, botaoMostrarSenha):
     :param botaoMostrarSenha: Botao para esconder e mostar a senha
     """
     # Variaveis globais para imagens de olho aberto e fechado
-    imagem_olho = ImageTk.PhotoImage(Image.open(os.getcwd()[0:2] + "\\bats-fiap-main\\project\\assets\\olho.png").resize((20, 20)))
-    imagem_olho_fechado = ImageTk.PhotoImage(Image.open(os.getcwd()[0:2] + "\\bats-fiap-main\\project\\assets\\olhoFechado.png").resize((20, 20)))
+    imagem_olho = ImageTk.PhotoImage(Image.open(main + "project\\assets\\olho.png").resize((20, 20)))
+    imagem_olho_fechado = ImageTk.PhotoImage(Image.open(main + "project\\assets\\olhoFechado.png").resize((20, 20)))
 
     # imagem_olho = ImageTk.PhotoImage(Image.open(os.getcwd()[0:2] + "\\bats-fiap\\project\\assets\\olho.png").resize((20, 20)))
     # imagem_olho_fechado = ImageTk.PhotoImage(Image.open(os.getcwd()[0:2] + "\\bats-fiap\\project\\assets\\olhoFechado.png").resize((20, 20)))

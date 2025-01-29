@@ -4,7 +4,9 @@ from customtkinter import CTk, CTkCanvas, CTkButton
 
 # Caminho do projeto
 path = __file__.split("\\")
-main = path[0] + f"\\{path[1]}\\"
+main = ""
+for directory in path[0:-3]:
+    main = main + directory + "\\"
 
 def centralizar(janela, altura=400, largura=655):
     """
@@ -54,7 +56,7 @@ def mostrar_comando_executado(janela_anterior, tela_destino, cor_botao="#ed145b"
     # Criando a nova janela de sucesso
     janela_sucesso = CTk()
 
-    janela_sucesso.iconbitmap(os.getcwd()[0:2] + "\\bats-fiap-main\\project\\assets\\fiap-ico.ico")
+    janela_sucesso.iconbitmap(main + "project\\assets\\fiap-ico.ico")
     # janela_sucesso.iconbitmap(os.getcwd()[0:2] + "\\bats-fiap\\project\\assets\\fiap-ico.ico")
 
     centralizar(janela_sucesso)
@@ -64,7 +66,7 @@ def mostrar_comando_executado(janela_anterior, tela_destino, cor_botao="#ed145b"
     canvas1.pack(fill="both", expand=True)
 
     # Imagem de Fundo
-    background(canvas1, os.getcwd()[0:2] + "\\bats-fiap-main\\project\\assets\\fundoFiap.png")
+    background(canvas1, main + "project\\assets\\fundoFiap.png")
     # background(canvas1, os.getcwd()[0:2] + "\\bats-fiap\\project\\assets\\fundoFiap.png")
 
     # Título da janela
