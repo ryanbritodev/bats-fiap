@@ -239,7 +239,7 @@ def checar_authenticator():
     else:
         if not os.path.exists(scripts + arquivo_usuario):
             tela_login_monitor()
-        if not os.path.exists(scripts + arquivo_funcoes):
+        elif not os.path.exists(scripts + arquivo_funcoes):
             tela_login_funcoes()
 
 
@@ -3240,8 +3240,8 @@ def verificar_login_monitor():
     # print(f"Senha: {senha_usuario}")
     # print(f"Senha CMD: {senha_cmd_usuario}")
 
-    janela_login.destroy()  # Fecha a janela de login ao final, pra chamar a telaPrincipal
-    tela_confirmacao_monitor(nome_usuario, login_usuario, senha_usuario)#, senha_cmd_usuario)
+    janela_login.destroy()  # Fecha a janela de login ao final, pra chamar a tela_confirmacao_monitor()
+    tela_confirmacao_monitor(nome_usuario, login_usuario, senha_usuario)
 
 
 def verificar_login_logins():
@@ -3269,7 +3269,7 @@ def verificar_login_logins():
         messagebox.showwarning("CAMPOS VAZIOS", "Atenção! Preencha o login de administrador.")
         return
 
-    janela_login.destroy()  # Fecha a janela de login ao final, pra chamar a telaPrincipal
+    janela_login.destroy()  # Fecha a janela de login ao final, pra chamar a tela_confirmacao_logins()
     tela_confirmacao_logins(login_lab, senha_lab, login_prova, senha_prova, login_prova_on, senha_prova_on, login_admin, senha_admin)
 
 
@@ -3890,5 +3890,5 @@ def telaMensagem():
     # Loop da Janela principal
     janelaMensagem.mainloop()
 
-#telaPrincipal("teste")
+
 checar_bitlocker()
