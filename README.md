@@ -62,6 +62,23 @@ git clone -b LabLogins https://github.com/ryanbritodev/bats-fiap.git
 - Mantenha a pasta bats-fiap na raiz do drive (ex.: E:\bats-fiap).
 - Certifique-se de manter o arquivo AutoLab.vbs na mesma pasta.
 
+## 📂 Estrutura do Projeto
+
+```plaintext
+autolab/
+│
+├── ajuda/              # Documentação para suporte ao usuário
+├── autolab/            # Pacotes com funções do Autolab
+├── project/            # Diretório com código-fonte principal
+├── scripts/            # Scripts e credenciais
+│
+├── .gitignore          # Arquivo para controle de versionamento
+├── AutoLab.vbs         # Script para inicialização do Autolab
+├── LICENSE             # Licença do projeto
+├── README.md           # Documentação do projeto
+└── venv.zip            # Ambiente virtual compactado do Python (com todas as dependências)
+```
+
 ### Configuração do Ambiente Virtual
 - Extraia o conteúdo do arquivo venv.zip dentro da pasta bats-fiap.
 
