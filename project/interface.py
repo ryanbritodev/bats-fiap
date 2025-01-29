@@ -437,7 +437,7 @@ def abrir_ajuda():
     """
     --> Abre o link de ajuda no navegador padrao.
     """
-    url_ajuda = "https://fiapcom.sharepoint.com/:o:/s/TI-Paulista-TI-Geral/ElgJvrH2uuZHkUHyirVWq3EB6C_KSMlWb1i_seoPn-fX8Q?e=JxXchB"
+    url_ajuda = "https://fiapcom.sharepoint.com/:o:/s/TI-Paulista-TI-Geral/ElgJvrH2uuZHkUHyirVWq3EB6C_KSMlWb1i_seoPn-fX8Q?e=hVaoo4"
     webbrowser.open(url_ajuda)
 
 
@@ -3511,14 +3511,14 @@ def tela_login_funcoes():
 
     # Logo da FIAP
     logoFiap = PhotoImage(file=assets + "fiapLogo.png")
-    canvas2.create_image(330, 52, image=logoFiap)
+    canvas2.create_image(333, 55, image=logoFiap)
 
     # Login da Prova Normal
-    canvas2.create_text(88, 136, text="Prova (Aplicação):", fill="white", font=("Arial", 12, "bold"),
+    canvas2.create_text(30, 135, text="Prova (Aplicação):", fill="white", font=("Arial", 14, "bold"),
                         anchor="w")
-    entrada_login_prova = customtkinter.CTkEntry(janela_login, placeholder_text="Login PN...", width=170,
+    entrada_login_prova = customtkinter.CTkEntry(janela_login, placeholder_text="Login PN...", width=180,
                                                fg_color="transparent", height=35)
-    canvas2.create_window(335, 136, window=entrada_login_prova)
+    canvas2.create_window(360, 136, window=entrada_login_prova)
 
     # Adicionando evento de Enter ao campo entrada_login_lab
     entrada_login_prova.bind("<Return>", lambda event: verificar_login_logins())
@@ -3526,9 +3526,9 @@ def tela_login_funcoes():
 
     # Senha da Prova Normal
     entrada_senha_prova = customtkinter.CTkEntry(janela_login, placeholder_text="Senha PN...", show="*",
-                                               width=170,
+                                               width=180,
                                                fg_color="transparent", height=35)
-    canvas2.create_window(535, 136, window=entrada_senha_prova)
+    canvas2.create_window(545, 136, window=entrada_senha_prova)
 
     # Botao Mostrar/Ocultar Senha com icone
     botao_mostrar_senha_prova = customtkinter.CTkButton(janela_login, image=imagem_olho_fechado, width=0, height=0,
@@ -3536,27 +3536,27 @@ def tela_login_funcoes():
                                                                                                 botao_mostrar_senha_prova),
                                                           text="", hover_color=cor_input,
                                                           fg_color=cor_input)
-    canvas2.create_window(603, 136, window=botao_mostrar_senha_prova)  # Posicao ao lado do campo de senha
+    canvas2.create_window(613, 136, window=botao_mostrar_senha_prova)  # Posicao ao lado do campo de senha
 
     # Adicionando evento de Enter ao campo entrada_senha_lab
     entrada_senha_prova.bind("<Return>", lambda event: verificar_login_logins())
 
 
     # Login da Prova Online
-    canvas2.create_text(60, 186, text="Prova ON (Aplicação):", fill="white", font=("Arial", 12, "bold"),
+    canvas2.create_text(30, 186, text="Prova ON (Aplicação):", fill="white", font=("Arial", 14, "bold"),
                         anchor="w")
-    entrada_login_prova_on = customtkinter.CTkEntry(janela_login, placeholder_text="Login PON...", width=170,
+    entrada_login_prova_on = customtkinter.CTkEntry(janela_login, placeholder_text="Login PON...", width=180,
                                                fg_color="transparent", height=35)
-    canvas2.create_window(335, 186, window=entrada_login_prova_on)
+    canvas2.create_window(360, 186, window=entrada_login_prova_on)
 
     # Adicionando evento de Enter ao campo entrada_login_lab
     entrada_login_prova_on.bind("<Return>", lambda event: verificar_login_logins())
 
     # Senha da Prova Online
     entrada_senha_prova_on = customtkinter.CTkEntry(janela_login, placeholder_text="Senha PON...", show="*",
-                                               width=170,
+                                               width=180,
                                                fg_color="transparent", height=35)
-    canvas2.create_window(535, 186, window=entrada_senha_prova_on)
+    canvas2.create_window(545, 186, window=entrada_senha_prova_on)
 
     # Botao Mostrar/Ocultar Senha com icone
     botao_mostrar_senha_prova_on = customtkinter.CTkButton(janela_login, image=imagem_olho_fechado, width=0, height=0,
@@ -3564,27 +3564,27 @@ def tela_login_funcoes():
                                                                                                 botao_mostrar_senha_prova_on),
                                                           text="", hover_color=cor_input,
                                                           fg_color=cor_input)
-    canvas2.create_window(603, 186, window=botao_mostrar_senha_prova_on)  # Posicao ao lado do campo de senha
+    canvas2.create_window(613, 186, window=botao_mostrar_senha_prova_on)  # Posicao ao lado do campo de senha
 
     # Adicionando evento de Enter ao campo entrada_senha_lab
     entrada_senha_prova_on.bind("<Return>", lambda event: verificar_login_logins())
 
 
     # Login do Laboratorio
-    canvas2.create_text(47, 236, text="Laboratório (Windows):", fill="white", font=("Arial", 12, "bold"),
+    canvas2.create_text(30, 236, text="Laboratório (Windows):", fill="white", font=("Arial", 14, "bold"),
                         anchor="w")
-    entrada_login_lab = customtkinter.CTkEntry(janela_login, placeholder_text="Login Lab...", width=170,
+    entrada_login_lab = customtkinter.CTkEntry(janela_login, placeholder_text="Login Lab...", width=180,
                                                fg_color="transparent", height=35)
-    canvas2.create_window(335, 236, window=entrada_login_lab)
+    canvas2.create_window(360, 236, window=entrada_login_lab)
 
     # Adicionando evento de Enter ao campo entrada_login_lab
     entrada_login_lab.bind("<Return>", lambda event: verificar_login_logins())
 
     # Senha do Laboratorio
     entrada_senha_lab = customtkinter.CTkEntry(janela_login, placeholder_text="Senha Lab...", show="*",
-                                               width=170,
+                                               width=180,
                                                fg_color="transparent", height=35)
-    canvas2.create_window(535, 236, window=entrada_senha_lab)
+    canvas2.create_window(545, 236, window=entrada_senha_lab)
 
     # Botao Mostrar/Ocultar Senha com icone
     botao_mostrar_senha_lab = customtkinter.CTkButton(janela_login, image=imagem_olho_fechado, width=0, height=0,
@@ -3592,20 +3592,20 @@ def tela_login_funcoes():
                                                                                             botao_mostrar_senha_lab),
                                                       text="", hover_color=cor_input,
                                                       fg_color=cor_input)
-    canvas2.create_window(603, 236, window=botao_mostrar_senha_lab)  # Posicao ao lado do campo de senha
+    canvas2.create_window(613, 236, window=botao_mostrar_senha_lab)  # Posicao ao lado do campo de senha
 
     # Adicionando evento de Enter ao campo entrada_senha_lab
     entrada_senha_lab.bind("<Return>", lambda event: verificar_login_logins())
 
 
     # Login do Administrador
-    canvas2.create_text(30, 286, text="Administrator (Windows):", fill="white", font=("Arial", 12, "bold"),
+    canvas2.create_text(30, 286, text="Administrator (Windows):", fill="white", font=("Arial", 14, "bold"),
                         anchor="w")
-    canvas2.create_text(90, 306, text="(Opcional)", fill="white", font=("Arial", 10, "bold"),
+    canvas2.create_text(105, 307, text="(Opcional)", fill="white", font=("Arial", 12, "bold"),
                         anchor="w")
-    entrada_login_adm = customtkinter.CTkEntry(janela_login, placeholder_text="Login Administrator...", width=170,
+    entrada_login_adm = customtkinter.CTkEntry(janela_login, placeholder_text="Login Administrator...", width=180,
                                                fg_color="transparent", height=35)
-    canvas2.create_window(335, 286, window=entrada_login_adm)
+    canvas2.create_window(360, 286, window=entrada_login_adm)
 
     # Adicionando evento de Enter ao campo entrada_login_adm
     entrada_login_adm.bind("<Return>", lambda event: verificar_login_logins())
@@ -3613,9 +3613,9 @@ def tela_login_funcoes():
 
     # Senha do Administrador
     entrada_senha_adm = customtkinter.CTkEntry(janela_login, placeholder_text="Senha Administrator...", show="*",
-                                               width=170,
+                                               width=180,
                                                fg_color="transparent", height=35)
-    canvas2.create_window(535, 286, window=entrada_senha_adm)
+    canvas2.create_window(545, 286, window=entrada_senha_adm)
 
     # Botao Mostrar/Ocultar Senha com icone
     botao_mostrar_senha_adm = customtkinter.CTkButton(janela_login, image=imagem_olho_fechado, width=0, height=0,
@@ -3623,16 +3623,16 @@ def tela_login_funcoes():
                                                                                             botao_mostrar_senha_adm),
                                                       text="", hover_color=cor_input,
                                                       fg_color=cor_input)
-    canvas2.create_window(603, 286, window=botao_mostrar_senha_adm)  # Posicao ao lado do campo de senha
+    canvas2.create_window(613, 286, window=botao_mostrar_senha_adm)  # Posicao ao lado do campo de senha
 
     # Adicionando evento de Enter ao campo entrada_senha_adm
     entrada_senha_adm.bind("<Return>", lambda event: verificar_login_logins())
 
 
     # Botao Entrar
-    botao_entrar = customtkinter.CTkButton(janela_login, text="Entrar", width=300, height=34, command=lambda:[verificar_login_logins()],
+    botao_entrar = customtkinter.CTkButton(janela_login, text="Entrar", width=300, height=42, command=lambda:[verificar_login_logins()],
                                            fg_color=cor_fundo, font=fonteBotao, hover_color=cor_fundo_escuro)
-    canvas2.create_window(325, 357, window=botao_entrar)
+    canvas2.create_window(325, 360, window=botao_entrar)
 
     # Iniciar o loop da tela de login
     janela_login.mainloop()
