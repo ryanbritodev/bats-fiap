@@ -55,7 +55,7 @@ Para começar, certifique-se de atender aos seguintes requisitos:
 - No terminal, execute o comando:
 
 ```bash
-git clone -b Program https://github.com/ryanbritodev/bats-fiap.git
+git clone -b Program https://github.com/ryanbritodev/autolab.git
 ```
 
 ### Configuração da Estrutura do Projeto
