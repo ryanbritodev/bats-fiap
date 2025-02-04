@@ -59,7 +59,7 @@ git clone -b Program https://github.com/ryanbritodev/autolab.git
 ```
 
 ### Configuração da Estrutura do Projeto
-- Mantenha a pasta bats-fiap na raiz do drive (ex.: E:\bats-fiap).
+- Mantenha a pasta autolab na raiz do drive (ex.: E:\autolab).
 - Certifique-se de manter o arquivo AutoLab.vbs na mesma pasta.
 
 ## 📂 Estrutura do Projeto
@@ -76,11 +76,8 @@ autolab/
 ├── AutoLab.vbs         # Script para inicialização do Autolab
 ├── LICENSE             # Licença do projeto
 ├── README.md           # Documentação do projeto
-└── venv.zip            # Ambiente virtual compactado do Python (com todas as dependências)
+└── venv            # Ambiente virtual compactado do Python (com todas as dependências)
 ```
-
-### Configuração do Ambiente Virtual
-- Extraia o conteúdo do arquivo venv.zip dentro da pasta bats-fiap.
 
 ### Ajustes de Nomenclatura
 - Se for necessário renomear a pasta autolab, atualize o nome no arquivo AutoLab.vbs.
