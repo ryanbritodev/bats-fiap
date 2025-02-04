@@ -55,7 +55,7 @@ Para começar, certifique-se de atender aos seguintes requisitos:
 - No terminal, execute o comando:
 
 ```bash
-git clone -b LabLogins https://github.com/ryanbritodev/bats-fiap.git
+git clone -b Program https://github.com/ryanbritodev/bats-fiap.git
 ```
 
 ### Configuração da Estrutura do Projeto
