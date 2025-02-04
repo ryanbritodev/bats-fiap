@@ -59,7 +59,7 @@ git clone -b Program https://github.com/ryanbritodev/autolab.git
 ```
 
 ### Configuração da Estrutura do Projeto
-- Mantenha a pasta bats-fiap na raiz do drive (ex.: E:\bats-fiap).
+- Mantenha a pasta autolab na raiz do drive (ex.: E:\autolab).
 - Certifique-se de manter o arquivo AutoLab.vbs na mesma pasta.
 
 ## 📂 Estrutura do Projeto
