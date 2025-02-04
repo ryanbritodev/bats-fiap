@@ -79,9 +79,6 @@ autolab/
 └── venv                # Ambiente virtual compactado do Python (com todas as dependências)
 ```
 
-### Configuração do Ambiente Virtual
-- Extraia o conteúdo do arquivo venv dentro da pasta bats-fiap.
-
 ### Ajustes de Nomenclatura
 - Se for necessário renomear a pasta autolab, atualize o nome no arquivo AutoLab.vbs.
 
