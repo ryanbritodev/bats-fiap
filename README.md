@@ -76,11 +76,11 @@ autolab/
 ├── AutoLab.vbs         # Script para inicialização do Autolab
 ├── LICENSE             # Licença do projeto
 ├── README.md           # Documentação do projeto
-└── venv.zip            # Ambiente virtual compactado do Python (com todas as dependências)
+└── venv                # Ambiente virtual compactado do Python (com todas as dependências)
 ```
 
 ### Configuração do Ambiente Virtual
-- Extraia o conteúdo do arquivo venv.zip dentro da pasta bats-fiap.
+- Extraia o conteúdo do arquivo venv dentro da pasta bats-fiap.
 
 ### Ajustes de Nomenclatura
 - Se for necessário renomear a pasta autolab, atualize o nome no arquivo AutoLab.vbs.
