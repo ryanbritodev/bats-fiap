@@ -76,7 +76,7 @@ autolab/
 ├── AutoLab.vbs         # Script para inicialização do Autolab
 ├── LICENSE             # Licença do projeto
 ├── README.md           # Documentação do projeto
-└── venv            # Ambiente virtual compactado do Python (com todas as dependências)
+└── venv                # Ambiente virtual compactado do Python (com todas as dependências)
 ```
 
 ### Ajustes de Nomenclatura
