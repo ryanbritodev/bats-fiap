@@ -83,7 +83,7 @@ autolab/
 - Extraia o conteúdo do arquivo venv.zip dentro da pasta bats-fiap.
 
 ### Ajustes de Nomenclatura
-- Se for necessário renomear a pasta bats-fiap, atualize o nome no arquivo AutoLab.vbs.
+- Se for necessário renomear a pasta autolab, atualize o nome no arquivo AutoLab.vbs.
 
 ## 🚀 Como Usar
 Inicializar o Software
