@@ -1,5 +1,5 @@
 <div>
-  <img src="https://github.com/ryanbritodev/autolab/blob/main/project/assets/fiap_autolab.png" width="100%" alt="FIAP Autolab"/>
+  <img src="project/assets/fiap_autolab.png" width="100%" alt="FIAP Autolab"/>
 </div>
 
 ## 📜 Descrição
@@ -10,8 +10,8 @@ O FIAP Autolab é um software de automação criado para facilitar o dia a dia d
 - Victor Flávio Demarchi Viana
 - Ryan Brito Pereira Ramos
 <div style="display: flex;">
- <a href="https://www.linkedin.com/in/victor-fl%C3%A1vio/"><img src="https://github.com/ryanbritodev/autolab/raw/main/project/assets/victor.jpeg" alt="Victor Flávio" width="150px"></a>
- <a href="https://www.linkedin.com/in/ryanbritodev"><img src="https://github.com/ryanbritodev/autolab/raw/main/project/assets/ryan.jpeg" alt="Ryan Brito" width="150px"></a>
+ <a href="https://www.linkedin.com/in/victor-fl%C3%A1vio/"><img src="project/assets/victor.jpeg" alt="Victor Flávio" width="150px"></a>
+ <a href="https://www.linkedin.com/in/ryanbritodev"><img src="project/assets/ryan.jpeg" alt="Ryan Brito" width="150px"></a>
 </div>
 
 ## 🤔 Como funciona?
@@ -48,7 +48,7 @@ Para começar, certifique-se de atender aos seguintes requisitos:
 - Python: Já incluso no ambiente configurado no projeto.
 
 ## 💾 Ativando o BitLocker no Pen Drive
-<img src="https://github.com/ryanbritodev/autolab/raw/main/project/assets/ativando-bitlocker.gif" width="100%" alt="Ativando o BitLocker"/>
+<img src="project/assets/ativando-bitlocker.gif" width="100%" alt="Ativando o BitLocker"/>
 
 ### Passo a Passo
 - Clone o repositório do projeto na raíz do seu Pen Drive com o BitLocker ativo.
@@ -86,8 +86,7 @@ autolab/
 ### Inicializar o Software
 - Clique duas vezes no arquivo AutoLab.vbs para iniciar a aplicação.
 - Preencha suas credenciais no campo de Login.
-
-<img src="https://github.com/ryanbritodev/autolab/raw/main/project/assets/login-autolab.png" width="100%" alt="Tela de Login"/>
+<img src="project/assets/login-autolab.png" width="100%" alt="Tela de Login"/>
 
 ### Executar Scripts
 - Escolha as tarefas disponíveis na interface e clique no botão correspondente para executar!
