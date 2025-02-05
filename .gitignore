@@ -4,7 +4,6 @@
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
-*.py[cod]
 *$py.class
 
 # C extensions
@@ -18,7 +17,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+#lib/
 lib64/
 parts/
 sdist/
@@ -124,13 +123,13 @@ celerybeat.pid
 *.sage.py
 
 # Environments
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
+#.env
+#.venv
+#env/
+#venv/
+#ENV/
+#env.bak/
+#venv.bak/
 
 # Spyder project settings
 .spyderproject
@@ -172,5 +171,9 @@ poetry.toml
 
 # LSP config files
 pyrightconfig.json
+
+# Project
+functions.bin
+user.bin
 
 # End of https://www.toptal.com/developers/gitignore/api/python

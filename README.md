@@ -83,10 +83,9 @@ autolab/
 - Se for necessário renomear a pasta autolab, atualize o nome no arquivo AutoLab.vbs.
 
 ## 🚀 Como Usar
-Inicializar o Software
+### Inicializar o Software
 - Clique duas vezes no arquivo AutoLab.vbs para iniciar a aplicação.
 - Preencha suas credenciais no campo de Login.
-
 <img src="project/assets/login-autolab.png" width="100%" alt="Tela de Login"/>
 
 ### Executar Scripts
