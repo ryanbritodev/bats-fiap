@@ -1,2 +1,2 @@
-# Pyarmor 9.0.7 (trial), 000000, 2025-01-21T19:13:43.754712
+# Pyarmor 9.0.7 (trial), 000000, 2025-02-04T21:03:11.159239
 from .pyarmor_runtime import __pyarmor__
