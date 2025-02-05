@@ -55,12 +55,12 @@ Para começar, certifique-se de atender aos seguintes requisitos:
 - No terminal, execute o comando:
 
 ```bash
-git clone -b Program https://github.com/ryanbritodev/autolab.git
+git clone https://github.com/ryanbritodev/autolab.git
 ```
 
 ### Configuração da Estrutura do Projeto
 - Mantenha a pasta autolab na raiz do drive (ex.: E:\autolab).
-- Certifique-se de manter o arquivo AutoLab.vbs na mesma pasta.
+- Certifique-se de manter o arquivo AutoLab.vbs na mesma pasta ou na raíz do drive para executar o programa.
 
 ## 📂 Estrutura do Projeto
 
@@ -92,6 +92,6 @@ autolab/
 - Escolha as tarefas disponíveis na interface e clique no botão correspondente para executar!
 
 ## 📞 Suporte
-Caso tenha dúvidas ou sugestões, entre em contato com os criadores ou consulte o diretório [ajuda](https://github.com/ryanbritodev/autolab/tree/LabLogins/ajuda) para saber mais sobre.
+Caso tenha dúvidas ou sugestões, entre em contato com os criadores ou consulte o diretório [ajuda](https://github.com/ryanbritodev/autolab/ajuda) para saber mais sobre.
 
 ### Agradecemos por usar o FIAP Autolab e contribuir para um ambiente de aula mais produtivo! 🚀
