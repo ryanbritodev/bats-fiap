@@ -16,15 +16,15 @@ O FIAP Autolab é um software de automação criado para facilitar o dia a dia d
 
 ## 🤔 Como funciona?
 
-Este projeto foi desenvolvido para facilitar e automatizar tarefas do dia a dia dos monitores, aproveitando o poder dos scripts .bat para executar comandos do CMD de forma prática e eficiente.
+Este projeto foi desenvolvido para facilitar e automatizar tarefas aproveitando o poder dos scripts .bat para executar comandos do CMD de forma prática e eficiente nos Laboratórios da FIAP.
 
 ### 1. Execução Automatizada de Scripts
 O sistema é capaz de executar arquivos .bat que contêm scripts pré-configurados para diversas operações, como:
 
-- Desligar e reiniciar máquinas;
-- Apagar e copiar arquivos;
-- Enviar mensagens para usuários;
-- Logar automaticamente em sistemas;
+- 🔴 Desligar e reiniciar máquinas;
+- 🗑️ Apagar e copiar arquivos;
+- 💬 Enviar mensagens para usuários;
+- 🔐 Logar automaticamente em sistemas;
 - Entre outras tarefas essenciais.
 
 ### 2. Interface Intuitiva
@@ -45,22 +45,26 @@ O uso do sistema garante que as operações sejam realizadas de maneira segura, 
 Para começar, certifique-se de atender aos seguintes requisitos:
 - Hardware: Pen Drive com BitLocker ativo.
 - Sistema Operacional: Windows (requer CMD para a execução dos scripts).
-- Python: Já incluso no ambiente configurado no projeto.
+- Python: Já incluso no ambiente configurado no projeto (venv).
 
 ## 💾 Ativando o BitLocker no Pen Drive
 <img src="project/assets/ativando-bitlocker.gif" width="100%" alt="Ativando o BitLocker"/>
 
 ### Passo a Passo
-- Clone o repositório do projeto na raíz do seu Pen Drive com o BitLocker ativo.
-- No terminal, execute o comando:
 
+1. Acesse a raiz do seu Pen Drive. No terminal (CMD ou PowerShell), digite a letra correspondente à unidade do Pen Drive seguida de `:` e pressione **Enter**.  
+Exemplo, se a unidade for `E:`:  
+```bash
+E:
+```
+2. Clone o repositório na raiz do seu Pen Drive com o **BitLocker ativo**. No terminal, execute o comando:
 ```bash
 git clone https://github.com/ryanbritodev/autolab.git
 ```
 
 ### Configuração da Estrutura do Projeto
 - Mantenha a pasta autolab na raiz do drive (ex.: E:\autolab).
-- Certifique-se de manter o arquivo AutoLab.vbs na mesma pasta ou na raíz do drive para executar o programa.
+- Certifique-se de manter o arquivo AutoLab.vbs na mesma pasta OU na raíz do drive para executar o programa.
 
 ## 📂 Estrutura do Projeto
 
@@ -73,7 +77,7 @@ autolab/
 ├── scripts/            # Scripts e credenciais
 │
 ├── .gitignore          # Arquivo para controle de versionamento
-├── AutoLab.vbs         # Script para inicialização do Autolab
+├── AutoLab.vbs         # Script para inicialização do Autolab, pode ser colocado na raiz do drive
 ├── LICENSE             # Licença do projeto
 ├── README.md           # Documentação do projeto
 └── venv                # Ambiente virtual compactado do Python (com todas as dependências)
