@@ -77,7 +77,7 @@ autolab/
 ├── scripts/            # Scripts e credenciais
 │
 ├── .gitignore          # Arquivo para controle de versionamento
-├── AutoLab.vbs         # Script para inicialização do Autolab, pode ser colocado na raiz do drive
+├── AutoLab.vbs         # Script para inicialização do Autolab (pode ser colocado na raiz do drive)
 ├── LICENSE             # Licença do projeto
 ├── README.md           # Documentação do projeto
 └── venv                # Ambiente virtual compactado do Python (com todas as dependências)
